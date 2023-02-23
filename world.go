@@ -19,6 +19,11 @@ func (w *World) DataForPlayer(player Player) string {
 
 // Running returns whether the game is still running
 func (w *World) Running() bool {
-	// TODO
-	return true
+	alivePlayers := 0
+	for _, player := range w.Players {
+		if player.Alive {
+			alivePlayers++
+		}
+	}
+	return alivePlayers >= 2
 }
