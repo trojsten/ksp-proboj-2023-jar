@@ -1,0 +1,19 @@
+package main
+
+import (
+	"fmt"
+	"github.com/trojsten/ksp-proboj/libproboj"
+)
+
+// Tick executes one game tick
+func (w *World) Tick() {
+	for _, player := range w.Players {
+		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), w.DataForPlayer(player))
+		resp, data := w.Runner.ReadPlayer(player.Name)
+		if resp != libproboj.Ok {
+			w.Runner.Log(fmt.Sprintf("bad response while reading player %s: %s", player.Name, resp))
+		}
+		w.Runner.Log(data)
+		// TODO: Handle player response
+	}
+}
