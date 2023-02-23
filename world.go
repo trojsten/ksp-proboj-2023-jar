@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/trojsten/ksp-proboj/libproboj"
 	"math"
+	"strings"
 )
 
 type World struct {
@@ -16,9 +18,12 @@ type World struct {
 
 // DataForPlayer generates data that will get sent to a player
 func (w *World) DataForPlayer(player Player) string {
+	var data strings.Builder
+	data.WriteString(fmt.Sprintf("%d\n", len(w.Players)))
 	for _, p := range w.Players {
 		if p.inReach(player.Position, player.StatsValues().Range) {
-			// TODO add
+			// TODO tank id, alive
+			data.WriteString(fmt.Sprintf("%d %f %f %f %f %d %d\n", p.Alive, p.Position.X, p.Position.Y, p.Angle, p.Tank.Radius(), 0, p.Health))
 		}
 	}
 	for _, b := range w.Bullets {
