@@ -17,17 +17,17 @@ type World struct {
 // DataForPlayer generates data that will get sent to a player
 func (w *World) DataForPlayer(player Player) string {
 	for _, p := range w.Players {
-		if p.inReach(player.Position, player.getRange()) {
+		if p.inReach(player.Position, player.StatsValues().Range) {
 			// TODO add
 		}
 	}
 	for _, b := range w.Bullets {
-		if b.inReach(player.Position, player.getRange()) {
+		if b.inReach(player.Position, player.StatsValues().Range) {
 			// TODO add
 		}
 	}
 	for _, e := range w.Entities {
-		if e.inReach(player.Position, player.getRange()) {
+		if e.inReach(player.Position, player.StatsValues().Range) {
 			// TODO add
 		}
 	}
