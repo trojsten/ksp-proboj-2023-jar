@@ -28,8 +28,7 @@ func (b *Bullet) Tick() bool {
 func NewBullet(w *World, player Player, angle float32) *Bullet {
 	var bulletSpeed float32 = 1 // TODO real bullet speed
 	bullet := Bullet{
-		X:         player.X,
-		Y:         player.Y,
+		Position:  player.Position,
 		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
 		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
 		TTL:       0, // TODO real TTL

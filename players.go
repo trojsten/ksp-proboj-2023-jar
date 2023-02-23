@@ -20,12 +20,13 @@ type Player struct {
 	Health int
 	Exp    int
 	Level  int
+	Angle  float32
 	Stats  Stats
 	Tank   Tank
 }
 
 func NewPlayer(name string) Player {
-	return Player{Name: name}
+	return Player{Name: name, Tank: BasicTank{}, Alive: true}
 }
 
 func (player Player) getRange() float32 {
