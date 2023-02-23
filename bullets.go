@@ -3,8 +3,7 @@ package main
 import "math"
 
 type Bullet struct {
-	X         float32
-	Y         float32
+	Position
 	Vx        float32
 	Vy        float32
 	TTL       int

@@ -13,10 +13,9 @@ type Stats struct {
 }
 
 type Player struct {
+	Position
 	Id     int
 	Name   string
-	X      float32
-	Y      float32
 	Alive  bool
 	Health int
 	Exp    int
@@ -27,4 +26,9 @@ type Player struct {
 
 func NewPlayer(name string) Player {
 	return Player{Name: name}
+}
+
+func (player Player) getRange() float32 {
+	// TODO
+	return 0
 }
