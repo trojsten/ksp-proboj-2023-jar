@@ -22,6 +22,7 @@ type Player struct {
 	Exp    int
 	Level  int
 	Stats  Stats
+	Tank   Tank
 }
 
 func NewPlayer(name string) Player {

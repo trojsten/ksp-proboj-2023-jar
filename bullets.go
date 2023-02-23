@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 type Bullet struct {
 	X         float32
 	Y         float32
@@ -22,4 +24,19 @@ func (b *Bullet) Tick() bool {
 	b.Y += b.Vy
 	b.TTL--
 	return true
+}
+
+func NewBullet(w *World, player Player, angle float32) *Bullet {
+	var bulletSpeed float32 = 1 // TODO real bullet speed
+	bullet := Bullet{
+		X:         player.X,
+		Y:         player.Y,
+		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
+		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
+		TTL:       0, // TODO real TTL
+		Damage:    0, // TODO real damage
+		ShooterId: player.Id,
+	}
+	w.Bullets = append(w.Bullets, bullet)
+	return &bullet
 }
