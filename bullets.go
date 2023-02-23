@@ -12,7 +12,7 @@ type Bullet struct {
 }
 
 // Tick moves the given bullet and returns whether it's entity should be removed
-func (b *Bullet) Tick() bool {
+func (b *Bullet) Tick(w *World) bool {
 	if b.TTL <= 0 {
 		return false
 	}

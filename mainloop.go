@@ -16,4 +16,14 @@ func (w *World) Tick() {
 		w.Runner.Log(data)
 		// TODO: Handle player response
 	}
+
+	// Bullet time!
+	var bullets []Bullet
+	for i := range w.Bullets {
+		bullet := &w.Bullets[i]
+		if bullet.Tick(w) {
+			bullets = append(bullets, *bullet)
+		}
+	}
+	w.Bullets = bullets
 }
