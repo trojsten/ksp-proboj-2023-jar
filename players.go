@@ -19,6 +19,8 @@ type Player struct {
 	Y      float32
 	Alive  bool
 	Health int
+	Exp    int
+	Level  int
 	Stats  Stats
 }
 
