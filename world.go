@@ -45,7 +45,7 @@ func (w *World) DataForPlayer(player Player) string {
 		stats.ReloadSpeed,
 	))
 
-	var statsValues = player.StatsValues()
+	var statsValues = player.RealStatsValues()
 	data.WriteString(fmt.Sprintf(
 		"%f %f %f %f %f %f %f %f %f\n",
 		statsValues.Range,
@@ -62,7 +62,7 @@ func (w *World) DataForPlayer(player Player) string {
 	// 3
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Players)))
 	for _, p := range w.Players {
-		if p.inReach(player.Position, player.StatsValues().Range) {
+		if p.inReach(player.Position, player.RealStatsValues().Range) {
 			data.WriteString(fmt.Sprintf("%d %f %f %f %f %d %d\n", aliveInt(p.Alive), p.X, p.Y, p.Angle, p.Tank.Radius(), p.Tank.TankId(), p.Health))
 		}
 	}
@@ -70,7 +70,7 @@ func (w *World) DataForPlayer(player Player) string {
 	// 4
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Bullets)))
 	for _, b := range w.Bullets {
-		if b.inReach(player.Position, player.StatsValues().Range) {
+		if b.inReach(player.Position, player.RealStatsValues().Range) {
 			data.WriteString(fmt.Sprintf("%f %f %f %f %d %d %d\n", b.X, b.Y, b.Vx, b.Vy, b.ShooterId, b.TTL, b.Damage))
 		}
 	}
@@ -78,7 +78,7 @@ func (w *World) DataForPlayer(player Player) string {
 	// 5
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Entities)))
 	for _, e := range w.Entities {
-		if e.inReach(player.Position, player.StatsValues().Range) {
+		if e.inReach(player.Position, player.RealStatsValues().Range) {
 			data.WriteString(fmt.Sprintf("%f %f %f\n", e.X, e.Y, e.Radius))
 		}
 	}

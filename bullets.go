@@ -6,8 +6,8 @@ type Bullet struct {
 	Position
 	Vx        float32
 	Vy        float32
-	TTL       int
-	Damage    int
+	TTL       float32
+	Damage    float32
 	ShooterId int
 }
 
@@ -26,13 +26,14 @@ func (b *Bullet) Tick(w *World) bool {
 }
 
 func NewBullet(w *World, player Player, angle float32) *Bullet {
-	var bulletSpeed float32 = 1 // TODO real bullet speed
+	var statsValues = player.RealStatsValues()
+	var bulletSpeed = statsValues.BulletSpeed
 	bullet := Bullet{
 		Position:  player.Position,
 		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
 		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
-		TTL:       0, // TODO real TTL
-		Damage:    0, // TODO real damage
+		TTL:       statsValues.BulletTTL,
+		Damage:    statsValues.BulletDamage,
 		ShooterId: player.Id,
 	}
 	w.Bullets = append(w.Bullets, bullet)

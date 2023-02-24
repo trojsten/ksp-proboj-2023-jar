@@ -51,7 +51,7 @@ func NewPlayer(name string) Player {
 	return Player{Name: name, Tank: BasicTank{}, Alive: true}
 }
 
-func (player Player) StatsValues() StatsValues {
+func (player Player) RealStatsValues() StatsValues {
 	var tankStats = player.Tank.StatsValues()
 
 	return StatsValues{
