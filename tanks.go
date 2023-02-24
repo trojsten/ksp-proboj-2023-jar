@@ -5,6 +5,7 @@ type Tank interface {
 	StatsValues() StatsValues
 	Radius() float32
 	TankLevel() int
+	TankId() int
 }
 
 type BasicTank struct {
@@ -23,5 +24,9 @@ func (b BasicTank) Radius() float32 {
 }
 
 func (b BasicTank) TankLevel() int {
+	return 0
+}
+
+func (b BasicTank) TankId() int {
 	return 0
 }
