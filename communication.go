@@ -95,9 +95,8 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	}
 
 	if stat < StatNone || stat > StatReloadSpeed {
-		return fmt.Errorf("unknown to upgrade: %d", stat)
+		return fmt.Errorf("unknown stat to upgrade: %d", stat)
 	}
-
 	if stat != StatNone {
 		// TODO: upgrade the given stat
 	}

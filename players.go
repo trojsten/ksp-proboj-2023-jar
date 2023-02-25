@@ -66,19 +66,19 @@ func NewPlayer(name string) Player {
 	return Player{Name: name, Tank: BasicTank{}, Alive: true}
 }
 
-func (player Player) RealStatsValues() StatsValues {
-	var tankStats = player.Tank.StatsValues()
+func (p *Player) RealStatsValues() StatsValues {
+	var tankStats = p.Tank.StatsValues()
 
 	return StatsValues{
-		RangeValues[player.Stats.Range] + tankStats.Range,
-		SpeedValues[player.Stats.Speed] + tankStats.Speed,
-		BulletSpeedValues[player.Stats.BulletSpeed] + tankStats.BulletSpeed,
-		BulletTTLValues[player.Stats.BulletTTL] + tankStats.BulletTTL,
-		BulletDamageValues[player.Stats.BulletDamage] + tankStats.BulletDamage,
-		HealthMaxValues[player.Stats.HealthMax] + tankStats.HealthMax,
-		HealthRegenerationValues[player.Stats.HealthRegeneration] + tankStats.HealthRegeneration,
-		BodyDamageValues[player.Stats.BodyDamage] + tankStats.BodyDamage,
-		ReloadSpeedValues[player.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
+		RangeValues[p.Stats.Range] + tankStats.Range,
+		SpeedValues[p.Stats.Speed] + tankStats.Speed,
+		BulletSpeedValues[p.Stats.BulletSpeed] + tankStats.BulletSpeed,
+		BulletTTLValues[p.Stats.BulletTTL] + tankStats.BulletTTL,
+		BulletDamageValues[p.Stats.BulletDamage] + tankStats.BulletDamage,
+		HealthMaxValues[p.Stats.HealthMax] + tankStats.HealthMax,
+		HealthRegenerationValues[p.Stats.HealthRegeneration] + tankStats.HealthRegeneration,
+		BodyDamageValues[p.Stats.BodyDamage] + tankStats.BodyDamage,
+		ReloadSpeedValues[p.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
 	}
 }
 func (p *Player) MoveTo(w *World, x, y float32) {
