@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strings"
 )
 
@@ -78,7 +79,13 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		return fmt.Errorf("sscanf failed: %w", err)
 	}
 
-	// TODO: limit vx, vy length
+	// Limit vx, vy length to speed stat
+	dist := math.Sqrt(math.Pow(float64(vx), 2) + math.Pow(float64(vy), 2))
+	maxSpeed := float64(player.RealStatsValues().Speed)
+	if dist > maxSpeed {
+		vx = float32(float64(vx) / dist * maxSpeed)
+		vy = float32(float64(vy) / dist * maxSpeed)
+	}
 	player.X += vx
 	player.Y += vy
 	player.Angle = angle
