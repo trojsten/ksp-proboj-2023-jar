@@ -81,3 +81,7 @@ func (player Player) RealStatsValues() StatsValues {
 		ReloadSpeedValues[player.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
 	}
 }
+func (p *Player) MoveTo(w *World, x, y float32) {
+	p.X = InRange(x, -w.Size, w.Size)
+	p.Y = InRange(y, -w.Size, w.Size)
+}

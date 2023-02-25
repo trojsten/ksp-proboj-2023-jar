@@ -86,8 +86,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		vx = float32(float64(vx) / dist * maxSpeed)
 		vy = float32(float64(vy) / dist * maxSpeed)
 	}
-	player.X += vx
-	player.Y += vy
+	player.MoveTo(w, player.X+vx, player.Y+vy)
 	player.Angle = angle
 
 	if shoot == 1 {
