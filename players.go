@@ -1,5 +1,20 @@
 package main
 
+type Stat int
+
+const (
+	StatNone Stat = iota
+	StatRange
+	StatSpeed
+	StatBulletSpeed
+	StatBulletTTL
+	StatBulletDamage
+	StatHelathMax
+	StatHealthRegeneration
+	StatBodyDamage
+	StatReloadSpeed
+)
+
 type StatsValues struct {
 	Range              float32
 	Speed              float32
