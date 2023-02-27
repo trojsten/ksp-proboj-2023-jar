@@ -84,6 +84,7 @@ func (p *Player) RealStatsValues() StatsValues {
 		BodyDamageValues[p.Stats.BodyDamage] + tankStats.BodyDamage,
 		ReloadSpeedValues[p.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
 	}
+	// TODO: možno reload speed reprezentovať inak, lebo takto to môže klesnúť pod nulu
 }
 func (p *Player) MoveTo(x, y float32) {
 	p.X = InRange(x, -p.World.Size, p.World.Size)
