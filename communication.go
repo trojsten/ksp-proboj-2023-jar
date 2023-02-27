@@ -87,7 +87,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		vy = float32(float64(vy) / dist * maxSpeed)
 	}
 	player.MoveTo(player.X+vx, player.Y+vy)
-	player.Angle = angle
+	player.Angle = angle // TODO: limit rotation?
 
 	if shoot == 1 {
 		player.Fire()
