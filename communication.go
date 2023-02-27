@@ -86,12 +86,11 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		vx = float32(float64(vx) / dist * maxSpeed)
 		vy = float32(float64(vy) / dist * maxSpeed)
 	}
-	player.MoveTo(w, player.X+vx, player.Y+vy)
+	player.MoveTo(player.X+vx, player.Y+vy)
 	player.Angle = angle
 
 	if shoot == 1 {
-		// TODO: check reload
-		player.Tank.Fire(w, *player)
+		player.Fire()
 	}
 
 	if stat < StatNone || stat > StatReloadSpeed {

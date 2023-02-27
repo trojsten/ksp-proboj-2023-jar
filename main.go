@@ -16,7 +16,7 @@ func main() {
 	world := World{Runner: runner}
 	players, _ := runner.ReadConfig()
 	for i, player := range players {
-		pl := NewPlayer(player)
+		pl := world.NewPlayer(player)
 		pl.Id = i
 		world.Players = append(world.Players, pl)
 	}

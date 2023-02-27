@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Stat int
 
 const (
@@ -24,7 +26,7 @@ type StatsValues struct {
 	HealthMax          float32
 	HealthRegeneration float32
 	BodyDamage         float32
-	ReloadSpeed        float32
+	ReloadSpeed        int
 }
 
 type Stats struct {
@@ -47,23 +49,25 @@ var BulletDamageValues = []float32{1, 2, 3, 4}
 var HealthMaxValues = []float32{1, 2, 3, 4}
 var HealthRegenerationValues = []float32{1, 2, 3, 4}
 var BodyDamageValues = []float32{1, 2, 3, 4}
-var ReloadSpeedValues = []float32{1, 2, 3, 4}
+var ReloadSpeedValues = []int{1, 2, 3, 4}
 
 type Player struct {
 	Position
-	Id     int
-	Name   string
-	Alive  bool
-	Health int
-	Exp    int
-	Level  int
-	Angle  float32
-	Stats  Stats
-	Tank   Tank
+	Id             int
+	Name           string
+	Alive          bool
+	Health         int
+	Exp            int
+	Level          int
+	Angle          float32
+	Stats          Stats
+	Tank           Tank
+	World          *World
+	ReloadCooldown int
 }
 
-func NewPlayer(name string) Player {
-	return Player{Name: name, Tank: BasicTank{}, Alive: true}
+func (w *World) NewPlayer(name string) Player {
+	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w}
 }
 
 func (p *Player) RealStatsValues() StatsValues {
@@ -81,7 +85,29 @@ func (p *Player) RealStatsValues() StatsValues {
 		ReloadSpeedValues[p.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
 	}
 }
-func (p *Player) MoveTo(w *World, x, y float32) {
-	p.X = InRange(x, -w.Size, w.Size)
-	p.Y = InRange(y, -w.Size, w.Size)
+func (p *Player) MoveTo(x, y float32) {
+	p.X = InRange(x, -p.World.Size, p.World.Size)
+	p.Y = InRange(y, -p.World.Size, p.World.Size)
+}
+
+func (p *Player) Fire() {
+	if p.ReloadCooldown > 0 {
+		p.World.Runner.Log(fmt.Sprintf("ignoring shoot for %s: reload cooldown", p.Name))
+		return
+	}
+
+	p.Tank.Fire(p)
+	p.ReloadCooldown = p.RealStatsValues().ReloadSpeed
+}
+
+func (p *Player) Tick() {
+	if !p.Alive {
+		return
+	}
+
+	if p.ReloadCooldown > 0 {
+		p.ReloadCooldown--
+	}
+
+	p.MoveTo(p.X, p.Y) // This will move the player back to the world if positioned outside of it's border
 }

@@ -31,4 +31,9 @@ func (w *World) Tick() {
 		}
 	}
 	w.Bullets = bullets
+
+	// Update players
+	for i := range w.Players {
+		w.Players[i].Tick()
+	}
 }

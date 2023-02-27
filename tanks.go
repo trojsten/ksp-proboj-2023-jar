@@ -1,7 +1,7 @@
 package main
 
 type Tank interface {
-	Fire(w *World, player Player)
+	Fire(player *Player)
 	StatsValues() StatsValues
 	Radius() float32
 	TankLevel() int
@@ -11,8 +11,8 @@ type Tank interface {
 type BasicTank struct {
 }
 
-func (b BasicTank) Fire(w *World, player Player) {
-	NewBullet(w, player, player.Angle)
+func (b BasicTank) Fire(player *Player) {
+	NewBullet(player.World, *player, player.Angle)
 }
 
 func (b BasicTank) StatsValues() StatsValues {
