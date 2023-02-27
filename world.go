@@ -18,7 +18,7 @@ func aliveInt(alive bool) int {
 	if alive {
 		return 1
 	}
-	return 1
+	return 0
 }
 
 // Running returns whether the game is still running
