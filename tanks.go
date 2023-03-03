@@ -12,7 +12,7 @@ type BasicTank struct {
 }
 
 func (b BasicTank) Fire(player *Player) {
-	NewBullet(player.World, *player, player.Angle)
+	NewBullet(player.World, *player, player.Angle, 5) //TODO constant
 }
 
 func (b BasicTank) StatsValues() StatsValues {

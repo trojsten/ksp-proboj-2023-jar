@@ -46,7 +46,7 @@ func (w *World) DataForPlayer(player Player) string {
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Players)))
 	for _, p := range w.Players {
 		if p.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf("%d %f %f %f %f %d %d\n", aliveInt(p.Alive), p.X, p.Y, p.Angle, p.Tank.Radius(), p.Tank.TankId(), p.Health))
+			data.WriteString(fmt.Sprintf("%d %f %f %f %f %d %f\n", aliveInt(p.Alive), p.X, p.Y, p.Angle, p.Tank.Radius(), p.Tank.TankId(), p.Health))
 		}
 	}
 
@@ -86,8 +86,8 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		vx = float32(float64(vx) / dist * maxSpeed)
 		vy = float32(float64(vy) / dist * maxSpeed)
 	}
-	player.MoveTo(player.X+vx, player.Y+vy)
-	player.Angle = angle // TODO: limit rotation?
+	w.PlayerMovements = append(w.PlayerMovements, player.MoveTo(player.X+vx, player.Y+vy))
+	player.Angle = angle
 
 	if shoot == 1 {
 		player.Fire()

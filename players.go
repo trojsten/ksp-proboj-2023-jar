@@ -56,7 +56,7 @@ type Player struct {
 	Id             int
 	Name           string
 	Alive          bool
-	Health         int
+	Health         float32
 	Exp            int
 	Level          int
 	Angle          float32
@@ -86,9 +86,12 @@ func (p *Player) RealStatsValues() StatsValues {
 	}
 	// TODO: možno reload speed reprezentovať inak, lebo takto to môže klesnúť pod nulu
 }
-func (p *Player) MoveTo(x, y float32) {
+
+func (p *Player) MoveTo(x, y float32) PlayerMovement {
+	var movement = PlayerMovement{p.Position, p}
 	p.X = InRange(x, -p.World.Size, p.World.Size)
 	p.Y = InRange(y, -p.World.Size, p.World.Size)
+	return movement
 }
 
 func (p *Player) Fire() {
@@ -114,4 +117,9 @@ func (p *Player) Tick() {
 		p.Y != InRange(p.Y, -p.World.Size, p.World.Size) {
 		p.Health -= 1 // TODO constant
 	}
+}
+
+type PlayerMovement struct {
+	OldPosition Position
+	Player      *Player
 }

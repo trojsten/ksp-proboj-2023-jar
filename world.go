@@ -6,12 +6,15 @@ import (
 )
 
 type World struct {
-	Runner     libproboj.Runner
-	Players    []Player
-	Bullets    []Bullet
-	Entities   []Entity
-	Size       float32
-	TickNumber int
+	Runner          libproboj.Runner
+	Players         []Player
+	PlayerMovements []PlayerMovement
+	Bullets         []Bullet
+	BulletMovements []BulletMovement
+	Entities        []Entity
+	EntityMovement  []EntityMovement
+	Size            float32
+	TickNumber      int
 }
 
 func aliveInt(alive bool) int {

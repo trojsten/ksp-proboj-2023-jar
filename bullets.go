@@ -4,6 +4,7 @@ import "math"
 
 type Bullet struct {
 	Position
+	Radius    float32
 	Vx        float32
 	Vy        float32
 	TTL       float32
@@ -12,20 +13,22 @@ type Bullet struct {
 }
 
 // Tick moves the given bullet and returns whether it's entity should be removed
-func (b *Bullet) Tick(w *World) bool {
+func (b *Bullet) Tick(w *World) (bool, BulletMovement) {
 	if b.TTL <= 0 {
-		return false
+		return false, BulletMovement{}
 	}
 
 	// TODO: Check in-flight collisions
 
+	var bulletMovement = BulletMovement{OldPosition: b.Position}
+
 	b.X += b.Vx
 	b.Y += b.Vy
 	b.TTL--
-	return true
+	return true, bulletMovement
 }
 
-func NewBullet(w *World, player Player, angle float32) *Bullet {
+func NewBullet(w *World, player Player, angle float32, radius float32) *Bullet {
 	var statsValues = player.RealStatsValues()
 	var bulletSpeed = statsValues.BulletSpeed
 	bullet := Bullet{
@@ -38,4 +41,9 @@ func NewBullet(w *World, player Player, angle float32) *Bullet {
 	}
 	w.Bullets = append(w.Bullets, bullet)
 	return &bullet
+}
+
+type BulletMovement struct {
+	OldPosition Position
+	Bullet      *Bullet
 }
