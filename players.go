@@ -50,6 +50,7 @@ var HealthMaxValues = []float32{1, 2, 3, 4}
 var HealthRegenerationValues = []float32{1, 2, 3, 4}
 var BodyDamageValues = []float32{1, 2, 3, 4}
 var ReloadSpeedValues = []int{1, 2, 3, 4}
+var StatUpgradePrice = []int{5, 10, 20, 40}
 
 type Player struct {
 	Position
