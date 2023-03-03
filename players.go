@@ -110,5 +110,8 @@ func (p *Player) Tick() {
 		p.ReloadCooldown--
 	}
 
-	p.MoveTo(p.X, p.Y) // This will move the player back to the world if positioned outside of it's border
+	if p.X != InRange(p.X, -p.World.Size, p.World.Size) ||
+		p.Y != InRange(p.Y, -p.World.Size, p.World.Size) {
+		p.Health -= 1 // TODO constant
+	}
 }

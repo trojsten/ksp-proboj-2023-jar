@@ -9,9 +9,9 @@ import (
 // DataForPlayer generates data that will get sent to a player
 func (w *World) DataForPlayer(player Player) string {
 	var data strings.Builder
-	// 1
+	// 1 svet
 	data.WriteString(fmt.Sprintf("%f\n", w.Size))
-	// 2
+	// 2 ja
 	data.WriteString(fmt.Sprintf("%d %d %d ", player.Id, player.Exp, player.Level))
 
 	var stats = player.Stats
@@ -30,7 +30,7 @@ func (w *World) DataForPlayer(player Player) string {
 
 	var statsValues = player.RealStatsValues()
 	data.WriteString(fmt.Sprintf(
-		"%f %f %f %f %f %f %f %f %f\n",
+		"%f %f %f %f %f %f %f %f %d\n",
 		statsValues.Range,
 		statsValues.Speed,
 		statsValues.BulletSpeed,
@@ -42,7 +42,7 @@ func (w *World) DataForPlayer(player Player) string {
 		statsValues.ReloadSpeed,
 	))
 
-	// 3
+	// 3 players
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Players)))
 	for _, p := range w.Players {
 		if p.inReach(player.Position, player.RealStatsValues().Range) {
@@ -50,15 +50,15 @@ func (w *World) DataForPlayer(player Player) string {
 		}
 	}
 
-	// 4
+	// 4 bullets
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Bullets)))
 	for _, b := range w.Bullets {
 		if b.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf("%f %f %f %f %d %d %d\n", b.X, b.Y, b.Vx, b.Vy, b.ShooterId, b.TTL, b.Damage))
+			data.WriteString(fmt.Sprintf("%f %f %f %f %d %f %f\n", b.X, b.Y, b.Vx, b.Vy, b.ShooterId, b.TTL, b.Damage))
 		}
 	}
 
-	// 5
+	// 5 entities
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Entities)))
 	for _, e := range w.Entities {
 		if e.inReach(player.Position, player.RealStatsValues().Range) {

@@ -23,5 +23,9 @@ func main() {
 
 	for world.Running() {
 		world.Tick()
+		// TODO constants
+		if world.TickNumber > 50 {
+			world.Size *= 0.95
+		}
 	}
 }
