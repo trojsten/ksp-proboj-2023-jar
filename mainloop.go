@@ -11,7 +11,7 @@ func (w *World) Tick() {
 		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), w.DataForPlayer(player))
 		resp, data := w.Runner.ReadPlayer(player.Name)
 		if resp != libproboj.Ok {
-			w.Runner.Log(fmt.Sprintf("bad response while reading player %s: %s", player.Name, resp))
+			w.Runner.Log(fmt.Sprintf("bad response while reading player %s: %d", player.Name, resp))
 			continue
 		}
 		w.Runner.Log(data)

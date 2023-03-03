@@ -29,8 +29,8 @@ func intersect(A1 Position, A2 Position, radiusA float32, B1 Position, B2 Positi
 }
 
 // https://stackoverflow.com/a/4448097
-func distanceSegmentToPoint(A1 Position, A2 Position, B Position) float32 {
-	var dist = CrossProduct(A1, A2, B) / Distance(A1, B)
+func otherDistanceSegmentToPoint(A1 Position, A2 Position, B Position) float32 {
+	var dist = CrossProduct(A1, A2, B) / Distance(A1, A2)
 	var dot1 = DotProduct(A1, A2, B)
 	if dot1 > 0 {
 		return Distance(A2, B)
@@ -41,6 +41,30 @@ func distanceSegmentToPoint(A1 Position, A2 Position, B Position) float32 {
 		return Distance(A1, B)
 	}
 	return float32(math.Abs(float64(dist)))
+}
+
+func distanceSegmentToPoint(A1 Position, A2 Position, B Position) float32 {
+	var l2 = SquaredDistance(A1, A2)
+
+	if l2 == 0.0 {
+		return Distance(B, A1)
+	}
+	var t = float32(math.Max(0, math.Min(1, float64(BetterDotProduct(B, A1, A2)/l2))))
+	var projectionX = A1.X + t*(A2.X-A1.X)
+	var projectionY = A1.Y + t*(A2.Y-A1.Y)
+	return Distance(B, Position{projectionX, projectionY})
+}
+
+func BetterDotProduct(A Position, B Position, C Position) float32 {
+	var AB = Position{
+		X: A.X - B.X,
+		Y: A.Y - B.Y,
+	}
+	var BC = Position{
+		X: C.X - B.X,
+		Y: C.Y - B.Y,
+	}
+	return AB.X*BC.X + AB.Y*BC.Y
 }
 
 // DotProduct Compute the dot product AB . BC
@@ -75,4 +99,12 @@ func Distance(A Position, B Position) float32 {
 	var d2 = A.Y - B.Y
 
 	return float32(math.Sqrt(float64(d1*d1 + d2*d2)))
+}
+
+// Distance Compute the distance from A to B
+func SquaredDistance(A Position, B Position) float32 {
+	var d1 = A.X - B.X
+	var d2 = A.Y - B.Y
+
+	return d1*d1 + d2*d2
 }
