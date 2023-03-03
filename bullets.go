@@ -31,6 +31,7 @@ func NewBullet(w *World, player Player, angle float32, radius float32) *Bullet {
 	var bulletSpeed = statsValues.BulletSpeed
 	bullet := Bullet{
 		Position:  player.Position,
+		Radius:    radius,
 		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
 		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
 		TTL:       statsValues.BulletTTL,

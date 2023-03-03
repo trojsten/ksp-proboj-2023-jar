@@ -128,7 +128,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 				player.Exp -= StatUpgradePrice[player.Stats.BulletDamage]
 			}
 			break
-		case StatHelathMax:
+		case StatHealthMax:
 			if StatUpgradePrice[player.Stats.HealthMax] <= player.Exp && len(HealthMaxValues) > player.Stats.HealthMax {
 				player.Stats.HealthMax += 1
 				player.Exp -= StatUpgradePrice[player.Stats.HealthMax]

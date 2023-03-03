@@ -11,7 +11,7 @@ const (
 	StatBulletSpeed
 	StatBulletTTL
 	StatBulletDamage
-	StatHelathMax
+	StatHealthMax
 	StatHealthRegeneration
 	StatBodyDamage
 	StatReloadSpeed
