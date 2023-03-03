@@ -72,4 +72,8 @@ func (w *World) Tick() {
 			}
 		}
 	}
+
+	w.PlayerMovements = nil
+	w.BulletMovements = nil
+	w.EntityMovement = nil
 }

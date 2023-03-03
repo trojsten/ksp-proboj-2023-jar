@@ -2,10 +2,6 @@ package main
 
 import "math"
 
-func d(A Position, B Position, C Position) float32 {
-	return A.X*(B.Y-C.Y) + A.Y*(C.X-B.X) + B.X*C.Y - B.Y*C.X
-}
-
 func intersect(A1 Position, A2 Position, radiusA float32, B1 Position, B2 Position, radiusB float32) bool {
 	B2.X -= A2.X - A1.X
 	B2.Y -= A2.Y - A1.Y
