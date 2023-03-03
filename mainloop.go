@@ -49,7 +49,7 @@ func (w *World) Tick() {
 		for _, bulletMovement := range w.BulletMovements {
 			if intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
 				bulletMovement.OldPosition, bulletMovement.Bullet.Position, bulletMovement.Bullet.Radius) {
-				w.Players[bulletMovement.Bullet.ShooterId].Exp += PlayerHitExp
+				w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * PlayerHitExpCoefficient)
 				bulletMovement.Bullet.TTL -= BulletCollisionTTL
 				playerMovement.Player.Health -= bulletMovement.Bullet.Damage
 			}
@@ -66,7 +66,7 @@ func (w *World) Tick() {
 		for _, entityMovement := range w.EntityMovement {
 			if intersect(bulletMovement.OldPosition, bulletMovement.Bullet.Position, bulletMovement.Bullet.Radius,
 				entityMovement.OldPosition, entityMovement.Entity.Position, entityMovement.Entity.Radius) {
-				w.Players[bulletMovement.Bullet.ShooterId].Exp += EntityHitExp
+				w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient)
 				bulletMovement.Bullet.TTL -= BulletCollisionTTL
 				entityMovement.Entity.Radius -= bulletMovement.Bullet.Damage * BulletEntityCollisionRadiusCoefficient
 			}

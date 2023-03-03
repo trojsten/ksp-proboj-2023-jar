@@ -54,18 +54,19 @@ var LevelUpdateExp = []int{5, 10, 20, 40}
 
 type Player struct {
 	Position
-	Id             int
-	Name           string
-	Alive          bool
-	Health         float32
-	Exp            int
-	Level          int
-	LevelsLeft     int
-	Angle          float32
-	Stats          Stats
-	Tank           Tank
-	World          *World
-	ReloadCooldown int
+	Id              int
+	Name            string
+	Alive           bool
+	Health          float32
+	Exp             int
+	Level           int
+	LevelsLeft      int
+	TankUpdatesLeft int
+	Angle           float32
+	Stats           Stats
+	Tank            Tank
+	World           *World
+	ReloadCooldown  int
 }
 
 func (w *World) NewPlayer(name string) Player {
@@ -128,6 +129,9 @@ func (p *Player) Tick() {
 	for p.Exp > LevelUpdateExp[p.Level] {
 		p.Level++
 		p.LevelsLeft++
+		if p.Level%TankLevelUpdateFreq == 0 {
+			p.TankUpdatesLeft++
+		}
 	}
 }
 
@@ -187,6 +191,13 @@ func (p *Player) UpdateStat(stat Stat) {
 			p.LevelsLeft--
 		}
 		break
+	}
+}
+
+func (p *Player) UpdateTank(newTank Tank) {
+	if p.TankUpdatesLeft > 0 {
+		p.Tank = newTank
+		p.TankUpdatesLeft--
 	}
 }
 

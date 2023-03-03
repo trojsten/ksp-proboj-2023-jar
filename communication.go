@@ -101,7 +101,10 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	}
 
 	if newTankId != player.Tank.TankId() {
-		// TODO: upgrade tank
+		var b, tank = CanUpdateTank(player.Tank, newTankId)
+		if b {
+			player.UpdateTank(tank)
+		}
 	}
 
 	return nil
