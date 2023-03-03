@@ -115,7 +115,7 @@ func (p *Player) Tick() {
 
 	if p.X != InRange(p.X, -p.World.Size, p.World.Size) ||
 		p.Y != InRange(p.Y, -p.World.Size, p.World.Size) {
-		p.Health -= 1 // TODO constant
+		p.Health -= PlayerOutOfWorldHealth
 	}
 }
 

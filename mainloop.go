@@ -43,20 +43,20 @@ func (w *World) Tick() {
 		for _, entityMovement := range w.EntityMovement {
 			if intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
 				entityMovement.OldPosition, entityMovement.Entity.Position, entityMovement.Entity.Radius) {
-				playerMovement.Player.Health -= 1 //TODO constant
+				playerMovement.Player.Health -= PlayerEntityCollisionHealth
 			}
 		}
 		for _, bulletMovement := range w.BulletMovements {
 			if intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
 				bulletMovement.OldPosition, bulletMovement.Bullet.Position, bulletMovement.Bullet.Radius) {
 				playerMovement.Player.Health -= bulletMovement.Bullet.Damage
-				bulletMovement.Bullet.TTL -= 1 //TODO constant
+				bulletMovement.Bullet.TTL -= BulletCollisionTTL
 			}
 		}
 		for j, playerMovement2 := range w.PlayerMovements {
 			if i != j && intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
 				playerMovement2.OldPosition, playerMovement2.Player.Position, playerMovement2.Player.Tank.Radius()) {
-				playerMovement.Player.Health -= 1 //TODO constant
+				playerMovement.Player.Health -= PlayerPlayerCollisionHealth
 			}
 		}
 	}

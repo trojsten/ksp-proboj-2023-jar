@@ -18,8 +18,6 @@ func (b *Bullet) Tick(w *World) (bool, BulletMovement) {
 		return false, BulletMovement{}
 	}
 
-	// TODO: Check in-flight collisions
-
 	var bulletMovement = BulletMovement{OldPosition: b.Position}
 
 	b.X += b.Vx
