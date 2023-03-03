@@ -50,7 +50,7 @@ var HealthMaxValues = []float32{1, 2, 3, 4}
 var HealthRegenerationValues = []float32{1, 2, 3, 4}
 var BodyDamageValues = []float32{1, 2, 3, 4}
 var ReloadSpeedValues = []int{1, 2, 3, 4}
-var StatUpgradePrice = []int{5, 10, 20, 40}
+var LevelUpdateExp = []int{5, 10, 20, 40}
 
 type Player struct {
 	Position
@@ -60,6 +60,7 @@ type Player struct {
 	Health         float32
 	Exp            int
 	Level          int
+	LevelsLeft     int
 	Angle          float32
 	Stats          Stats
 	Tank           Tank
@@ -117,6 +118,75 @@ func (p *Player) Tick() {
 	if p.X != InRange(p.X, -p.World.Size, p.World.Size) ||
 		p.Y != InRange(p.Y, -p.World.Size, p.World.Size) {
 		p.Health -= PlayerOutOfWorldHealth
+	}
+
+	if p.Health < 0 {
+		p.Alive = false
+		// TODO ozivovanie?
+	}
+
+	for p.Exp > LevelUpdateExp[p.Level] {
+		p.Level++
+		p.LevelsLeft++
+	}
+}
+
+func (p *Player) UpdateStat(stat Stat) {
+	switch stat {
+	case StatRange:
+		if p.LevelsLeft > 0 && len(RangeValues) > p.Stats.Range {
+			p.Stats.Range++
+			p.LevelsLeft--
+		}
+		break
+	case StatSpeed:
+		if p.LevelsLeft > 0 && len(SpeedValues) > p.Stats.Speed {
+			p.Stats.Speed++
+			p.LevelsLeft--
+		}
+		break
+	case StatBulletSpeed:
+		if p.LevelsLeft > 0 && len(BulletSpeedValues) > p.Stats.BulletSpeed {
+			p.Stats.BulletSpeed++
+			p.LevelsLeft--
+		}
+		break
+	case StatBulletTTL:
+		if p.LevelsLeft > 0 && len(BulletTTLValues) > p.Stats.BulletTTL {
+			p.Stats.BulletTTL++
+			p.LevelsLeft--
+		}
+		break
+	case StatBulletDamage:
+		if p.LevelsLeft > 0 && len(BulletDamageValues) > p.Stats.BulletDamage {
+			p.Stats.BulletDamage++
+			p.LevelsLeft--
+		}
+		break
+	case StatHealthMax:
+		if p.LevelsLeft > 0 && len(HealthMaxValues) > p.Stats.HealthMax {
+			p.Stats.HealthMax++
+			p.LevelsLeft--
+		}
+		break
+	case StatHealthRegeneration:
+		if p.LevelsLeft > 0 && len(HealthRegenerationValues) > p.Stats.HealthRegeneration {
+			p.Stats.HealthRegeneration++
+			p.LevelsLeft--
+		}
+		break
+	case StatBodyDamage:
+		if p.LevelsLeft > 0 && len(BodyDamageValues) > p.Stats.BodyDamage {
+			p.Stats.BodyDamage++
+			p.LevelsLeft--
+		}
+		break
+	case StatReloadSpeed:
+		if p.LevelsLeft > 0 && len(ReloadSpeedValues) > p.Stats.ReloadSpeed {
+			p.Stats.ReloadSpeed++
+			p.LevelsLeft--
+		}
+		break
 	}
 }
 

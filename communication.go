@@ -12,7 +12,7 @@ func (w *World) DataForPlayer(player Player) string {
 	// 1 svet
 	data.WriteString(fmt.Sprintf("%f\n", w.Size))
 	// 2 ja
-	data.WriteString(fmt.Sprintf("%d %d %d ", player.Id, player.Exp, player.Level))
+	data.WriteString(fmt.Sprintf("%d %d %d %d ", player.Id, player.Exp, player.Level, player.LevelsLeft))
 
 	var stats = player.Stats
 	data.WriteString(fmt.Sprintf(
@@ -97,62 +97,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		return fmt.Errorf("unknown stat to upgrade: %d", stat)
 	}
 	if stat != StatNone {
-		switch stat {
-		case StatRange:
-			if StatUpgradePrice[player.Stats.Range] <= player.Exp && len(RangeValues) > player.Stats.Range {
-				player.Stats.Range += 1
-				player.Exp -= StatUpgradePrice[player.Stats.Range]
-			}
-			break
-		case StatSpeed:
-			if StatUpgradePrice[player.Stats.Speed] <= player.Exp && len(SpeedValues) > player.Stats.Speed {
-				player.Stats.Speed += 1
-				player.Exp -= StatUpgradePrice[player.Stats.Speed]
-			}
-			break
-		case StatBulletSpeed:
-			if StatUpgradePrice[player.Stats.BulletSpeed] <= player.Exp && len(BulletSpeedValues) > player.Stats.BulletSpeed {
-				player.Stats.BulletSpeed += 1
-				player.Exp -= StatUpgradePrice[player.Stats.BulletSpeed]
-			}
-			break
-		case StatBulletTTL:
-			if StatUpgradePrice[player.Stats.BulletTTL] <= player.Exp && len(BulletTTLValues) > player.Stats.BulletTTL {
-				player.Stats.BulletTTL += 1
-				player.Exp -= StatUpgradePrice[player.Stats.BulletTTL]
-			}
-			break
-		case StatBulletDamage:
-			if StatUpgradePrice[player.Stats.BulletDamage] <= player.Exp && len(BulletDamageValues) > player.Stats.BulletDamage {
-				player.Stats.BulletDamage += 1
-				player.Exp -= StatUpgradePrice[player.Stats.BulletDamage]
-			}
-			break
-		case StatHealthMax:
-			if StatUpgradePrice[player.Stats.HealthMax] <= player.Exp && len(HealthMaxValues) > player.Stats.HealthMax {
-				player.Stats.HealthMax += 1
-				player.Exp -= StatUpgradePrice[player.Stats.HealthMax]
-			}
-			break
-		case StatHealthRegeneration:
-			if StatUpgradePrice[player.Stats.HealthRegeneration] <= player.Exp && len(HealthRegenerationValues) > player.Stats.HealthRegeneration {
-				player.Stats.HealthRegeneration += 1
-				player.Exp -= StatUpgradePrice[player.Stats.HealthRegeneration]
-			}
-			break
-		case StatBodyDamage:
-			if StatUpgradePrice[player.Stats.BodyDamage] <= player.Exp && len(BodyDamageValues) > player.Stats.BodyDamage {
-				player.Stats.BodyDamage += 1
-				player.Exp -= StatUpgradePrice[player.Stats.BodyDamage]
-			}
-			break
-		case StatReloadSpeed:
-			if StatUpgradePrice[player.Stats.ReloadSpeed] <= player.Exp && len(ReloadSpeedValues) > player.Stats.ReloadSpeed {
-				player.Stats.ReloadSpeed += 1
-				player.Exp -= StatUpgradePrice[player.Stats.ReloadSpeed]
-			}
-			break
-		}
+		player.UpdateStat(stat)
 	}
 
 	if newTankId != player.Tank.TankId() {
