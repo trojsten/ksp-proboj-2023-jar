@@ -23,6 +23,7 @@ class Turn:
     Reprezentuje ťah v hre. Hráč vracia rýchlosť, smer, ktorým sa chce pohnúť,
     či chce vystreliť, ktorý Stat chce updatnúť a id tanku, ktorý by chcel mať.
     """
+
     def __init__(self, velocity, angle: float, shoot: bool, stat: int, new_tank_id: int):
         self.x = float(velocity.x)
         self.y = float(velocity.y)
@@ -41,6 +42,7 @@ class XY:
     Trieda, ktorá reprezentuje bod/vektor v 2D.
     Mohla by mať rozuné metódy ako skalárny súčín, sčítavanie vektorov a násobenie skalárom.
     """
+
     def __init__(self, x: float = 0, y: float = 0):
         self.x: float = x
         self.y: float = y
@@ -70,7 +72,6 @@ class XY:
         return math.sqrt(XY.squared_distace(A, B))
 
 
-@dataclass
 class Player:
     """
     Trieda, ktorá reprezentuje bežného hráča v hre.
@@ -81,18 +82,20 @@ class Player:
     * radius - polomer hráča
     * health - health
     """
-    id: int
-    alive: bool
-    position: XY
-    angle: float
-    radius: float
-    tank: Tank
-    health: float
+
+    def __init__(self):
+        self.id: int = 0
+        self.alive: bool = False
+        self.position: XY = None
+        self.angle: float = 0
+        self.radius: float = 0
+        self.tank: Tank = None
+        self.health: float = 0
 
     @classmethod
-    def read_player(cls) -> Type["Player"]:
+    def read_player(cls) -> "Player":
         id, alive, x, y, angle, radius, tank_id, health = input().split()
-        player = Player
+        player = Player()
         player.id = int(id)
         player.alive = bool(int(alive))
         player.position = XY(float(x), float(y))
@@ -115,7 +118,6 @@ class Player:
         return self.id == other.id
 
 
-@dataclass
 class MyPlayer(Player):
     """
     Trieda, ktorá reprezentuje Tvojho hráča v hre.
@@ -128,19 +130,22 @@ class MyPlayer(Player):
     * stat_levels - aké sú aktuálne levely Tvojich statov
     * stat_values - aké sú aktuálne hodnoty Tvojich statov
     """
-    exp: int
-    level: int
-    levels_left: int
-    tank_updates_left: int
-    reload_cooldown: int
-    lifes_left: int
-    stat_levels: List[int]
-    stat_values: List[float]
+
+    def __init__(self):
+        super().__init__()
+        self.exp: int
+        self.level: int
+        self.levels_left: int
+        self.tank_updates_left: int
+        self.reload_cooldown: int
+        self.lifes_left: int
+        self.stat_levels: List[int]
+        self.stat_values: List[float]
 
     @classmethod
-    def read_myplayer(cls) -> Type["MyPlayer"]:
+    def read_myplayer(cls) -> "MyPlayer":
         id, exp, level, levels_left, tank_updates_left, reload_cooldown, lifes_left = input().split()
-        myplayer = MyPlayer
+        myplayer = MyPlayer()
         myplayer.id = int(id)
         myplayer.exp = int(exp)
         myplayer.level = int(level)
@@ -163,6 +168,7 @@ class ProbojPlayer:
     * bullets - `set` projektilov
     * entities - `set` entít
     """
+
     def __init__(self):
         self.world: World = World()
         self.myself: MyPlayer
@@ -269,15 +275,15 @@ class Bullet:
     damage: float
 
     @classmethod
-    def read_bullet(cls) -> Type["Bullet"]:
+    def read_bullet(cls) -> "Bullet":
         x, y, vx, vy, shooter_id, ttl, damage = input().split()
-        bullet = Bullet
-        bullet.position = XY(float(x), float(y))
-        bullet.velocity = XY(float(vx), float(vy))
-        bullet.shooter_id = int(shooter_id)
-        bullet.ttl = float(ttl)
-        bullet.damage = float(damage)
-        return bullet
+        return Bullet(
+            XY(float(x), float(y)),
+            XY(float(vx), float(vy)),
+            int(shooter_id),
+            float(ttl),
+            float(damage),
+        )
 
 
 @dataclass
@@ -291,12 +297,9 @@ class Entity:
     radius: float
 
     @classmethod
-    def read_entity(cls) -> Type["Entity"]:
+    def read_entity(cls) -> "Entity":
         x, y, radius = input().split()
-        entity = Entity
-        entity.position = XY(float(x), float(y))
-        entity.radius = float(radius)
-        return entity
+        return Entity(XY(float(x), float(y)), float(radius))
 
 
 class World:
@@ -304,6 +307,7 @@ class World:
     World:
     * size - veľkosť mapy, v oboch rozmeroch je to od `+size` do `-size`
     """
+
     def __init__(self):
         self.size: float = 0
 
