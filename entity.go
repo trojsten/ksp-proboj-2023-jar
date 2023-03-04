@@ -10,8 +10,3 @@ type Entity struct {
 func (w *World) NewEntity() Entity {
 	return Entity{Radius: rand.Float32() * MaxEntityRadius}
 }
-
-type EntityMovement struct {
-	OldPosition Position
-	Entity      *Entity
-}

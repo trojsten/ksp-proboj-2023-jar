@@ -44,12 +44,12 @@ func (w *World) Tick() {
 	}
 
 	for i, playerMovement := range w.PlayerMovements {
-		for _, entityMovement := range w.EntityMovement {
+		for j, entity := range w.Entities {
 			if intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
-				entityMovement.OldPosition, entityMovement.Entity.Position, entityMovement.Entity.Radius) {
-				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Entity (%f %f) intersects\n", playerMovement.Player.Id, entityMovement.Entity.X, entityMovement.Entity.Y))
+				entity.Position, entity.Position, entity.Radius) {
+				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Entity (%f %f) intersects\n", playerMovement.Player.Id, entity.X, entity.Y))
 				playerMovement.Player.Health -= PlayerEntityCollisionHealth
-				entityMovement.Entity.Radius -= MaxEntityRadius / 10
+				w.Entities[j].Radius -= MaxEntityRadius / 10
 			}
 		}
 		for _, bulletMovement := range w.BulletMovements {
@@ -71,13 +71,13 @@ func (w *World) Tick() {
 	}
 
 	for _, bulletMovement := range w.BulletMovements {
-		for _, entityMovement := range w.EntityMovement {
+		for e, entity := range w.Entities {
 			if intersect(bulletMovement.OldPosition, bulletMovement.Bullet.Position, bulletMovement.Bullet.Radius,
-				entityMovement.OldPosition, entityMovement.Entity.Position, entityMovement.Entity.Radius) {
-				w.Runner.Log(fmt.Sprintf("Bullet (%f %f) and Entity (%f %f) intersects\n", bulletMovement.Bullet.X, bulletMovement.Bullet.Y, entityMovement.Entity.X, entityMovement.Entity.Y))
+				entity.Position, entity.Position, entity.Radius) {
+				w.Runner.Log(fmt.Sprintf("Bullet (%f %f) and Entity (%f %f) intersects\n", bulletMovement.Bullet.X, bulletMovement.Bullet.Y, entity.X, entity.Y))
 				w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient)
 				bulletMovement.Bullet.TTL -= BulletCollisionTTL
-				entityMovement.Entity.Radius -= bulletMovement.Bullet.Damage * BulletEntityCollisionRadiusCoefficient
+				w.Entities[e].Radius -= bulletMovement.Bullet.Damage * BulletEntityCollisionRadiusCoefficient
 			}
 		}
 	}

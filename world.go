@@ -13,7 +13,6 @@ type World struct {
 	Bullets         []Bullet         `json:"bullets"`
 	BulletMovements []BulletMovement `json:"-"`
 	Entities        []Entity         `json:"entities"`
-	EntityMovement  []EntityMovement `json:"-"`
 	Size            float32          `json:"size"`
 	TickNumber      int              `json:"tick_number"`
 	BulletNumber    int              `json:"-"`
