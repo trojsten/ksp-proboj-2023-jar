@@ -102,6 +102,15 @@ class Player:
         player.health = float(health)
         return player
 
+    def merge(self, player: "Player"):
+        self.id = player.id
+        self.alive = player.alive
+        self.position = player.position
+        self.angle = player.angle
+        self.radius = player.radius
+        self.tank = player.tank
+        self.health = player.health
+
     def __eq__(self, other):
         return self.id == other.id
 
@@ -185,6 +194,8 @@ class ProbojPlayer:
         for i in range(n):
             player = Player.read_player()
             self.players[player.id] = player
+
+        self.myself.merge(self.players[self._myself])
 
     def _read_bullets(self):
         """
