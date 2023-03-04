@@ -9,3 +9,6 @@ const PlayerHitExpCoefficient = 0.5
 const BulletCollisionTTL = 1
 const BulletEntityCollisionRadiusCoefficient = 0.5
 const MaxRespawn = 3
+const EntitiesInitSpawnNumber = 20
+const EntitySpawnProb = 0.1
+const MaxEntityRadius = 30

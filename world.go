@@ -46,8 +46,14 @@ func (p Position) inReach(p2 Position, distance float32) bool {
 	return math.Pow(float64(p.X-p2.X), 2)+math.Pow(float64(p.Y-p2.Y), 2) < math.Pow(float64(distance), 2)
 }
 
-func (w *World) SpawnPlayer(p *Player) {
+func (w *World) SpawnObject(p *Position) {
 	// TODO check, ci nie som blizko niekoho
 	p.X = rand.Float32()*2*w.Size - w.Size
 	p.Y = rand.Float32()*2*w.Size - w.Size
+}
+
+func (w *World) SpawnEntity() {
+	var entity = w.NewEntity()
+	w.SpawnObject(&entity.Position)
+	w.Entities = append(w.Entities, entity)
 }

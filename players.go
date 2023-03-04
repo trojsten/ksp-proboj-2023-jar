@@ -97,7 +97,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 }
 
 func (w *World) NewPlayer(name string) Player {
-	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w}
+	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w, LifesLeft: MaxRespawn}
 }
 
 func (p *Player) RealStatsValues() StatsValues {
@@ -174,7 +174,7 @@ func (p *Player) Tick() {
 
 func (p *Player) RespawnPlayer() {
 	p.LifesLeft--
-	p.World.SpawnPlayer(p)
+	p.World.SpawnObject(&p.Position)
 	p.Tank = BasicTank{}
 	p.Alive = true
 	p.Stats = Stats{}
