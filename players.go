@@ -163,7 +163,7 @@ func (p *Player) Tick() {
 			float64(p.Health+p.RealStatsValues().HealthRegeneration)),
 	)
 
-	for p.Exp > LevelUpdateExp[p.Level] {
+	for p.Level < len(LevelUpdateExp) && p.Exp > LevelUpdateExp[p.Level] {
 		p.Level++
 		p.LevelsLeft++
 		if p.Level%TankLevelUpdateFreq == 0 {

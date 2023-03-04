@@ -19,6 +19,10 @@ input = lepsiInput
 
 
 class Turn:
+    """
+    Reprezentuje ťah v hre. Hráč vracia rýchlosť, smer, ktorým sa chce pohnúť,
+    či chce vystreliť, ktorý Stat chce updatnúť a id tanku, ktorý by chcel mať.
+    """
     def __init__(self, velocity, angle: float, shoot: bool, stat: int, new_tank_id: int):
         self.x = float(velocity.x)
         self.y = float(velocity.y)
@@ -33,7 +37,10 @@ class Turn:
 
 
 class XY:
-
+    """
+    Trieda, ktorá reprezentuje bod/vektor v 2D.
+    Mohla by mať rozuné metódy ako skalárny súčín, sčítavanie vektorov a násobenie skalárom.
+    """
     def __init__(self, x: float = 0, y: float = 0):
         self.x: float = x
         self.y: float = y
@@ -65,6 +72,15 @@ class XY:
 
 @dataclass
 class Player:
+    """
+    Trieda, ktorá reprezentuje bežného hráča v hre.
+    * idx - jeho idčko
+    * alive - bool, či hráč žije. Snáď by ste ani nemali dostať nie alive hráča.
+    * position - XY hráča
+    * angle - uhol, kam je aktuálne natočená hlaveň
+    * radius - polomer hráča
+    * health - health
+    """
     id: int
     alive: bool
     position: XY
@@ -92,10 +108,21 @@ class Player:
 
 @dataclass
 class MyPlayer(Player):
+    """
+    Trieda, ktorá reprezentuje Tvojho hráča v hre.
+    * exp - získané XPčka
+    * level - ktorý si záskal
+    * levels_left - koľko levelov môžeš ešte použiť na vylepšovanie
+    * tank_updates_left - koľko updatov tankov môžeš ešte použiť
+    * reload_cooldown - koľko tickcov ešte nemôžeš strieľať
+    * lifes_left - koľko respawnov ešte máš
+    * stat_levels - aké sú aktuálne levely Tvojich statov
+    * stat_values - aké sú aktuálne hodnoty Tvojich statov
+    """
     exp: int
     level: int
-    tank_updates_left: int
     levels_left: int
+    tank_updates_left: int
     reload_cooldown: int
     lifes_left: int
     stat_levels: List[int]
@@ -118,6 +145,15 @@ class MyPlayer(Player):
 
 
 class ProbojPlayer:
+    """
+    Táto trieda vykonáva ťahy v hre
+    * world - objekt, ktorý reprezentuje svet
+    * myself - Ty
+    * _myself - Tvoje id
+    * players - `dictionary` hráčov `{id: Player}`
+    * bullets - `set` projektilov
+    * entities - `set` entít
+    """
     def __init__(self):
         self.world: World = World()
         self.myself: MyPlayer
@@ -134,10 +170,16 @@ class ProbojPlayer:
         print(*args, file=sys.stderr)
 
     def _read_myself(self):
+        """
+        Načíta info o sebe
+        """
         self.myself = MyPlayer.read_myplayer()
         self._myself = self.myself.id
 
     def _read_players(self):
+        """
+        Načíta hráčov v dosahu hráča
+        """
         self.players = {}
         n = int(input())
         for i in range(n):
@@ -145,6 +187,9 @@ class ProbojPlayer:
             self.players[player.id] = player
 
     def _read_bullets(self):
+        """
+        Načíta projektily v dosahu hráča
+        """
         self.bullets = set()
         n = int(input())
         for i in range(n):
@@ -152,6 +197,9 @@ class ProbojPlayer:
             self.bullets.add(bullet)
 
     def _read_entities(self):
+        """
+        Načíta entity v dosahu hráča
+        """
         self.entities = set()
         n = int(input())
         for i in range(n):
@@ -159,6 +207,9 @@ class ProbojPlayer:
             self.entities.add(entity)
 
     def _read_turn(self):
+        """
+        Načíta vstup pre hráča
+        """
         self.world.read_world()
         self._read_myself()
         self._read_players()
@@ -192,6 +243,14 @@ class ProbojPlayer:
 
 @dataclass
 class Bullet:
+    """
+    Projektil:
+    * position - `XY`, pozícia
+    * velocity - `XY`, rýchlosť
+    * shooter_id - id strelca, kľúč do poľa hráčov
+    * ttl - koľko tickov ešte projektil bude existovať
+    * damage - koľko damage spôsobí pri hite
+    """
     position: XY
     velocity: XY
     shooter_id: int
@@ -212,6 +271,11 @@ class Bullet:
 
 @dataclass
 class Entity:
+    """
+    Entita:
+    * position - `XY`, pozícia
+    * radius - polomer
+    """
     position: XY
     radius: float
 
@@ -225,12 +289,12 @@ class Entity:
 
 
 class World:
-
+    """
+    World:
+    * size - veľkosť mapy, v oboch rozmeroch je to od `+size` do `-size`
+    """
     def __init__(self):
         self.size: float = 0
-        self.players: List[Player] = []
-        self.bullets: List[Bullet] = []
-        self.entities: List[Entity] = []
 
     def read_world(self):
         self.size = float(input())
