@@ -4,6 +4,7 @@ import "math"
 
 type Bullet struct {
 	Position
+	Id        int
 	Radius    float32
 	Vx        float32
 	Vy        float32
@@ -31,6 +32,7 @@ func NewBullet(w *World, player Player, angle float32, radius float32) *Bullet {
 	var bulletSpeed = statsValues.BulletSpeed
 	bullet := Bullet{
 		Position:  player.Position,
+		Id:        w.BulletNumber,
 		Radius:    radius,
 		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
 		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
@@ -38,6 +40,7 @@ func NewBullet(w *World, player Player, angle float32, radius float32) *Bullet {
 		Damage:    statsValues.BulletDamage,
 		ShooterId: player.Id,
 	}
+	w.BulletNumber++
 	w.Bullets = append(w.Bullets, bullet)
 	return &bullet
 }

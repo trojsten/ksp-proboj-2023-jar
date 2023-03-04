@@ -15,6 +15,7 @@ type World struct {
 	EntityMovement  []EntityMovement
 	Size            float32
 	TickNumber      int
+	BulletNumber    int
 }
 
 func aliveInt(alive bool) int {
