@@ -233,6 +233,36 @@ func (p *Player) UpdateTank(newTank Tank) {
 	}
 }
 
+func (p *Player) ReachablePlayers() []Player {
+	var res []Player
+	for _, player := range p.World.Players {
+		if p.inReach(player.Position, p.RealStatsValues().Range) {
+			res = append(res, player)
+		}
+	}
+	return res
+}
+
+func (p *Player) ReachableEntities() []Entity {
+	var res []Entity
+	for _, entity := range p.World.Entities {
+		if p.inReach(entity.Position, p.RealStatsValues().Range) {
+			res = append(res, entity)
+		}
+	}
+	return res
+}
+
+func (p *Player) ReachableBullets() []Bullet {
+	var res []Bullet
+	for _, bullet := range p.World.Bullets {
+		if p.inReach(bullet.Position, p.RealStatsValues().Range) {
+			res = append(res, bullet)
+		}
+	}
+	return res
+}
+
 type PlayerMovement struct {
 	OldPosition Position
 	Player      *Player

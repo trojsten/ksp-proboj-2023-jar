@@ -51,46 +51,43 @@ func (w *World) DataForPlayer(player Player) string {
 	))
 
 	// 3 players
-	data.WriteString(fmt.Sprintf("%d\n", len(w.Players)))
-	for i, p := range w.Players {
-		if p.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf(
-				"%d %d %f %f %f %f %d %f\n",
-				i,
-				aliveInt(p.Alive),
-				p.X,
-				p.Y,
-				p.Angle,
-				p.Tank.Radius(),
-				p.Tank.TankId(),
-				p.Health,
-			))
-		}
+	var reachablePlayers = player.ReachablePlayers()
+	data.WriteString(fmt.Sprintf("%d\n", len(reachablePlayers)))
+	for i, p := range reachablePlayers {
+		data.WriteString(fmt.Sprintf(
+			"%d %d %f %f %f %f %d %f\n",
+			i,
+			aliveInt(p.Alive),
+			p.X,
+			p.Y,
+			p.Angle,
+			p.Tank.Radius(),
+			p.Tank.TankId(),
+			p.Health,
+		))
 	}
 
 	// 4 bullets
-	data.WriteString(fmt.Sprintf("%d\n", len(w.Bullets)))
-	for _, b := range w.Bullets {
-		if b.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf(
-				"%f %f %f %f %d %f %f\n",
-				b.X,
-				b.Y,
-				b.Vx,
-				b.Vy,
-				b.ShooterId,
-				b.TTL,
-				b.Damage,
-			))
-		}
+	var reachableBullets = player.ReachableBullets()
+	data.WriteString(fmt.Sprintf("%d\n", len(reachableBullets)))
+	for _, b := range reachableBullets {
+		data.WriteString(fmt.Sprintf(
+			"%f %f %f %f %d %f %f\n",
+			b.X,
+			b.Y,
+			b.Vx,
+			b.Vy,
+			b.ShooterId,
+			b.TTL,
+			b.Damage,
+		))
 	}
 
 	// 5 entities
-	data.WriteString(fmt.Sprintf("%d\n", len(w.Entities)))
-	for _, e := range w.Entities {
-		if e.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf("%f %f %f\n", e.X, e.Y, e.Radius))
-		}
+	var reachableEntities = player.ReachableEntities()
+	data.WriteString(fmt.Sprintf("%d\n", len(reachableEntities)))
+	for _, e := range reachableEntities {
+		data.WriteString(fmt.Sprintf("%f %f %f\n", e.X, e.Y, e.Radius))
 	}
 	return data.String()
 }
