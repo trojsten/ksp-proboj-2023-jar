@@ -21,8 +21,15 @@
 </head>
 <body>
 
+<script src="js/pako_inflate.min.js"></script>
 <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
+<script src="https://unpkg.com/tweedle.js@2.0.1/dist/tweedle.umd.min.js"></script>
+<script src="js/renderer.js"></script>
+<script src="js/game.js"></script>
+
 <script src="js/observer.js"></script>
 <script src="js/render.js"></script>
+
+<input type="file" onchange="game.loadFile(this)" id="js-file" style="z-index: 999; top: 0; left: 0; position: fixed">
 </body>
 </html>

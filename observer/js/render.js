@@ -1,5 +1,6 @@
-let worldPlayers = {}
-let worldBullets = {}
+// let worldPlayers = {}
+// let worldBullets = {}
+// let worldBorder = null
 
 const TESTFrame = {
     players: [
@@ -26,44 +27,14 @@ const TESTFrame = {
         },
     ],
 }
-function renderFrame(frame) {
-    for (const player of frame.players) {
-        if (!player.alive) {
-             if (player.id in worldPlayers) {
-                 world.removeChild(worldPlayers[player.id])
-                 delete worldPlayers[player.id]
-             }
-            continue
-        }
 
-        if (!(player.id in worldPlayers)) {
-            let p = newPlayer()
-            worldPlayers[player.id] = p
-            world.addChild(p)
-        }
-        let wp = worldPlayers[player.id]
-        wp.x = player.x
-        wp.y = -player.y
-        wp.rotation = player.angle
-    }
-
-    let currentBullets = new Set()
-    for (const bullet of frame.bullets) {
-        currentBullets.add(bullet.id)
-        if (!(bullet.id in worldBullets)) {
-            let b = newBullet(bullet.radius)
-            worldBullets[bullet.id] = b
-            world.addChild(b)
-        }
-        let wb = worldBullets[bullet.id]
-        wb.x = bullet.position.x
-        wb.y = -bullet.position.y
-    }
-
-    for (const i of Object.keys(worldBullets)) {
-        if (!currentBullets.has(parseInt(i))) {
-            world.removeChild(worldBullets[i])
-            delete worldBullets[i]
-        }
-    }
+function hsl2rgb(h,s,l) {
+  let a= s*Math.min(l,1-l);
+  let f= (n,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
+  return Math.ceil(f(0) * 0xFF) * 0x10000 + Math.ceil(f(8) * 0xFF) * 0x100 + Math.ceil(f(4) * 0xFF);
 }
+
+function playerColor(id) {
+    return hsl2rgb(360 / game.frames[0].players.length * id, 0.8, 0.5)
+}
+
