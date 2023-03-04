@@ -49,6 +49,7 @@ func (w *World) Tick() {
 				entityMovement.OldPosition, entityMovement.Entity.Position, entityMovement.Entity.Radius) {
 				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Entity (%f %f) intersects\n", playerMovement.Player.Id, entityMovement.Entity.X, entityMovement.Entity.Y))
 				playerMovement.Player.Health -= PlayerEntityCollisionHealth
+				entityMovement.Entity.Radius -= MaxEntityRadius / 10
 			}
 		}
 		for _, bulletMovement := range w.BulletMovements {
