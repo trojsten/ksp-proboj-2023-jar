@@ -71,6 +71,9 @@ class XY:
     def distance(A, B):
         return math.sqrt(XY.squared_distace(A, B))
 
+    def __hash__(self):
+        return hash((self.x, self.y))
+
 
 class Player:
     """
@@ -116,6 +119,9 @@ class Player:
 
     def __eq__(self, other):
         return self.id == other.id
+
+    def __hash__(self):
+        return self.id
 
 
 class MyPlayer(Player):
@@ -285,6 +291,9 @@ class Bullet:
             float(damage),
         )
 
+    def __hash__(self):
+        return hash((self.position, self.velocity))
+
 
 @dataclass
 class Entity:
@@ -300,6 +309,9 @@ class Entity:
     def read_entity(cls) -> "Entity":
         x, y, radius = input().split()
         return Entity(XY(float(x), float(y)), float(radius))
+
+    def __hash__(self):
+        return hash((self.position, self.radius))
 
 
 class World:
