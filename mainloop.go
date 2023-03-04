@@ -94,7 +94,6 @@ func (w *World) Tick() {
 
 	w.PlayerMovements = nil
 	w.BulletMovements = nil
-	w.EntityMovement = nil
 
 	data, err := json.Marshal(w)
 	if err != nil {
