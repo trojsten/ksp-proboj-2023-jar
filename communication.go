@@ -54,10 +54,10 @@ func (w *World) DataForPlayer(player Player) string {
 	// 3 players
 	var reachablePlayers = player.ReachablePlayers()
 	data.WriteString(fmt.Sprintf("%d\n", len(reachablePlayers)))
-	for i, p := range reachablePlayers {
+	for _, p := range reachablePlayers {
 		data.WriteString(fmt.Sprintf(
 			"%d %d %f %f %f %f %d %f\n",
-			i,
+			p.Id,
 			aliveInt(p.Alive),
 			p.X,
 			p.Y,
