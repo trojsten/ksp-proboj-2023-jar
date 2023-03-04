@@ -7,14 +7,14 @@ import (
 
 type World struct {
 	Runner          libproboj.Runner
-	Players         []Player
+	Players         []Player `json:"players"`
 	PlayerMovements []PlayerMovement
-	Bullets         []Bullet
+	Bullets         []Bullet `json:"bullets"`
 	BulletMovements []BulletMovement
-	Entities        []Entity
+	Entities        []Entity `json:"entities"`
 	EntityMovement  []EntityMovement
-	Size            float32
-	TickNumber      int
+	Size            float32 `json:"size"`
+	TickNumber      int     `json:"tick_number"`
 	BulletNumber    int
 }
 
@@ -37,8 +37,8 @@ func (w *World) Running() bool {
 }
 
 type Position struct {
-	X float32
-	Y float32
+	X float32 `json:"x"`
+	Y float32 `json:"y"`
 }
 
 func (p Position) inReach(p2 Position, distance float32) bool {

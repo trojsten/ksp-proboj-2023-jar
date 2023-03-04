@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/trojsten/ksp-proboj/libproboj"
 )
@@ -80,4 +81,10 @@ func (w *World) Tick() {
 	w.PlayerMovements = nil
 	w.BulletMovements = nil
 	w.EntityMovement = nil
+
+	data, err := json.Marshal(w)
+	if err != nil {
+		w.Runner.Log(fmt.Sprintf("could not marshal data for observer: %s", err.Error()))
+	}
+	w.Runner.ToObserver(string(data))
 }

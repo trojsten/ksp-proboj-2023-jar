@@ -3,14 +3,14 @@ package main
 import "math"
 
 type Bullet struct {
-	Position
-	Id        int
-	Radius    float32
+	Position  `json:"position"`
+	Id        int     `json:"id"`
+	Radius    float32 `json:"radius"`
 	Vx        float32
 	Vy        float32
 	TTL       float32
 	Damage    float32
-	ShooterId int
+	ShooterId int `json:"shooter_id"`
 }
 
 // Tick moves the given bullet and returns whether it's entity should be removed

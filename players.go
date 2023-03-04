@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math"
 )
@@ -70,6 +71,28 @@ type Player struct {
 	Tank            Tank
 	World           *World
 	ReloadCooldown  int
+}
+
+func (p *Player) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+		X          float32 `json:"x"`
+		Y          float32 `json:"y"`
+		Angle      float32 `json:"angle"`
+		Alive      bool    `json:"alive"`
+		Id         int     `json:"id"`
+		Name       string  `json:"name"`
+		TankId     int     `json:"tank_id"`
+		TankRadius float32 `json:"tank_radius"`
+	}{
+		X:          p.X,
+		Y:          p.Y,
+		Angle:      p.Angle,
+		Alive:      p.Alive,
+		Id:         p.Id,
+		Name:       p.Name,
+		TankId:     p.Tank.TankId(),
+		TankRadius: p.Tank.Radius(),
+	})
 }
 
 func (w *World) NewPlayer(name string) Player {
