@@ -42,7 +42,7 @@ func NewBullet(w *World, player Player, playerMovement PlayerMovement, angle flo
 		Id:        w.BulletNumber,
 		Radius:    radius,
 		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
-		Vy:        float32(math.Cos(float64(angle))) * bulletSpeed,
+		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
 		TTL:       statsValues.BulletTTL,
 		Damage:    statsValues.BulletDamage,
 		ShooterId: player.Id,
