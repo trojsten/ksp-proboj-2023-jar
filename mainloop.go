@@ -27,7 +27,7 @@ func (w *World) Tick() {
 	}
 
 	// Bullet time!
-	var bullets []Bullet
+	bullets := []Bullet{}
 	for i := range w.Bullets {
 		bullet := &w.Bullets[i]
 		var success, bulletMovement = bullet.Tick(w)

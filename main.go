@@ -13,7 +13,7 @@ func main() {
 	rand.Seed(seed)
 	runner.Log(fmt.Sprintf("seed %d", seed))
 
-	world := World{Runner: runner}
+	world := World{Runner: runner, Size: 500, Bullets: []Bullet{}}
 	players, _ := runner.ReadConfig()
 	for i, player := range players {
 		pl := world.NewPlayer(player)

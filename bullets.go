@@ -19,7 +19,7 @@ func (b *Bullet) Tick(w *World) (bool, BulletMovement) {
 		return false, BulletMovement{}
 	}
 
-	var bulletMovement = BulletMovement{OldPosition: b.Position}
+	var bulletMovement = BulletMovement{OldPosition: b.Position, Bullet: b}
 
 	b.X += b.Vx
 	b.Y += b.Vy

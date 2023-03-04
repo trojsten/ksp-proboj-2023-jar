@@ -101,7 +101,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	var vx, vy, angle float32
 	var shoot, newTankId int
 	var stat Stat
-	_, err := fmt.Sscanf(response, "%f %f %f %d %d %d", vx, vy, angle, shoot, stat, newTankId)
+	_, err := fmt.Sscanf(response, "%f %f %f %d %d %d", &vx, &vy, &angle, &shoot, &stat, &newTankId)
 	if err != nil {
 		return fmt.Errorf("sscanf failed: %w", err)
 	}

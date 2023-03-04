@@ -6,6 +6,15 @@ from typing import List, Type, Set
 from tanks import *
 from stats import *
 
+_input = input
+
+def lepsiInput():
+    d = _input()
+    print(d, file=sys.stderr)
+    return d
+
+input = lepsiInput
+
 
 class Turn:
     def __init__(self, velocity, angle: float, shoot: bool, stat: int, new_tank_id: int):
@@ -18,6 +27,7 @@ class Turn:
 
     def print(self):
         print(f"{self.x} {self.y} {self.angle} {self.shoot} {self.stat} {self.new_tank_id}")
+        print(".")
 
 
 class XY:
@@ -183,7 +193,7 @@ class Bullet:
     position: XY
     velocity: XY
     shooter_id: int
-    ttl: int
+    ttl: float
     damage: float
 
     @classmethod
@@ -193,7 +203,7 @@ class Bullet:
         bullet.position = XY(float(x), float(y))
         bullet.velocity = XY(float(vx), float(vy))
         bullet.shooter_id = int(shooter_id)
-        bullet.ttl = int(ttl)
+        bullet.ttl = float(ttl)
         bullet.damage = float(damage)
         return bullet
 
