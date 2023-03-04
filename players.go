@@ -126,13 +126,13 @@ func (p *Player) MoveTo(x, y float32) PlayerMovement {
 	return movement
 }
 
-func (p *Player) Fire() {
+func (p *Player) Fire(playerMovement PlayerMovement) {
 	if p.ReloadCooldown > 0 {
 		p.World.Runner.Log(fmt.Sprintf("ignoring shoot for %s: reload cooldown", p.Name))
 		return
 	}
 
-	p.Tank.Fire(p)
+	p.Tank.Fire(p, playerMovement)
 	p.ReloadCooldown = p.RealStatsValues().ReloadSpeed
 }
 
@@ -289,4 +289,8 @@ func (p *Player) ReachableBullets() []Bullet {
 type PlayerMovement struct {
 	OldPosition Position
 	Player      *Player
+}
+
+func (pm *PlayerMovement) speed() float32 {
+	return Distance(pm.OldPosition, pm.Player.Position)
 }

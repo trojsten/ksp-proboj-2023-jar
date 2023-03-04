@@ -13,3 +13,4 @@ const MaxRespawn = 3
 const EntitiesInitSpawnNumber = 20
 const EntitySpawnProb = 0.1
 const MaxEntityRadius = 30
+const FractionOfPlayerSpeedToBullet = 0.95

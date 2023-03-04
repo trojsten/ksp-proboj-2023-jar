@@ -27,15 +27,22 @@ func (b *Bullet) Tick(w *World) (bool, BulletMovement) {
 	return true, bulletMovement
 }
 
-func NewBullet(w *World, player Player, angle float32, radius float32) *Bullet {
+func NewBullet(w *World, player Player, playerMovement PlayerMovement, angle float32, radius float32) *Bullet {
 	var statsValues = player.RealStatsValues()
 	var bulletSpeed = statsValues.BulletSpeed
+
+	var Vx = float32(math.Cos(float64(angle))) * bulletSpeed
+	var Vy = float32(math.Sin(float64(angle))) * bulletSpeed
+	var Px = playerMovement.Player.Position.X - playerMovement.OldPosition.X
+	var Py = playerMovement.Player.Position.Y - playerMovement.OldPosition.Y
+	bulletSpeed += Dot(Px, Py, Vx, Vy) * FractionOfPlayerSpeedToBullet
+
 	bullet := Bullet{
 		Position:  player.Position,
 		Id:        w.BulletNumber,
 		Radius:    radius,
 		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
-		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
+		Vy:        float32(math.Cos(float64(angle))) * bulletSpeed,
 		TTL:       statsValues.BulletTTL,
 		Damage:    statsValues.BulletDamage,
 		ShooterId: player.Id,

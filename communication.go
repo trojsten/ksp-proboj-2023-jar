@@ -111,11 +111,12 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		vx = float32(float64(vx) / dist * maxSpeed)
 		vy = float32(float64(vy) / dist * maxSpeed)
 	}
-	w.PlayerMovements = append(w.PlayerMovements, player.MoveTo(player.X+vx, player.Y+vy))
+	playerMovement := player.MoveTo(player.X+vx, player.Y+vy)
+	w.PlayerMovements = append(w.PlayerMovements, playerMovement)
 	player.Angle = angle
 
 	if shoot == 1 {
-		player.Fire()
+		player.Fire(playerMovement)
 	}
 
 	if stat < StatRange || stat > StatNone {

@@ -29,11 +29,11 @@ func DotProduct(A Position, B Position, C Position) float32 {
 		X: A.X - B.X,
 		Y: A.Y - B.Y,
 	}
-	var BC = Position{
+	var CB = Position{
 		X: C.X - B.X,
 		Y: C.Y - B.Y,
 	}
-	return AB.X*BC.X + AB.Y*BC.Y
+	return AB.X*CB.X + AB.Y*CB.Y
 }
 
 func Distance(A Position, B Position) float32 {
@@ -48,4 +48,8 @@ func SquaredDistance(A Position, B Position) float32 {
 	var d2 = A.Y - B.Y
 
 	return d1*d1 + d2*d2
+}
+
+func Dot(Px float32, Py float32, Vx float32, Vy float32) float32 {
+	return Vx*Px + Vy*Py
 }
