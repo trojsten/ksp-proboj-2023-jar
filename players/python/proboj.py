@@ -8,10 +8,12 @@ from stats import *
 
 _input = input
 
+
 def lepsiInput():
     d = _input()
     print(d, file=sys.stderr)
     return d
+
 
 input = lepsiInput
 
@@ -63,7 +65,7 @@ class XY:
 
 @dataclass
 class Player:
-    idx: int
+    id: int
     alive: bool
     position: XY
     angle: float
@@ -73,9 +75,9 @@ class Player:
 
     @classmethod
     def read_player(cls) -> Type["Player"]:
-        idx, alive, x, y, angle, radius, tank_id, health = input().split()
+        id, alive, x, y, angle, radius, tank_id, health = input().split()
         player = Player
-        player.idx = int(idx)
+        player.id = int(id)
         player.alive = bool(int(alive))
         player.position = XY(float(x), float(y))
         player.angle = float(angle)
@@ -83,6 +85,9 @@ class Player:
         player.tank = Tank.get_tank(int(tank_id))
         player.health = float(health)
         return player
+
+    def __eq__(self, other):
+        return self.id == other.id
 
 
 @dataclass
@@ -98,9 +103,9 @@ class MyPlayer(Player):
 
     @classmethod
     def read_myplayer(cls) -> Type["MyPlayer"]:
-        idx, exp, level, levels_left, tank_updates_left, reload_cooldown, lifes_left = input().split()
+        id, exp, level, levels_left, tank_updates_left, reload_cooldown, lifes_left = input().split()
         myplayer = MyPlayer
-        myplayer.idx = int(idx)
+        myplayer.id = int(id)
         myplayer.exp = int(exp)
         myplayer.level = int(level)
         myplayer.levels_left = int(levels_left)
@@ -115,17 +120,11 @@ class MyPlayer(Player):
 class ProbojPlayer:
     def __init__(self):
         self.world: World = World()
-        self._myself: int = 0
+        self.myself: MyPlayer
+        self._myself: int
         self.players: dict[int: Player] = {}
         self.bullets: Set[Bullet] = set()
         self.entities: Set[Entity] = set()
-
-    @property
-    def myself(self) -> Player:
-        """
-        Vráti môjho MyPlayer.
-        """
-        return self.players[self._myself]
 
     @staticmethod
     def log(*args):
@@ -135,14 +134,15 @@ class ProbojPlayer:
         print(*args, file=sys.stderr)
 
     def _read_myself(self):
-        self._myself = MyPlayer.read_myplayer()
+        self.myself = MyPlayer.read_myplayer()
+        self._myself = self.myself.id
 
     def _read_players(self):
         self.players = {}
         n = int(input())
         for i in range(n):
             player = Player.read_player()
-            self.players[player.idx] = player
+            self.players[player.id] = player
 
     def _read_bullets(self):
         self.bullets = set()
