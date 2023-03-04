@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/trojsten/ksp-proboj/libproboj"
 	"math"
+	"math/rand"
 )
 
 type World struct {
@@ -43,4 +44,9 @@ type Position struct {
 
 func (p Position) inReach(p2 Position, distance float32) bool {
 	return math.Pow(float64(p.X-p2.X), 2)+math.Pow(float64(p.Y-p2.Y), 2) < math.Pow(float64(distance), 2)
+}
+
+func (w *World) SpawnPlayer(p *Player) {
+	p.X = rand.Float32()*2*w.Size - w.Size
+	p.Y = rand.Float32()*2*w.Size - w.Size
 }

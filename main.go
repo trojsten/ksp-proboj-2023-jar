@@ -13,11 +13,12 @@ func main() {
 	rand.Seed(seed)
 	runner.Log(fmt.Sprintf("seed %d", seed))
 
-	world := World{Runner: runner, Size: 500, Bullets: []Bullet{}}
+	world := World{Runner: runner, Size: 200, Bullets: []Bullet{}}
 	players, _ := runner.ReadConfig()
 	for i, player := range players {
 		pl := world.NewPlayer(player)
 		pl.Id = i
+		world.SpawnPlayer(&pl)
 		world.Players = append(world.Players, pl)
 	}
 

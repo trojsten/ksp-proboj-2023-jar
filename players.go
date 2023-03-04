@@ -48,7 +48,7 @@ type Stats struct {
 var RangeValues = []float32{1, 2, 3, 4}
 var SpeedValues = []float32{1, 2, 3, 4}
 var BulletSpeedValues = []float32{1, 2, 3, 4}
-var BulletTTLValues = []float32{1, 2, 3, 4}
+var BulletTTLValues = []float32{200, 2, 3, 4}
 var BulletDamageValues = []float32{1, 2, 3, 4}
 var HealthMaxValues = []float32{1, 2, 3, 4}
 var HealthRegenerationValues = []float32{1, 2, 3, 4}

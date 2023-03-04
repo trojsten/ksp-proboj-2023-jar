@@ -28,7 +28,6 @@ const TESTFrame = {
 }
 function renderFrame(frame) {
     for (const player of frame.players) {
-        let wp = null
         if (!player.alive) {
              if (player.id in worldPlayers) {
                  world.removeChild(worldPlayers[player.id])
@@ -37,16 +36,15 @@ function renderFrame(frame) {
             continue
         }
 
-        if (player.id in worldPlayers) {
-            wp = worldPlayers[player.id]
-        } else {
-            wp = newPlayer()
-            worldPlayers[player.id] = wp
-            world.addChild(wp)
+        if (!(player.id in worldPlayers)) {
+            let p = newPlayer()
+            worldPlayers[player.id] = p
+            world.addChild(p)
         }
+        let wp = worldPlayers[player.id]
         wp.x = player.x
         wp.y = -player.y
-        wp.rotation = player.angle * (Math.PI / 180)
+        wp.rotation = player.angle
     }
 
     let currentBullets = new Set()
@@ -60,5 +58,12 @@ function renderFrame(frame) {
         let wb = worldBullets[bullet.id]
         wb.x = bullet.position.x
         wb.y = -bullet.position.y
+    }
+
+    for (const i of Object.keys(worldBullets)) {
+        if (!currentBullets.has(parseInt(i))) {
+            world.removeChild(worldBullets[i])
+            delete worldBullets[i]
+        }
     }
 }
