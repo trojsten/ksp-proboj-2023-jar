@@ -152,6 +152,7 @@ class ProbojPlayer:
         self._read_players()
         self._read_bullets()
         self._read_entities()
+        input()
 
     def _send_turns(self, turn: Turn):
         """
