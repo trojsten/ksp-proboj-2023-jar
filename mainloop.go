@@ -8,6 +8,9 @@ import (
 // Tick executes one game tick
 func (w *World) Tick() {
 	for i, player := range w.Players {
+		if player.Alive == false {
+			continue
+		}
 		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), w.DataForPlayer(player))
 		resp, data := w.Runner.ReadPlayer(player.Name)
 		if resp != libproboj.Ok {

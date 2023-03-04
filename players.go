@@ -8,8 +8,7 @@ import (
 type Stat int
 
 const (
-	StatNone Stat = iota
-	StatRange
+	StatRange Stat = iota
 	StatSpeed
 	StatBulletSpeed
 	StatBulletTTL
@@ -18,6 +17,7 @@ const (
 	StatHealthRegeneration
 	StatBodyDamage
 	StatReloadSpeed
+	StatNone
 )
 
 type StatsValues struct {
