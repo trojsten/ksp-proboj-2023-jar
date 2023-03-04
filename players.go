@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type Stat int
 
@@ -125,6 +128,12 @@ func (p *Player) Tick() {
 		p.Alive = false
 		// TODO ozivovanie?
 	}
+
+	p.Health = float32(
+		math.Min(
+			float64(p.RealStatsValues().HealthMax),
+			float64(p.Health+p.RealStatsValues().HealthRegeneration)),
+	)
 
 	for p.Exp > LevelUpdateExp[p.Level] {
 		p.Level++
