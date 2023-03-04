@@ -47,6 +47,7 @@ func (p Position) inReach(p2 Position, distance float32) bool {
 }
 
 func (w *World) SpawnPlayer(p *Player) {
+	// TODO check, ci nie som blizko niekoho
 	p.X = rand.Float32()*2*w.Size - w.Size
 	p.Y = rand.Float32()*2*w.Size - w.Size
 }

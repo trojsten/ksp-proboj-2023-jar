@@ -71,6 +71,7 @@ type Player struct {
 	Tank            Tank
 	World           *World
 	ReloadCooldown  int
+	LifesLeft       int
 }
 
 func (p *Player) MarshalJSON() ([]byte, error) {
@@ -118,8 +119,10 @@ func (p *Player) RealStatsValues() StatsValues {
 
 func (p *Player) MoveTo(x, y float32) PlayerMovement {
 	var movement = PlayerMovement{p.Position, p}
-	p.X = InRange(x, -p.World.Size, p.World.Size)
-	p.Y = InRange(y, -p.World.Size, p.World.Size)
+	// p.X = InRange(x, -p.World.Size, p.World.Size)
+	// p.Y = InRange(y, -p.World.Size, p.World.Size)
+	p.X = x
+	p.Y = y
 	return movement
 }
 
@@ -149,7 +152,9 @@ func (p *Player) Tick() {
 
 	if p.Health < 0 {
 		p.Alive = false
-		// TODO ozivovanie?
+		if p.LifesLeft > 0 {
+			p.RespawnPlayer()
+		}
 	}
 
 	p.Health = float32(
@@ -165,6 +170,24 @@ func (p *Player) Tick() {
 			p.TankUpdatesLeft++
 		}
 	}
+}
+
+func (p *Player) RespawnPlayer() {
+	p.LifesLeft--
+	p.World.SpawnPlayer(p)
+	p.Tank = BasicTank{}
+	p.Alive = true
+	p.Stats = Stats{}
+	p.Level /= 2
+	p.LevelsLeft = p.Level
+	if p.Level > 0 {
+		p.Exp = LevelUpdateExp[p.Level-1]
+	} else {
+		p.Exp = 0
+	}
+	p.TankUpdatesLeft = p.Level / TankLevelUpdateFreq
+	p.ReloadCooldown = 0
+	p.Health = p.RealStatsValues().HealthMax
 }
 
 func (p *Player) UpdateStat(stat Stat) {

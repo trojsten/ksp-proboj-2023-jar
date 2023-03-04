@@ -92,12 +92,13 @@ class MyPlayer(Player):
     tank_updates_left: int
     levels_left: int
     reload_cooldown: int
+    lifes_left: int
     stat_levels: List[int]
     stat_values: List[float]
 
     @classmethod
     def read_myplayer(cls) -> Type["MyPlayer"]:
-        idx, exp, level, levels_left, tank_updates_left, reload_cooldown = input().split()
+        idx, exp, level, levels_left, tank_updates_left, reload_cooldown, lifes_left = input().split()
         myplayer = MyPlayer
         myplayer.idx = int(idx)
         myplayer.exp = int(exp)
@@ -105,6 +106,7 @@ class MyPlayer(Player):
         myplayer.levels_left = int(levels_left)
         myplayer.tank_updates_left = int(tank_updates_left)
         myplayer.reload_cooldown = int(reload_cooldown)
+        myplayer.lifes_left = int(lifes_left)
         myplayer.stat_levels = Stats.read_stat_levels()
         myplayer.stat_values = Stats.read_stat_values()
         return myplayer

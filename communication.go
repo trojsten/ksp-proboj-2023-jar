@@ -13,13 +13,14 @@ func (w *World) DataForPlayer(player Player) string {
 	data.WriteString(fmt.Sprintf("%f\n", w.Size))
 	// 2 ja
 	data.WriteString(fmt.Sprintf(
-		"%d %d %d %d %d %d\n",
+		"%d %d %d %d %d %d %d\n",
 		player.Id,
 		player.Exp,
 		player.Level,
 		player.LevelsLeft,
 		player.TankUpdatesLeft,
 		player.ReloadCooldown,
+		player.LifesLeft,
 	))
 
 	var stats = player.Stats
