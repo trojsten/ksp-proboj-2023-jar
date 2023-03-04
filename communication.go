@@ -107,7 +107,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	// Limit vx, vy length to speed stat
 	dist := math.Sqrt(math.Pow(float64(vx), 2) + math.Pow(float64(vy), 2))
 	maxSpeed := float64(player.RealStatsValues().Speed)
-	if dist > maxSpeed {
+	if dist > maxSpeed && dist > 1e-10 {
 		vx = float32(float64(vx) / dist * maxSpeed)
 		vy = float32(float64(vy) / dist * maxSpeed)
 	}
