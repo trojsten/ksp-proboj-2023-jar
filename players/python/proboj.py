@@ -96,7 +96,7 @@ class MyPlayer(Player):
         myplayer.tank_updates_left = int(tank_updates_left)
         myplayer.reload_cooldown = int(reload_cooldown)
         myplayer.stat_levels = Stats.read_stat_levels()
-        myplayer.stat_values = Stats.read_stat_levels()
+        myplayer.stat_values = Stats.read_stat_values()
         return myplayer
 
 
