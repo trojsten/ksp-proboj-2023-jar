@@ -8,15 +8,15 @@ import (
 
 type World struct {
 	Runner          libproboj.Runner
-	Players         []Player `json:"players"`
-	PlayerMovements []PlayerMovement
-	Bullets         []Bullet `json:"bullets"`
-	BulletMovements []BulletMovement
-	Entities        []Entity `json:"entities"`
-	EntityMovement  []EntityMovement
-	Size            float32 `json:"size"`
-	TickNumber      int     `json:"tick_number"`
-	BulletNumber    int
+	Players         []Player         `json:"players"`
+	PlayerMovements []PlayerMovement `json:"-"`
+	Bullets         []Bullet         `json:"bullets"`
+	BulletMovements []BulletMovement `json:"-"`
+	Entities        []Entity         `json:"entities"`
+	EntityMovement  []EntityMovement `json:"-"`
+	Size            float32          `json:"size"`
+	TickNumber      int              `json:"tick_number"`
+	BulletNumber    int              `json:"-"`
 }
 
 func aliveInt(alive bool) int {

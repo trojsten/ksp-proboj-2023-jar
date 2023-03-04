@@ -6,11 +6,11 @@ type Bullet struct {
 	Position  `json:"position"`
 	Id        int     `json:"id"`
 	Radius    float32 `json:"radius"`
-	Vx        float32
-	Vy        float32
-	TTL       float32
-	Damage    float32
-	ShooterId int `json:"shooter_id"`
+	Vx        float32 `json:"-"`
+	Vy        float32 `json:"-"`
+	TTL       float32 `json:"-"`
+	Damage    float32 `json:"-"`
+	ShooterId int     `json:"shooter_id"`
 }
 
 // Tick moves the given bullet and returns whether it's entity should be removed

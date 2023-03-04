@@ -3,8 +3,8 @@ package main
 import "math/rand"
 
 type Entity struct {
-	Position
-	Radius float32
+	Position `json:"position"`
+	Radius   float32 `json:"radius"`
 }
 
 func (w *World) NewEntity() Entity {

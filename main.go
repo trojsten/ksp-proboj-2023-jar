@@ -30,11 +30,12 @@ func main() {
 		world.Tick()
 		// TODO constants
 		if world.TickNumber > 50 {
-			world.Size *= 0.95
+			world.Size *= 0.99
 		}
 
 		if rand.Float32() < EntitySpawnProb {
 			world.SpawnEntity()
 		}
+		world.TickNumber++
 	}
 }
