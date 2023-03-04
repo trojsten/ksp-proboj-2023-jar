@@ -12,11 +12,19 @@ func (w *World) DataForPlayer(player Player) string {
 	// 1 svet
 	data.WriteString(fmt.Sprintf("%f\n", w.Size))
 	// 2 ja
-	data.WriteString(fmt.Sprintf("%d %d %d %d ", player.Id, player.Exp, player.Level, player.LevelsLeft))
+	data.WriteString(fmt.Sprintf(
+		"%d %d %d %d %d %d\n",
+		player.Id,
+		player.Exp,
+		player.Level,
+		player.LevelsLeft,
+		player.TankUpdatesLeft,
+		player.ReloadCooldown,
+	))
 
 	var stats = player.Stats
 	data.WriteString(fmt.Sprintf(
-		"%d %d %d %d %d %d %d %d %d ",
+		"%d %d %d %d %d %d %d %d %d\n",
 		stats.Range,
 		stats.Speed,
 		stats.BulletSpeed,
@@ -44,9 +52,19 @@ func (w *World) DataForPlayer(player Player) string {
 
 	// 3 players
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Players)))
-	for _, p := range w.Players {
+	for i, p := range w.Players {
 		if p.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf("%d %f %f %f %f %d %f\n", aliveInt(p.Alive), p.X, p.Y, p.Angle, p.Tank.Radius(), p.Tank.TankId(), p.Health))
+			data.WriteString(fmt.Sprintf(
+				"%d %d %f %f %f %f %d %f\n",
+				i,
+				aliveInt(p.Alive),
+				p.X,
+				p.Y,
+				p.Angle,
+				p.Tank.Radius(),
+				p.Tank.TankId(),
+				p.Health,
+			))
 		}
 	}
 
@@ -54,7 +72,16 @@ func (w *World) DataForPlayer(player Player) string {
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Bullets)))
 	for _, b := range w.Bullets {
 		if b.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf("%f %f %f %f %d %f %f\n", b.X, b.Y, b.Vx, b.Vy, b.ShooterId, b.TTL, b.Damage))
+			data.WriteString(fmt.Sprintf(
+				"%f %f %f %f %d %f %f\n",
+				b.X,
+				b.Y,
+				b.Vx,
+				b.Vy,
+				b.ShooterId,
+				b.TTL,
+				b.Damage,
+			))
 		}
 	}
 
@@ -74,7 +101,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	var vx, vy, angle float32
 	var shoot, newTankId int
 	var stat Stat
-	_, err := fmt.Sscanf(response, "%f %f %f %d %d %d", vx, vy, angle, shoot, stat, newTankId)
+	_, err := fmt.Sscanf(response, "%f %f %f %d %d %d", &vx, &vy, &angle, &shoot, &stat, &newTankId)
 	if err != nil {
 		return fmt.Errorf("sscanf failed: %w", err)
 	}
@@ -93,7 +120,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		player.Fire()
 	}
 
-	if stat < StatNone || stat > StatReloadSpeed {
+	if stat < StatRange || stat > StatNone {
 		return fmt.Errorf("unknown stat to upgrade: %d", stat)
 	}
 	if stat != StatNone {

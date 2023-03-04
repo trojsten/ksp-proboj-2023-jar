@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/trojsten/ksp-proboj/libproboj"
 )
@@ -8,6 +9,9 @@ import (
 // Tick executes one game tick
 func (w *World) Tick() {
 	for i, player := range w.Players {
+		if player.Alive == false {
+			continue
+		}
 		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), w.DataForPlayer(player))
 		resp, data := w.Runner.ReadPlayer(player.Name)
 		if resp != libproboj.Ok {
@@ -23,7 +27,7 @@ func (w *World) Tick() {
 	}
 
 	// Bullet time!
-	var bullets []Bullet
+	bullets := []Bullet{}
 	for i := range w.Bullets {
 		bullet := &w.Bullets[i]
 		var success, bulletMovement = bullet.Tick(w)
@@ -80,4 +84,10 @@ func (w *World) Tick() {
 	w.PlayerMovements = nil
 	w.BulletMovements = nil
 	w.EntityMovement = nil
+
+	data, err := json.Marshal(w)
+	if err != nil {
+		w.Runner.Log(fmt.Sprintf("could not marshal data for observer: %s", err.Error()))
+	}
+	w.Runner.ToObserver(string(data))
 }
