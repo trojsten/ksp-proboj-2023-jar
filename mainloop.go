@@ -81,6 +81,16 @@ func (w *World) Tick() {
 		}
 	}
 
+	// despawn small entities
+	entities := []Entity{}
+	for i := range w.Entities {
+		entity := &w.Entities[i]
+		if entity.Radius > EntityDespawnRadius {
+			entities = append(entities, *entity)
+		}
+	}
+	w.Entities = entities
+
 	w.PlayerMovements = nil
 	w.BulletMovements = nil
 	w.EntityMovement = nil
