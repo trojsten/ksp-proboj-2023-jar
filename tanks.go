@@ -6,13 +6,14 @@ type Tank interface {
 	Radius() float32
 	TankLevel() int
 	TankId() int
+	UpdatableTo() []Tank
 }
 
 type BasicTank struct {
 }
 
 func (b BasicTank) Fire(player *Player) {
-	NewBullet(player.World, *player, player.Angle)
+	NewBullet(player.World, *player, player.Angle, 5) //TODO constant
 }
 
 func (b BasicTank) StatsValues() StatsValues {
@@ -29,4 +30,17 @@ func (b BasicTank) TankLevel() int {
 
 func (b BasicTank) TankId() int {
 	return 0
+}
+
+func (b BasicTank) UpdatableTo() []Tank {
+	return nil
+}
+
+func CanUpdateTank(t Tank, newTankId int) (bool, Tank) {
+	for _, tank := range t.UpdatableTo() {
+		if tank.TankId() == newTankId {
+			return true, tank
+		}
+	}
+	return false, nil
 }

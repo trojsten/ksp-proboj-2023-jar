@@ -9,10 +9,10 @@ import (
 // DataForPlayer generates data that will get sent to a player
 func (w *World) DataForPlayer(player Player) string {
 	var data strings.Builder
-	// 1
+	// 1 svet
 	data.WriteString(fmt.Sprintf("%f\n", w.Size))
-	// 2
-	data.WriteString(fmt.Sprintf("%d %d %d ", player.Id, player.Exp, player.Level))
+	// 2 ja
+	data.WriteString(fmt.Sprintf("%d %d %d %d ", player.Id, player.Exp, player.Level, player.LevelsLeft))
 
 	var stats = player.Stats
 	data.WriteString(fmt.Sprintf(
@@ -30,7 +30,7 @@ func (w *World) DataForPlayer(player Player) string {
 
 	var statsValues = player.RealStatsValues()
 	data.WriteString(fmt.Sprintf(
-		"%f %f %f %f %f %f %f %f %f\n",
+		"%f %f %f %f %f %f %f %f %d\n",
 		statsValues.Range,
 		statsValues.Speed,
 		statsValues.BulletSpeed,
@@ -42,23 +42,23 @@ func (w *World) DataForPlayer(player Player) string {
 		statsValues.ReloadSpeed,
 	))
 
-	// 3
+	// 3 players
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Players)))
 	for _, p := range w.Players {
 		if p.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf("%d %f %f %f %f %d %d\n", aliveInt(p.Alive), p.X, p.Y, p.Angle, p.Tank.Radius(), p.Tank.TankId(), p.Health))
+			data.WriteString(fmt.Sprintf("%d %f %f %f %f %d %f\n", aliveInt(p.Alive), p.X, p.Y, p.Angle, p.Tank.Radius(), p.Tank.TankId(), p.Health))
 		}
 	}
 
-	// 4
+	// 4 bullets
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Bullets)))
 	for _, b := range w.Bullets {
 		if b.inReach(player.Position, player.RealStatsValues().Range) {
-			data.WriteString(fmt.Sprintf("%f %f %f %f %d %d %d\n", b.X, b.Y, b.Vx, b.Vy, b.ShooterId, b.TTL, b.Damage))
+			data.WriteString(fmt.Sprintf("%f %f %f %f %d %f %f\n", b.X, b.Y, b.Vx, b.Vy, b.ShooterId, b.TTL, b.Damage))
 		}
 	}
 
-	// 5
+	// 5 entities
 	data.WriteString(fmt.Sprintf("%d\n", len(w.Entities)))
 	for _, e := range w.Entities {
 		if e.inReach(player.Position, player.RealStatsValues().Range) {
@@ -86,8 +86,8 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		vx = float32(float64(vx) / dist * maxSpeed)
 		vy = float32(float64(vy) / dist * maxSpeed)
 	}
-	player.MoveTo(player.X+vx, player.Y+vy)
-	player.Angle = angle // TODO: limit rotation?
+	w.PlayerMovements = append(w.PlayerMovements, player.MoveTo(player.X+vx, player.Y+vy))
+	player.Angle = angle
 
 	if shoot == 1 {
 		player.Fire()
@@ -97,11 +97,14 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		return fmt.Errorf("unknown stat to upgrade: %d", stat)
 	}
 	if stat != StatNone {
-		// TODO: upgrade the given stat
+		player.UpdateStat(stat)
 	}
 
 	if newTankId != player.Tank.TankId() {
-		// TODO: upgrade tank
+		var b, tank = CanUpdateTank(player.Tank, newTankId)
+		if b {
+			player.UpdateTank(tank)
+		}
 	}
 
 	return nil
