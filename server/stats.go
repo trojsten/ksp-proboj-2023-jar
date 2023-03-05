@@ -33,6 +33,10 @@ type Stats struct {
 }
 
 func (p *Player) UpgradeStat(stat Stat) error {
+	if !stat.IsValid() {
+		return fmt.Errorf("unknown stat %d", stat)
+	}
+
 	if stat == StatNone {
 		return fmt.Errorf("no stat to upgrade")
 	}
