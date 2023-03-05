@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"math"
 )
 
 type Stat int
@@ -157,11 +156,7 @@ func (p *Player) Tick() {
 		}
 	}
 
-	p.Health = float32(
-		math.Min(
-			float64(p.RealStatsValues().HealthMax),
-			float64(p.Health+p.RealStatsValues().HealthRegeneration)),
-	)
+	p.Health = Min(p.RealStatsValues().HealthMax, p.Health+p.RealStatsValues().HealthRegeneration)
 
 	for p.Level < len(LevelUpdateExp) && p.Exp > LevelUpdateExp[p.Level] {
 		p.Level++
@@ -291,6 +286,6 @@ type PlayerMovement struct {
 	Player      *Player
 }
 
-func (pm *PlayerMovement) speed() float32 {
+func (pm PlayerMovement) speed() float32 {
 	return pm.OldPosition.Distance(pm.Player.Position)
 }
