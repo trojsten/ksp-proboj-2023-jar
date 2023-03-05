@@ -67,9 +67,8 @@ class XY:
         d = A - B
         return d.x * d.x + d.y * d.y
 
-    @staticmethod
-    def distance(A, B):
-        return math.sqrt(XY.squared_distace(A, B))
+    def distance(self, B):
+        return math.sqrt(XY.squared_distace(self, B))
 
     def __hash__(self):
         return hash((self.x, self.y))

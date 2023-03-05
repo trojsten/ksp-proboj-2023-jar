@@ -13,7 +13,7 @@ func main() {
 	rand.Seed(seed)
 	runner.Log(fmt.Sprintf("seed %d", seed))
 
-	world := World{Runner: runner, Size: 200, Bullets: []Bullet{}}
+	world := World{Runner: runner, Size: MapSize, Bullets: []Bullet{}}
 	players, _ := runner.ReadConfig()
 	for i, player := range players {
 		pl := world.NewPlayer(player)
@@ -28,9 +28,9 @@ func main() {
 
 	for world.Running() {
 		world.Tick()
-		// TODO constants
-		if world.TickNumber > 50 {
-			world.Size *= 0.99
+		// TODO constants and min world size
+		if world.TickNumber > ShrinkWorldAfter {
+			world.Size *= WorldSizeShrink
 		}
 
 		if rand.Float32() < EntitySpawnProb {

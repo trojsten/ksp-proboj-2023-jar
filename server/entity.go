@@ -8,5 +8,5 @@ type Entity struct {
 }
 
 func (w *World) NewEntity() Entity {
-	return Entity{Radius: rand.Float32() * MaxEntityRadius}
+	return Entity{Radius: rand.Float32() * MaxEntityRadius+MinEntityRadius}
 }

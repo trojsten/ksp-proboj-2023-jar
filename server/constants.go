@@ -1,16 +1,20 @@
 package main
 
+const MapSize = 1000
 const TankLevelUpdateFreq = 10
-const PlayerEntityCollisionHealth = 1
-const PlayerOutOfWorldHealth = 1
-const PlayerPlayerCollisionHealth = 1
+const PlayerEntityCollisionHealth = 10
+const PlayerOutOfWorldHealth = 15
+const PlayerPlayerCollisionHealth = 100
 const EntityHitExpCoefficient = 0.3
 const EntityDespawnRadius = 0.5
 const PlayerHitExpCoefficient = 0.5
 const BulletCollisionTTL = 1
-const BulletEntityCollisionRadiusCoefficient = 0.5
+const BulletEntityCollisionRadiusCoefficient = 3
 const MaxRespawn = 3
 const EntitiesInitSpawnNumber = 20
 const EntitySpawnProb = 0.1
-const MaxEntityRadius = 30
+const MaxEntityRadius = 10 // not really, this is only diff
+const MinEntityRadius = 20
 const FractionOfPlayerSpeedToBullet = 0.95
+const WorldSizeShrink = 0.99
+const ShrinkWorldAfter = 5000
