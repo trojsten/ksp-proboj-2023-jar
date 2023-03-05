@@ -3,58 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"math"
 )
-
-type Stat int
-
-const (
-	StatRange Stat = iota
-	StatSpeed
-	StatBulletSpeed
-	StatBulletTTL
-	StatBulletDamage
-	StatHealthMax
-	StatHealthRegeneration
-	StatBodyDamage
-	StatReloadSpeed
-	StatNone
-)
-
-type StatsValues struct {
-	Range              float32
-	Speed              float32
-	BulletSpeed        float32
-	BulletTTL          float32
-	BulletDamage       float32
-	HealthMax          float32
-	HealthRegeneration float32
-	BodyDamage         float32
-	ReloadSpeed        int
-}
-
-type Stats struct {
-	Range              int
-	Speed              int
-	BulletSpeed        int
-	BulletTTL          int
-	BulletDamage       int
-	HealthMax          int
-	HealthRegeneration int
-	BodyDamage         int
-	ReloadSpeed        int
-}
-
-var RangeValues = []float32{1, 2, 3, 4}
-var SpeedValues = []float32{1, 2, 3, 4}
-var BulletSpeedValues = []float32{1, 2, 3, 4}
-var BulletTTLValues = []float32{200, 2, 3, 4}
-var BulletDamageValues = []float32{1, 2, 3, 4}
-var HealthMaxValues = []float32{1, 2, 3, 4}
-var HealthRegenerationValues = []float32{1, 2, 3, 4}
-var BodyDamageValues = []float32{1, 2, 3, 4}
-var ReloadSpeedValues = []int{1, 2, 3, 4}
-var LevelUpdateExp = []int{5, 10, 20, 40}
 
 type Player struct {
 	Position
@@ -157,11 +106,7 @@ func (p *Player) Tick() {
 		}
 	}
 
-	p.Health = float32(
-		math.Min(
-			float64(p.RealStatsValues().HealthMax),
-			float64(p.Health+p.RealStatsValues().HealthRegeneration)),
-	)
+	p.Health = Min(p.RealStatsValues().HealthMax, p.Health+p.RealStatsValues().HealthRegeneration)
 
 	for p.Level < len(LevelUpdateExp) && p.Exp > LevelUpdateExp[p.Level] {
 		p.Level++
@@ -190,65 +135,6 @@ func (p *Player) RespawnPlayer() {
 	p.Health = p.RealStatsValues().HealthMax
 }
 
-func (p *Player) UpdateStat(stat Stat) {
-	switch stat {
-	case StatRange:
-		if p.LevelsLeft > 0 && len(RangeValues) > p.Stats.Range {
-			p.Stats.Range++
-			p.LevelsLeft--
-		}
-		break
-	case StatSpeed:
-		if p.LevelsLeft > 0 && len(SpeedValues) > p.Stats.Speed {
-			p.Stats.Speed++
-			p.LevelsLeft--
-		}
-		break
-	case StatBulletSpeed:
-		if p.LevelsLeft > 0 && len(BulletSpeedValues) > p.Stats.BulletSpeed {
-			p.Stats.BulletSpeed++
-			p.LevelsLeft--
-		}
-		break
-	case StatBulletTTL:
-		if p.LevelsLeft > 0 && len(BulletTTLValues) > p.Stats.BulletTTL {
-			p.Stats.BulletTTL++
-			p.LevelsLeft--
-		}
-		break
-	case StatBulletDamage:
-		if p.LevelsLeft > 0 && len(BulletDamageValues) > p.Stats.BulletDamage {
-			p.Stats.BulletDamage++
-			p.LevelsLeft--
-		}
-		break
-	case StatHealthMax:
-		if p.LevelsLeft > 0 && len(HealthMaxValues) > p.Stats.HealthMax {
-			p.Stats.HealthMax++
-			p.LevelsLeft--
-		}
-		break
-	case StatHealthRegeneration:
-		if p.LevelsLeft > 0 && len(HealthRegenerationValues) > p.Stats.HealthRegeneration {
-			p.Stats.HealthRegeneration++
-			p.LevelsLeft--
-		}
-		break
-	case StatBodyDamage:
-		if p.LevelsLeft > 0 && len(BodyDamageValues) > p.Stats.BodyDamage {
-			p.Stats.BodyDamage++
-			p.LevelsLeft--
-		}
-		break
-	case StatReloadSpeed:
-		if p.LevelsLeft > 0 && len(ReloadSpeedValues) > p.Stats.ReloadSpeed {
-			p.Stats.ReloadSpeed++
-			p.LevelsLeft--
-		}
-		break
-	}
-}
-
 func (p *Player) UpdateTank(newTank Tank) {
 	if p.TankUpdatesLeft > 0 {
 		p.Tank = newTank
@@ -258,9 +144,9 @@ func (p *Player) UpdateTank(newTank Tank) {
 
 func (p *Player) ReachablePlayers() []Player {
 	var res []Player
-	for _, player := range p.World.Players {
-		if p.inReach(player.Position, p.RealStatsValues().Range) {
-			res = append(res, player)
+	for _, player := range p.World.AlivePlayers() {
+		if p.Reachable(player.Position, p.RealStatsValues().Range) {
+			res = append(res, *player)
 		}
 	}
 	return res
@@ -269,7 +155,7 @@ func (p *Player) ReachablePlayers() []Player {
 func (p *Player) ReachableEntities() []Entity {
 	var res []Entity
 	for _, entity := range p.World.Entities {
-		if p.inReach(entity.Position, p.RealStatsValues().Range) {
+		if p.Reachable(entity.Position, p.RealStatsValues().Range) {
 			res = append(res, entity)
 		}
 	}
@@ -279,7 +165,7 @@ func (p *Player) ReachableEntities() []Entity {
 func (p *Player) ReachableBullets() []Bullet {
 	var res []Bullet
 	for _, bullet := range p.World.Bullets {
-		if p.inReach(bullet.Position, p.RealStatsValues().Range) {
+		if p.Reachable(bullet.Position, p.RealStatsValues().Range) {
 			res = append(res, bullet)
 		}
 	}
@@ -291,6 +177,6 @@ type PlayerMovement struct {
 	Player      *Player
 }
 
-func (pm *PlayerMovement) speed() float32 {
-	return Distance(pm.OldPosition, pm.Player.Position)
+func (pm PlayerMovement) speed() float32 {
+	return pm.OldPosition.Distance(pm.Player.Position)
 }

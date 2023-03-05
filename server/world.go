@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/trojsten/ksp-proboj/libproboj"
-	"math"
 	"math/rand"
 )
 
@@ -36,15 +35,6 @@ func (w *World) Running() bool {
 	return alivePlayers >= 2
 }
 
-type Position struct {
-	X float32 `json:"x"`
-	Y float32 `json:"y"`
-}
-
-func (p Position) inReach(p2 Position, distance float32) bool {
-	return math.Pow(float64(p.X-p2.X), 2)+math.Pow(float64(p.Y-p2.Y), 2) < math.Pow(float64(distance), 2)
-}
-
 func (w *World) SpawnObject(p *Position) {
 	// TODO check, ci nie som blizko niekoho
 	p.X = rand.Float32()*2*w.Size - w.Size
@@ -55,4 +45,14 @@ func (w *World) SpawnEntity() {
 	var entity = w.NewEntity()
 	w.SpawnObject(&entity.Position)
 	w.Entities = append(w.Entities, entity)
+}
+
+// AlivePlayers returns a list of currently alive players
+func (w *World) AlivePlayers() (players []*Player) {
+	for i, player := range w.Players {
+		if player.Alive {
+			players = append(players, &w.Players[i])
+		}
+	}
+	return
 }
