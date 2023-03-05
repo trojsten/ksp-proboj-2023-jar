@@ -5,56 +5,6 @@ import (
 	"fmt"
 )
 
-type Stat int
-
-const (
-	StatRange Stat = iota
-	StatSpeed
-	StatBulletSpeed
-	StatBulletTTL
-	StatBulletDamage
-	StatHealthMax
-	StatHealthRegeneration
-	StatBodyDamage
-	StatReloadSpeed
-	StatNone
-)
-
-type StatsValues struct {
-	Range              float32
-	Speed              float32
-	BulletSpeed        float32
-	BulletTTL          float32
-	BulletDamage       float32
-	HealthMax          float32
-	HealthRegeneration float32
-	BodyDamage         float32
-	ReloadSpeed        int
-}
-
-type Stats struct {
-	Range              int
-	Speed              int
-	BulletSpeed        int
-	BulletTTL          int
-	BulletDamage       int
-	HealthMax          int
-	HealthRegeneration int
-	BodyDamage         int
-	ReloadSpeed        int
-}
-
-var RangeValues = []float32{1, 2, 3, 4}
-var SpeedValues = []float32{1, 2, 3, 4}
-var BulletSpeedValues = []float32{1, 2, 3, 4}
-var BulletTTLValues = []float32{200, 2, 3, 4}
-var BulletDamageValues = []float32{1, 2, 3, 4}
-var HealthMaxValues = []float32{1, 2, 3, 4}
-var HealthRegenerationValues = []float32{1, 2, 3, 4}
-var BodyDamageValues = []float32{1, 2, 3, 4}
-var ReloadSpeedValues = []int{1, 2, 3, 4}
-var LevelUpdateExp = []int{5, 10, 20, 40}
-
 type Player struct {
 	Position
 	Id              int
@@ -183,65 +133,6 @@ func (p *Player) RespawnPlayer() {
 	p.TankUpdatesLeft = p.Level / TankLevelUpdateFreq
 	p.ReloadCooldown = 0
 	p.Health = p.RealStatsValues().HealthMax
-}
-
-func (p *Player) UpdateStat(stat Stat) {
-	switch stat {
-	case StatRange:
-		if p.LevelsLeft > 0 && len(RangeValues) > p.Stats.Range {
-			p.Stats.Range++
-			p.LevelsLeft--
-		}
-		break
-	case StatSpeed:
-		if p.LevelsLeft > 0 && len(SpeedValues) > p.Stats.Speed {
-			p.Stats.Speed++
-			p.LevelsLeft--
-		}
-		break
-	case StatBulletSpeed:
-		if p.LevelsLeft > 0 && len(BulletSpeedValues) > p.Stats.BulletSpeed {
-			p.Stats.BulletSpeed++
-			p.LevelsLeft--
-		}
-		break
-	case StatBulletTTL:
-		if p.LevelsLeft > 0 && len(BulletTTLValues) > p.Stats.BulletTTL {
-			p.Stats.BulletTTL++
-			p.LevelsLeft--
-		}
-		break
-	case StatBulletDamage:
-		if p.LevelsLeft > 0 && len(BulletDamageValues) > p.Stats.BulletDamage {
-			p.Stats.BulletDamage++
-			p.LevelsLeft--
-		}
-		break
-	case StatHealthMax:
-		if p.LevelsLeft > 0 && len(HealthMaxValues) > p.Stats.HealthMax {
-			p.Stats.HealthMax++
-			p.LevelsLeft--
-		}
-		break
-	case StatHealthRegeneration:
-		if p.LevelsLeft > 0 && len(HealthRegenerationValues) > p.Stats.HealthRegeneration {
-			p.Stats.HealthRegeneration++
-			p.LevelsLeft--
-		}
-		break
-	case StatBodyDamage:
-		if p.LevelsLeft > 0 && len(BodyDamageValues) > p.Stats.BodyDamage {
-			p.Stats.BodyDamage++
-			p.LevelsLeft--
-		}
-		break
-	case StatReloadSpeed:
-		if p.LevelsLeft > 0 && len(ReloadSpeedValues) > p.Stats.ReloadSpeed {
-			p.Stats.ReloadSpeed++
-			p.LevelsLeft--
-		}
-		break
-	}
 }
 
 func (p *Player) UpdateTank(newTank Tank) {

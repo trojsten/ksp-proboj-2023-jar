@@ -115,15 +115,21 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	w.PlayerMovements = append(w.PlayerMovements, playerMovement)
 	player.Angle = angle
 
+	// Shoot
 	if shoot == 1 {
 		player.Fire(playerMovement)
 	}
 
-	if stat < StatRange || stat > StatNone {
-		return fmt.Errorf("unknown stat to upgrade: %d", stat)
-	}
-	if stat != StatNone {
-		player.UpdateStat(stat)
+	// Upgrade stats
+	if stat.IsValid() {
+		if stat != StatNone {
+			err := player.UpgradeStat(stat)
+			if err != nil {
+				w.Runner.Log(fmt.Sprintf("(%s) ignoring stat upgrade: %s", player.Name, err.Error()))
+			}
+		}
+	} else {
+		w.Runner.Log(fmt.Sprintf("(%s) ignoring stat upgrade: unknown stat %d", player.Name, stat))
 	}
 
 	if newTankId != player.Tank.TankId() {
