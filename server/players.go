@@ -144,9 +144,9 @@ func (p *Player) UpdateTank(newTank Tank) {
 
 func (p *Player) ReachablePlayers() []Player {
 	var res []Player
-	for _, player := range p.World.Players {
+	for _, player := range p.World.AlivePlayers() {
 		if p.Reachable(player.Position, p.RealStatsValues().Range) {
-			res = append(res, player)
+			res = append(res, *player)
 		}
 	}
 	return res
