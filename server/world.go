@@ -46,3 +46,13 @@ func (w *World) SpawnEntity() {
 	w.SpawnObject(&entity.Position)
 	w.Entities = append(w.Entities, entity)
 }
+
+// AlivePlayers returns a list of currently alive players
+func (w *World) AlivePlayers() (players []*Player) {
+	for i, player := range w.Players {
+		if player.Alive {
+			players = append(players, &w.Players[i])
+		}
+	}
+	return
+}

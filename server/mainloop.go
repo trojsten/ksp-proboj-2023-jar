@@ -4,88 +4,96 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/trojsten/ksp-proboj/libproboj"
+	"time"
 )
 
 // Tick executes one game tick
 func (w *World) Tick() {
-	for i, player := range w.Players {
-		if player.Alive == false {
-			continue
-		}
-		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), w.DataForPlayer(player))
+	w.PlayerMovements = nil
+	w.BulletMovements = nil
+	communicate(w)
+
+	tickBullets(w)
+	tickPlayers(w)
+
+	// Collisions
+	collisionsPlayerEntity(w)
+	collisionsPlayerBullet(w)
+	collisionsPlayerPlayer(w)
+	collisionsEntityBullet(w)
+	despawnEntities(w)
+
+	observe(w)
+}
+
+type playerTurn struct {
+	player *Player
+	data   string
+}
+
+// communicate sends data to players and parse their responses
+func communicate(w *World) {
+	var turns []playerTurn
+
+	// Firstly, send data to players and read their turns
+	for _, player := range w.AlivePlayers() {
+		sendData := w.DataForPlayer(*player)
+		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), sendData)
+
+		start := time.Now()
 		resp, data := w.Runner.ReadPlayer(player.Name)
+		end := time.Now()
 		if resp != libproboj.Ok {
-			w.Runner.Log(fmt.Sprintf("bad response while reading player %s: %d", player.Name, resp))
+			w.Runner.Log(fmt.Sprintf("proboj error while reading from %s: %d", player.Name, resp))
+			// TODO: kill player?
 			continue
 		}
-		w.Runner.Log(data)
-		err := w.ParseResponse(data, &w.Players[i])
+		w.Runner.Log(fmt.Sprintf("player %s responded in %d ms", player.Name, end.Sub(start).Milliseconds()))
+
+		turns = append(turns, playerTurn{player, data})
+	}
+
+	// Then, execute their turns
+	for _, turn := range turns {
+		err := w.ParseResponse(turn.data, turn.player)
 		if err != nil {
-			w.Runner.Log(fmt.Sprintf("error while parsing response from %s: %s", player.Name, err.Error()))
+			w.Runner.Log(fmt.Sprintf("parsing error while parsing response from %s: %s", turn.player.Name, err.Error()))
 			continue
 		}
 	}
+}
 
-	// Bullet time!
+// observe sends the current world state to the observer
+func observe(w *World) {
+	data, err := json.Marshal(w)
+	if err != nil {
+		w.Runner.Log(fmt.Sprintf("could not marshal data for observer: %s", err.Error()))
+	}
+	w.Runner.ToObserver(string(data))
+}
+
+// tickBullets moves all bullets in the game by one tick
+func tickBullets(w *World) {
 	bullets := []Bullet{}
 	for i := range w.Bullets {
 		bullet := &w.Bullets[i]
-		var success, bulletMovement = bullet.Tick(w)
-		if success {
+		if success, bulletMovement := bullet.Tick(); success {
 			bullets = append(bullets, *bullet)
 			w.BulletMovements = append(w.BulletMovements, bulletMovement)
 		}
 	}
 	w.Bullets = bullets
+}
 
-	// Update players
-	for i := range w.Players {
-		w.Players[i].Tick()
+// tickPlayers ticks all alive players
+func tickPlayers(w *World) {
+	for _, player := range w.AlivePlayers() {
+		player.Tick()
 	}
+}
 
-	for i, playerMovement := range w.PlayerMovements {
-		playerSegment := Segment{playerMovement.OldPosition, playerMovement.Player.Position}
-
-		for j, entity := range w.Entities {
-			entitySegment := Segment{entity.Position, entity.Position}
-			if Collides(playerSegment, playerMovement.Player.Tank.Radius(), entitySegment, entity.Radius) {
-				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Entity (%f %f) intersects\n", playerMovement.Player.Id, entity.X, entity.Y))
-				playerMovement.Player.Health -= PlayerEntityCollisionHealth
-				w.Entities[j].Radius -= MaxEntityRadius / 10
-			}
-		}
-		for _, bulletMovement := range w.BulletMovements {
-			bulletSegment := Segment{bulletMovement.OldPosition, bulletMovement.Bullet.Position}
-			if bulletMovement.Bullet.ShooterId != i && Collides(playerSegment, playerMovement.Player.Tank.Radius(), bulletSegment, bulletMovement.Bullet.Radius) {
-				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Bullet (%f %f) intersects\n", playerMovement.Player.Id, bulletMovement.Bullet.X, bulletMovement.Bullet.Y))
-				w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * PlayerHitExpCoefficient)
-				bulletMovement.Bullet.TTL -= BulletCollisionTTL
-				playerMovement.Player.Health -= bulletMovement.Bullet.Damage
-			}
-		}
-		for j, playerMovement2 := range w.PlayerMovements {
-			player2Segment := Segment{playerMovement2.OldPosition, playerMovement2.Player.Position}
-			if i != j && Collides(playerSegment, playerMovement.Player.Tank.Radius(), player2Segment, playerMovement2.Player.Tank.Radius()) {
-				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Player (id: %d) intersects\n", playerMovement.Player.Id, playerMovement2.Player.Id))
-				playerMovement.Player.Health -= PlayerPlayerCollisionHealth
-			}
-		}
-	}
-
-	for _, bulletMovement := range w.BulletMovements {
-		bulletSegment := Segment{bulletMovement.OldPosition, bulletMovement.Bullet.Position}
-		for e, entity := range w.Entities {
-			entitySegment := Segment{entity.Position, entity.Position}
-			if Collides(bulletSegment, bulletMovement.Bullet.Radius, entitySegment, entity.Radius) {
-				w.Runner.Log(fmt.Sprintf("Bullet (%f %f) and Entity (%f %f) intersects\n", bulletMovement.Bullet.X, bulletMovement.Bullet.Y, entity.X, entity.Y))
-				w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient)
-				bulletMovement.Bullet.TTL -= BulletCollisionTTL
-				w.Entities[e].Radius -= bulletMovement.Bullet.Damage * BulletEntityCollisionRadiusCoefficient
-			}
-		}
-	}
-
-	// despawn small entities
+// despawnEntities despawns entities that are too small
+func despawnEntities(w *World) {
 	entities := []Entity{}
 	for i := range w.Entities {
 		entity := &w.Entities[i]
@@ -94,13 +102,4 @@ func (w *World) Tick() {
 		}
 	}
 	w.Entities = entities
-
-	w.PlayerMovements = nil
-	w.BulletMovements = nil
-
-	data, err := json.Marshal(w)
-	if err != nil {
-		w.Runner.Log(fmt.Sprintf("could not marshal data for observer: %s", err.Error()))
-	}
-	w.Runner.ToObserver(string(data))
 }
