@@ -50,63 +50,63 @@ func (p *Player) UpgradeStat(stat Stat) error {
 		if len(RangeValues)-1 > p.Stats.Range {
 			p.Stats.Range++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'Range' is already at the highest level")
 		}
 		break
 	case StatSpeed:
 		if len(SpeedValues)-1 > p.Stats.Speed {
 			p.Stats.Speed++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'Speed' is already at the highest level")
 		}
 		break
 	case StatBulletSpeed:
 		if len(BulletSpeedValues)-1 > p.Stats.BulletSpeed {
 			p.Stats.BulletSpeed++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'BulletSpeed' is already at the highest level")
 		}
 		break
 	case StatBulletTTL:
 		if len(BulletTTLValues)-1 > p.Stats.BulletTTL {
 			p.Stats.BulletTTL++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'BulletTTL' is already at the highest level")
 		}
 		break
 	case StatBulletDamage:
 		if len(BulletDamageValues)-1 > p.Stats.BulletDamage {
 			p.Stats.BulletDamage++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'BulletDamage' is already at the highest level")
 		}
 		break
 	case StatHealthMax:
 		if len(HealthMaxValues)-1 > p.Stats.HealthMax {
 			p.Stats.HealthMax++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'HealthMax' is already at the highest level")
 		}
 		break
 	case StatHealthRegeneration:
 		if len(HealthRegenerationValues)-1 > p.Stats.HealthRegeneration {
 			p.Stats.HealthRegeneration++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'HealthRegeneration' is already at the highest level")
 		}
 		break
 	case StatBodyDamage:
 		if len(BodyDamageValues)-1 > p.Stats.BodyDamage {
 			p.Stats.BodyDamage++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'BodyDamage' is already at the highest level")
 		}
 		break
 	case StatReloadSpeed:
 		if len(ReloadSpeedValues)-1 > p.Stats.ReloadSpeed {
 			p.Stats.ReloadSpeed++
 		} else {
-			return fmt.Errorf("the stat is already at the highest level")
+			return fmt.Errorf("the stat 'ReloadSpeed' is already at the highest level")
 		}
 		break
 	}
