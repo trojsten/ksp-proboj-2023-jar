@@ -44,17 +44,19 @@ func (w *World) Tick() {
 	}
 
 	for i, playerMovement := range w.PlayerMovements {
+		playerSegment := Segment{playerMovement.OldPosition, playerMovement.Player.Position}
+
 		for j, entity := range w.Entities {
-			if intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
-				entity.Position, entity.Position, entity.Radius) {
+			entitySegment := Segment{entity.Position, entity.Position}
+			if Collides(playerSegment, playerMovement.Player.Tank.Radius(), entitySegment, entity.Radius) {
 				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Entity (%f %f) intersects\n", playerMovement.Player.Id, entity.X, entity.Y))
 				playerMovement.Player.Health -= PlayerEntityCollisionHealth
 				w.Entities[j].Radius -= MaxEntityRadius / 10
 			}
 		}
 		for _, bulletMovement := range w.BulletMovements {
-			if bulletMovement.Bullet.ShooterId != i && intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
-				bulletMovement.OldPosition, bulletMovement.Bullet.Position, bulletMovement.Bullet.Radius) {
+			bulletSegment := Segment{bulletMovement.OldPosition, bulletMovement.Bullet.Position}
+			if bulletMovement.Bullet.ShooterId != i && Collides(playerSegment, playerMovement.Player.Tank.Radius(), bulletSegment, bulletMovement.Bullet.Radius) {
 				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Bullet (%f %f) intersects\n", playerMovement.Player.Id, bulletMovement.Bullet.X, bulletMovement.Bullet.Y))
 				w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * PlayerHitExpCoefficient)
 				bulletMovement.Bullet.TTL -= BulletCollisionTTL
@@ -62,8 +64,8 @@ func (w *World) Tick() {
 			}
 		}
 		for j, playerMovement2 := range w.PlayerMovements {
-			if i != j && intersect(playerMovement.OldPosition, playerMovement.Player.Position, playerMovement.Player.Tank.Radius(),
-				playerMovement2.OldPosition, playerMovement2.Player.Position, playerMovement2.Player.Tank.Radius()) {
+			player2Segment := Segment{playerMovement2.OldPosition, playerMovement2.Player.Position}
+			if i != j && Collides(playerSegment, playerMovement.Player.Tank.Radius(), player2Segment, playerMovement2.Player.Tank.Radius()) {
 				w.Runner.Log(fmt.Sprintf("Player (id: %d) and Player (id: %d) intersects\n", playerMovement.Player.Id, playerMovement2.Player.Id))
 				playerMovement.Player.Health -= PlayerPlayerCollisionHealth
 			}
@@ -71,9 +73,10 @@ func (w *World) Tick() {
 	}
 
 	for _, bulletMovement := range w.BulletMovements {
+		bulletSegment := Segment{bulletMovement.OldPosition, bulletMovement.Bullet.Position}
 		for e, entity := range w.Entities {
-			if intersect(bulletMovement.OldPosition, bulletMovement.Bullet.Position, bulletMovement.Bullet.Radius,
-				entity.Position, entity.Position, entity.Radius) {
+			entitySegment := Segment{entity.Position, entity.Position}
+			if Collides(bulletSegment, bulletMovement.Bullet.Radius, entitySegment, entity.Radius) {
 				w.Runner.Log(fmt.Sprintf("Bullet (%f %f) and Entity (%f %f) intersects\n", bulletMovement.Bullet.X, bulletMovement.Bullet.Y, entity.X, entity.Y))
 				w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient)
 				bulletMovement.Bullet.TTL -= BulletCollisionTTL
