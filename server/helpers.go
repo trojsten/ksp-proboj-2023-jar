@@ -13,15 +13,15 @@ func intersect(A1 Position, A2 Position, radiusA float32, B1 Position, B2 Positi
 
 // https://stackoverflow.com/a/1501725
 func distanceSegmentToPoint(A1 Position, A2 Position, B Position) float32 {
-	var l2 = SquaredDistance(A1, A2)
+	var l2 = A1.SquaredDistance(A2)
 
 	if l2 == 0.0 {
-		return Distance(B, A1)
+		return B.Distance(A1)
 	}
 	var t = float32(math.Max(0, math.Min(1, float64(DotProduct(B, A1, A2)/l2))))
 	var projectionX = A1.X + t*(A2.X-A1.X)
 	var projectionY = A1.Y + t*(A2.Y-A1.Y)
-	return Distance(B, Position{projectionX, projectionY})
+	return B.Distance(Position{projectionX, projectionY})
 }
 
 func DotProduct(A Position, B Position, C Position) float32 {
@@ -34,20 +34,6 @@ func DotProduct(A Position, B Position, C Position) float32 {
 		Y: C.Y - B.Y,
 	}
 	return AB.X*CB.X + AB.Y*CB.Y
-}
-
-func Distance(A Position, B Position) float32 {
-	var d1 = A.X - B.X
-	var d2 = A.Y - B.Y
-
-	return float32(math.Sqrt(float64(d1*d1 + d2*d2)))
-}
-
-func SquaredDistance(A Position, B Position) float32 {
-	var d1 = A.X - B.X
-	var d2 = A.Y - B.Y
-
-	return d1*d1 + d2*d2
 }
 
 func Dot(Px float32, Py float32, Vx float32, Vy float32) float32 {

@@ -259,7 +259,7 @@ func (p *Player) UpdateTank(newTank Tank) {
 func (p *Player) ReachablePlayers() []Player {
 	var res []Player
 	for _, player := range p.World.Players {
-		if p.inReach(player.Position, p.RealStatsValues().Range) {
+		if p.Reachable(player.Position, p.RealStatsValues().Range) {
 			res = append(res, player)
 		}
 	}
@@ -269,7 +269,7 @@ func (p *Player) ReachablePlayers() []Player {
 func (p *Player) ReachableEntities() []Entity {
 	var res []Entity
 	for _, entity := range p.World.Entities {
-		if p.inReach(entity.Position, p.RealStatsValues().Range) {
+		if p.Reachable(entity.Position, p.RealStatsValues().Range) {
 			res = append(res, entity)
 		}
 	}
@@ -279,7 +279,7 @@ func (p *Player) ReachableEntities() []Entity {
 func (p *Player) ReachableBullets() []Bullet {
 	var res []Bullet
 	for _, bullet := range p.World.Bullets {
-		if p.inReach(bullet.Position, p.RealStatsValues().Range) {
+		if p.Reachable(bullet.Position, p.RealStatsValues().Range) {
 			res = append(res, bullet)
 		}
 	}
@@ -292,5 +292,5 @@ type PlayerMovement struct {
 }
 
 func (pm *PlayerMovement) speed() float32 {
-	return Distance(pm.OldPosition, pm.Player.Position)
+	return pm.OldPosition.Distance(pm.Player.Position)
 }
