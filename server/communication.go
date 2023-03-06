@@ -104,6 +104,15 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		return fmt.Errorf("sscanf failed: %w", err)
 	}
 
+	// check if vx/vy is Inf/-Inf/NaN
+	if math.IsInf(float64(vx), 1) || math.IsInf(float64(vx), -1) || math.IsNaN(float64(vx)) {
+		w.Runner.Log(fmt.Sprintf("(%s) invalid vx: %f", player.Name, vx))
+		vx = 0
+	}
+	if math.IsInf(float64(vy), 1) || math.IsInf(float64(vy), -1) || math.IsNaN(float64(vy)) {
+		w.Runner.Log(fmt.Sprintf("(%s) invalid vy: %f", player.Name, vy))
+		vy = 0
+	}
 	// Limit vx, vy length to speed stat
 	dist := math.Sqrt(math.Pow(float64(vx), 2) + math.Pow(float64(vy), 2))
 	maxSpeed := float64(player.RealStatsValues().Speed)
