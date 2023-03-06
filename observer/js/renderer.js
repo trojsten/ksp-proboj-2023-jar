@@ -112,12 +112,14 @@ class Renderer {
     }
 
     recenter() {
-        if (Object.keys(this.worldPlayers).length === 0) {
+        const keys = Object.keys(this.worldPlayers)
+        if (keys.length === 0) {
             return
         }
         let minX, minY, maxX, maxY;
-        minX = maxX = this.worldPlayers[0].x
-        minY = maxY = this.worldPlayers[0].y
+        const key = parseInt(keys[0])
+        minX = maxX = this.worldPlayers[key].x
+        minY = maxY = this.worldPlayers[key].y
 
         for (const player of Object.values(this.worldPlayers)) {
             minX = Math.min(minX, player.x)
