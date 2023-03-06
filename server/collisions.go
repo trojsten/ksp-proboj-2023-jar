@@ -15,7 +15,7 @@ func collisionsPlayerEntity(w *World) {
 
 			w.Runner.Log(fmt.Sprintf("collision: player (%s) - entity (%f, %f)", playerMovement.Player.Name, entity.X, entity.Y))
 			playerMovement.Player.Health -= PlayerEntityCollisionHealth
-			w.Entities[j].Radius -= MaxEntityRadius / 10
+			w.Entities[j].SetHealth(playerMovement.Player.RealStatsValues().BodyDamage)
 		}
 	}
 }
@@ -77,7 +77,7 @@ func collisionsEntityBullet(w *World) {
 			w.Runner.Log(fmt.Sprintf("collision: bullet (%f, %f) - entity (%f, %f)", bulletMovement.Bullet.X, bulletMovement.Bullet.Y, entity.X, entity.Y))
 			w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient)
 			bulletMovement.Bullet.TTL -= BulletCollisionTTL
-			w.Entities[e].Radius -= bulletMovement.Bullet.Damage * BulletEntityCollisionRadiusCoefficient
+			w.Entities[e].SetHealth(bulletMovement.Bullet.Damage)
 		}
 	}
 }

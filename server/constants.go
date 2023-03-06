@@ -15,6 +15,7 @@ const EntitiesInitSpawnNumber = 20
 const EntitySpawnProb = 0.1
 const MaxEntityRadius = 10 // not really, this is only diff
 const MinEntityRadius = 20
+const MaxEntityHealth = 100
 const FractionOfPlayerSpeedToBullet = 0.95
 const WorldSizeShrink = 0.99
 const ShrinkWorldAfter = 5000

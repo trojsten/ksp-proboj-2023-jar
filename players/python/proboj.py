@@ -303,11 +303,12 @@ class Entity:
     """
     position: XY
     radius: float
+    health: float
 
     @classmethod
     def read_entity(cls) -> "Entity":
-        x, y, radius = input().split()
-        return Entity(XY(float(x), float(y)), float(radius))
+        x, y, radius, health = input().split()
+        return Entity(XY(float(x), float(y)), float(radius), float(health))
 
     def __hash__(self):
         return hash((self.position, self.radius))

@@ -88,7 +88,7 @@ func (w *World) DataForPlayer(player Player) string {
 	var reachableEntities = player.ReachableEntities()
 	data.WriteString(fmt.Sprintf("%d\n", len(reachableEntities)))
 	for _, e := range reachableEntities {
-		data.WriteString(fmt.Sprintf("%f %f %f\n", e.X, e.Y, e.Radius))
+		data.WriteString(fmt.Sprintf("%f %f %f %f\n", e.X, e.Y, e.Radius, e.Health))
 	}
 	return data.String()
 }
