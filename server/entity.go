@@ -5,8 +5,16 @@ import "math/rand"
 type Entity struct {
 	Position `json:"position"`
 	Radius   float32 `json:"radius"`
+	Health   float32 `json:"health"`
+}
+
+func (e *Entity) SetHealth(health float32) {
+	e.Health = health
+	e.Radius = MinEntityRadius + e.Health/MaxEntityHealth*MaxEntityRadius
 }
 
 func (w *World) NewEntity() Entity {
-	return Entity{Radius: rand.Float32() * MaxEntityRadius+MinEntityRadius}
+	var entity = Entity{}
+	entity.SetHealth(rand.Float32() * MaxEntityHealth)
+	return entity
 }
