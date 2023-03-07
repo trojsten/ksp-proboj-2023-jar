@@ -4,14 +4,16 @@ import random
 from math import inf
 from math import atan2
 
+
 class MyPlayer(ProbojPlayer):
     def make_turn(self) -> Turn:
         return Turn(XY(200 * random.random() - 100, 200 * random.random() - 100), 6.28 * random.random(),
-                    random.choice([True, True]), 0, 0)
+                    random.choice([True, True]), StatsEnum.StatNone, 0)
+
 
 class MiskoPlayer(ProbojPlayer):
     def make_turn(self) -> Turn:
-        nearest = XY(inf, inf)  
+        nearest = XY(inf, inf)
 
         for entity in self.entities:
             if self.myself.position.distance(entity.position) < self.myself.position.distance(nearest):
@@ -28,8 +30,10 @@ class MiskoPlayer(ProbojPlayer):
         if nearest == XY(inf, inf):
             nearest = XY(0, 0)
 
-        return Turn(nearest-self.myself.position, atan2((nearest-self.myself.position).y, (nearest-self.myself.position).x),
-                    True, 0, 0)
+        return Turn(nearest - self.myself.position,
+                    atan2((nearest - self.myself.position).y, (nearest - self.myself.position).x),
+                    True, StatsEnum.StatNone, 0)
+
 
 if __name__ == "__main__":
     p = MiskoPlayer()

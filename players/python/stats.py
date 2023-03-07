@@ -3,29 +3,37 @@ from dataclasses import dataclass
 
 
 class StatsEnum(enum.Enum):
-    StatRange = 0
-    StatSpeed = 1
-    StatBulletSpeed = 2
-    StatBulletTTL = 3
-    StatBulletDamage = 4
-    StatHealthMax = 5
-    StatHealthRegeneration = 6
-    StatBodyDamage = 7
-    StatReloadSpeed = 8
-    StatNone = 9
+    StatNone = 0
+    StatRange = 1
+    StatSpeed = 2
+    StatBulletSpeed = 3
+    StatBulletTTL = 4
+    StatBulletDamage = 5
+    StatHealthMax = 6
+    StatHealthRegeneration = 7
+    StatBodyDamage = 8
+    StatReloadSpeed = 9
 
 
 class Stats:
+
+    def __init__(self, stats):
+        assert len(stats) == len(StatsEnum)
+        self.stats = stats[:]
+
     @staticmethod
     def read_stat_levels():
-        stats = []
+        stats = [0]
         for idx, lvl in enumerate(map(int, input().split())):
             stats.append(lvl)
-        return stats
+        return Stats(stats)
 
     @staticmethod
     def read_stat_values():
-        stats = []
+        stats = [0]
         for idx, lvl in enumerate(map(float, input().split())):
             stats.append(lvl)
-        return stats
+        return Stats(stats)
+
+    def __getitem__(self, key: StatsEnum):
+        return self.stats[key.value]

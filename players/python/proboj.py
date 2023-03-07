@@ -1,10 +1,9 @@
-import sys
-from dataclasses import dataclass
 import math
-from typing import List, Type, Set
+import sys
+from typing import Set
 
-from tanks import *
 from stats import *
+from tanks import *
 
 _input = input
 
@@ -24,12 +23,12 @@ class Turn:
     či chce vystreliť, ktorý Stat chce updatnúť a id tanku, ktorý by chcel mať.
     """
 
-    def __init__(self, velocity, angle: float, shoot: bool, stat: int, new_tank_id: int):
+    def __init__(self, velocity, angle: float, shoot: bool, stat: StatsEnum, new_tank_id: int):
         self.x = float(velocity.x)
         self.y = float(velocity.y)
         self.angle = float(angle)
         self.shoot = int(shoot)
-        self.stat = int(stat)
+        self.stat = int(stat.value)
         self.new_tank_id = int(new_tank_id)
 
     def print(self):
@@ -144,8 +143,8 @@ class MyPlayer(Player):
         self.tank_updates_left: int
         self.reload_cooldown: int
         self.lifes_left: int
-        self.stat_levels: List[int]
-        self.stat_values: List[float]
+        self.stat_levels: Stats
+        self.stat_values: Stats
 
     @classmethod
     def read_myplayer(cls) -> "MyPlayer":

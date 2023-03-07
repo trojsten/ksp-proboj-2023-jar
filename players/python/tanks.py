@@ -16,7 +16,7 @@ class Tank(ABC):
         pass
 
     @abstractmethod
-    def updatableTo(self) -> List:
+    def updatable_to(self) -> List:
         pass
 
 
