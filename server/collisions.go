@@ -36,7 +36,7 @@ func collisionsPlayerPlayer(w *World) {
 			}
 
 			w.Runner.Log(fmt.Sprintf("collision: player (%s) - player (%s)", playerMovement.Player.Name, playerMovement2.Player.Name))
-			playerMovement.Player.Health -= PlayerPlayerCollisionHealth
+			playerMovement.Player.Health -= playerMovement2.Player.RealStatsValues().BodyDamage
 		}
 	}
 }
