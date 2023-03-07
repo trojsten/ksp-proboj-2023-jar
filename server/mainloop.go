@@ -97,7 +97,7 @@ func despawnEntities(w *World) {
 	entities := []Entity{}
 	for i := range w.Entities {
 		entity := &w.Entities[i]
-		if entity.Health < 0 {
+		if entity.Health > 0 {
 			entities = append(entities, *entity)
 		}
 	}
