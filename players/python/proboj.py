@@ -87,10 +87,10 @@ class Player:
     def __init__(self):
         self.id: int = 0
         self.alive: bool = False
-        self.position: XY = None
+        self.position: XY
         self.angle: float = 0
         self.radius: float = 0
-        self.tank: Tank = None
+        self.tank: Tank
         self.health: float = 0
 
     @classmethod
@@ -174,12 +174,12 @@ class ProbojPlayer:
     """
 
     def __init__(self):
-        self.world: World = World()
+        self.world: World
         self.myself: MyPlayer
         self._myself: int
-        self.players: dict[int: Player] = {}
-        self.bullets: Set[Bullet] = set()
-        self.entities: Set[Entity] = set()
+        self.players: dict[int: Player]
+        self.bullets: Set[Bullet]
+        self.entities: Set[Entity]
 
     @staticmethod
     def log(*args):
@@ -231,7 +231,7 @@ class ProbojPlayer:
         """
         Načíta vstup pre hráča
         """
-        self.world.read_world()
+        self.world = World.read_world()
         self._read_myself()
         self._read_players()
         self._read_bullets()
@@ -313,14 +313,18 @@ class Entity:
         return hash((self.position, self.radius))
 
 
+@dataclass
 class World:
     """
     World:
     * size - veľkosť mapy, v oboch rozmeroch je to od `+size` do `-size`
     """
 
-    def __init__(self):
-        self.size: float = 0
+    min_x: float
+    max_x: float
+    min_y: float
+    max_y: float
 
-    def read_world(self):
-        self.size = float(input())
+    @classmethod
+    def read_world(cla) -> "World":
+        return World(*map(float, input().split()))

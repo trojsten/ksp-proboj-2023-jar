@@ -23,4 +23,4 @@ class Tank(ABC):
 @dataclass
 class BasicTank(Tank):
     tank_id = 0
-    updatableTo = []
+    updatable_to = []

@@ -12,7 +12,10 @@ type World struct {
 	Bullets         []Bullet         `json:"bullets"`
 	BulletMovements []BulletMovement `json:"-"`
 	Entities        []Entity         `json:"entities"`
-	Size            float32          `json:"size"`
+	MinX            float32          `json:"MinX"`
+	MaxX            float32          `json:"MaxX"`
+	MinY            float32          `json:"MinY"`
+	MaxY            float32          `json:"MaxY"`
 	TickNumber      int              `json:"tick_number"`
 	BulletNumber    int              `json:"-"`
 }
@@ -37,8 +40,8 @@ func (w *World) Running() bool {
 
 func (w *World) SpawnObject(p *Position) {
 	// TODO check, ci nie som blizko niekoho
-	p.X = rand.Float32()*2*w.Size - w.Size
-	p.Y = rand.Float32()*2*w.Size - w.Size
+	p.X = rand.Float32()*(w.MaxX-w.MinX) + w.MinX
+	p.Y = rand.Float32()*(w.MaxY-w.MinY) + w.MinY
 }
 
 func (w *World) SpawnEntity() {
