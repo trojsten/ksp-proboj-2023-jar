@@ -5,7 +5,7 @@ import "fmt"
 // collisionsPlayerEntity checks for collisions between players and entities
 func collisionsPlayerEntity(w *World) {
 	for _, playerMovement := range w.PlayerMovements {
-		playerSegment := Segment{playerMovement.OldPosition, playerMovement.Player.Position}
+		playerSegment := Segment{playerMovement.NewPosition, playerMovement.Player.Position}
 
 		for j, entity := range w.Entities {
 			entitySegment := Segment{entity.Position, entity.Position}
@@ -23,14 +23,14 @@ func collisionsPlayerEntity(w *World) {
 // collisionsPlayerPlayer checks for collisions between multiple players
 func collisionsPlayerPlayer(w *World) {
 	for _, playerMovement := range w.PlayerMovements {
-		playerSegment := Segment{playerMovement.OldPosition, playerMovement.Player.Position}
+		playerSegment := Segment{playerMovement.NewPosition, playerMovement.Player.Position}
 
 		for _, playerMovement2 := range w.PlayerMovements {
 			if playerMovement.Player == playerMovement2.Player {
 				continue
 			}
 
-			playerSegment2 := Segment{playerMovement2.OldPosition, playerMovement2.Player.Position}
+			playerSegment2 := Segment{playerMovement2.NewPosition, playerMovement2.Player.Position}
 			if !Collides(playerSegment, playerMovement.Player.Tank.Radius(), playerSegment2, playerMovement2.Player.Tank.Radius()) {
 				continue
 			}
@@ -44,7 +44,7 @@ func collisionsPlayerPlayer(w *World) {
 // collisionsPlayerBullet checks for collisions between players and bullets
 func collisionsPlayerBullet(w *World) {
 	for _, playerMovement := range w.PlayerMovements {
-		playerSegment := Segment{playerMovement.OldPosition, playerMovement.Player.Position}
+		playerSegment := Segment{playerMovement.NewPosition, playerMovement.Player.Position}
 
 		for _, bulletMovement := range w.BulletMovements {
 			if bulletMovement.Bullet.ShooterId == playerMovement.Player.Id {

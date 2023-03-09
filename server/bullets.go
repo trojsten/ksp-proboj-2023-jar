@@ -33,16 +33,15 @@ func NewBullet(w *World, player Player, playerMovement PlayerMovement, angle flo
 
 	var Vx = float32(math.Cos(float64(angle))) * bulletSpeed
 	var Vy = float32(math.Sin(float64(angle))) * bulletSpeed
-	var Px = playerMovement.Player.Position.X - playerMovement.OldPosition.X
-	var Py = playerMovement.Player.Position.Y - playerMovement.OldPosition.Y
-	bulletSpeed += Dot(Px, Py, Vx, Vy) * FractionOfPlayerSpeedToBullet
+	var Px = playerMovement.NewPosition.X - playerMovement.Player.Position.X
+	var Py = playerMovement.NewPosition.Y - playerMovement.Player.Position.Y
 
 	bullet := Bullet{
 		Position:  player.Position,
 		Id:        w.BulletNumber,
 		Radius:    radius,
-		Vx:        float32(math.Cos(float64(angle))) * bulletSpeed,
-		Vy:        float32(math.Sin(float64(angle))) * bulletSpeed,
+		Vx:        Vx + FractionOfPlayerSpeedToBullet*Px,
+		Vy:        Vy + FractionOfPlayerSpeedToBullet*Py,
 		TTL:       statsValues.BulletTTL,
 		Damage:    statsValues.BulletDamage,
 		ShooterId: player.Id,

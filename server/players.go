@@ -67,22 +67,20 @@ func (p *Player) RealStatsValues() StatsValues {
 }
 
 func (p *Player) MoveTo(x, y float32) PlayerMovement {
-	var movement = PlayerMovement{p.Position, p}
+	var movement = PlayerMovement{Position{X: x, Y: y}, p}
 	// p.X = InRange(x, -p.World.Size, p.World.Size)
 	// p.Y = InRange(y, -p.World.Size, p.World.Size)
-	p.X = x
-	p.Y = y
 	return movement
 }
 
-func (p *Player) Fire(playerMovement PlayerMovement) {
+func (p *Player) Fire(playerMovement PlayerMovement) (float32, float32) {
 	if p.ReloadCooldown > 0 {
 		p.World.Runner.Log(fmt.Sprintf("ignoring shoot for %s: reload cooldown", p.Name))
-		return
+		return 0, 0
 	}
 
-	p.Tank.Fire(p, playerMovement)
 	p.ReloadCooldown = p.RealStatsValues().ReloadSpeed
+	return p.Tank.Fire(p, playerMovement)
 }
 
 func (p *Player) Tick() {
@@ -173,10 +171,14 @@ func (p *Player) ReachableBullets() []Bullet {
 }
 
 type PlayerMovement struct {
-	OldPosition Position
+	NewPosition Position
 	Player      *Player
 }
 
 func (pm PlayerMovement) speed() float32 {
-	return pm.OldPosition.Distance(pm.Player.Position)
+	return pm.NewPosition.Distance(pm.Player.Position)
+}
+
+func (pm PlayerMovement) apply() {
+	pm.Player.Position = pm.NewPosition
 }

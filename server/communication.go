@@ -125,9 +125,14 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	player.Angle = angle
 
 	// Shoot
+	var knockX, knockY float32 = 0, 0
 	if shoot == 1 {
-		player.Fire(playerMovement)
+		knockX, knockY = player.Fire(playerMovement)
 	}
+
+	playerMovement.apply()
+	player.X += knockX
+	player.Y += knockY
 
 	// Upgrade stats
 	if stat.IsValid() {
