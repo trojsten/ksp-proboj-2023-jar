@@ -28,13 +28,6 @@ func main() {
 
 	for world.Running() {
 		world.Tick()
-		// TODO constants and min world size
-		if world.TickNumber > ShrinkWorldAfter {
-			world.MinX *= WorldSizeShrink
-			world.MaxX *= WorldSizeShrink
-			world.MinY *= WorldSizeShrink
-			world.MaxY *= WorldSizeShrink
-		}
 
 		if rand.Float32() < EntitySpawnProb {
 			world.SpawnEntity()
