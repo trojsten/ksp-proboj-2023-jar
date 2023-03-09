@@ -1,45 +1,15 @@
 package main
 
+import "math"
+
 type Tank interface {
 	Fire(player *Player, playerMovement PlayerMovement) (float32, float32)
 	StatsValues() StatsValues
 	Radius() float32
-	TankLevel() int
+	TankLevel() int // TODO delete?
 	TankId() int
 	UpdatableTo() []Tank
 	KnockBack() float32
-}
-
-type BasicTank struct {
-}
-
-func (b BasicTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
-	var bullet = NewBullet(player.World, *player, playerMovement, player.Angle, 5) //TODO constant
-	return bullet.Vx * b.KnockBack(), bullet.Vy * b.KnockBack()
-}
-
-func (b BasicTank) StatsValues() StatsValues {
-	return StatsValues{}
-}
-
-func (b BasicTank) Radius() float32 {
-	return 5
-}
-
-func (b BasicTank) TankLevel() int {
-	return 0
-}
-
-func (b BasicTank) TankId() int {
-	return 0
-}
-
-func (b BasicTank) UpdatableTo() []Tank {
-	return nil
-}
-
-func (b BasicTank) KnockBack() float32 {
-	return 5
 }
 
 func CanUpdateTank(t Tank, newTankId int) (bool, Tank) {
@@ -49,4 +19,21 @@ func CanUpdateTank(t Tank, newTankId int) (bool, Tank) {
 		}
 	}
 	return false, nil
+}
+
+func TwinShot(player *Player, playerMovement PlayerMovement, knockBack float32, angle float32) (float32, float32) {
+	var radius float32 = 5
+
+	var position1 = Position{
+		X: player.Position.X + radius*float32(math.Cos(float64(angle+math.Pi/2))),
+		Y: player.Position.Y + radius*float32(math.Sin(float64(angle+math.Pi/2))),
+	}
+	var bullet1 = NewBullet(player.World, player.Id, position1, player.RealStatsValues(), playerMovement, angle, radius)
+
+	var position2 = Position{
+		X: player.Position.X + radius*float32(math.Cos(float64(angle-math.Pi/2))),
+		Y: player.Position.Y + radius*float32(math.Sin(float64(angle-math.Pi/2))),
+	}
+	var bullet2 = NewBullet(player.World, player.Id, position2, player.RealStatsValues(), playerMovement, angle, radius)
+	return (bullet1.Vx + bullet2.Vx) * knockBack, (bullet1.Vy + bullet2.Vy) * knockBack
 }
