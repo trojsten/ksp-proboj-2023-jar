@@ -16,11 +16,11 @@ class Tank(ABC):
         pass
 
     @abstractmethod
-    def updatableTo(self) -> List:
+    def updatable_to(self) -> List:
         pass
 
 
 @dataclass
 class BasicTank(Tank):
     tank_id = 0
-    updatableTo = []
+    updatable_to = []

@@ -10,7 +10,7 @@ import (
 func (w *World) DataForPlayer(player Player) string {
 	var data strings.Builder
 	// 1 svet
-	data.WriteString(fmt.Sprintf("%f\n", w.Size))
+	data.WriteString(fmt.Sprintf("%f %f %f %f\n", w.MinX, w.MaxX, w.MinY, w.MaxY))
 	// 2 ja
 	data.WriteString(fmt.Sprintf(
 		"%d %d %d %d %d %d %d\n",

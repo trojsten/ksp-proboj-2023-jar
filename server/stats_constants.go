@@ -1,7 +1,8 @@
 package main
 
 const (
-	StatRange Stat = iota
+	StatNone Stat = iota
+	StatRange
 	StatSpeed
 	StatBulletSpeed
 	StatBulletTTL
@@ -10,7 +11,6 @@ const (
 	StatHealthRegeneration
 	StatBodyDamage
 	StatReloadSpeed
-	StatNone
 )
 
 var RangeValues = []float32{300, 400, 500, 600, 700, 800, 900, 1000}

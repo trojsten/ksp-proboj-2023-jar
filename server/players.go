@@ -94,8 +94,8 @@ func (p *Player) Tick() {
 		p.ReloadCooldown--
 	}
 
-	if p.X != InRange(p.X, -p.World.Size, p.World.Size) ||
-		p.Y != InRange(p.Y, -p.World.Size, p.World.Size) {
+	if p.X != InRange(p.X, p.World.MinX, p.World.MaxX) ||
+		p.Y != InRange(p.Y, p.World.MinY, p.World.MaxY) {
 		p.Health -= PlayerOutOfWorldHealth
 	}
 

@@ -1,6 +1,9 @@
 package main
 
-const MapSize = 1000
+const MinX = -1000
+const MaxX = 1000
+const MinY = -1000
+const MaxY = 1000
 const TankLevelUpdateFreq = 10
 const PlayerEntityCollisionHealth = 10
 const PlayerOutOfWorldHealth = 15
