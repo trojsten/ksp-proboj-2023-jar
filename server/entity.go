@@ -10,7 +10,7 @@ type Entity struct {
 
 func (e *Entity) SetHealth(health float32) {
 	e.Health = health
-	e.Radius = MinEntityRadius + e.Health/MaxEntityHealth*MaxEntityRadius
+	e.Radius = MinEntityRadius + e.Health/MaxEntityHealth*(MaxEntityRadius-MinEntityRadius)
 }
 
 func (w *World) NewEntity() Entity {
