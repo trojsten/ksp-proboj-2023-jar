@@ -1,15 +1,16 @@
 package main
 
-type BasicTank struct {
+type GuidedBulletTank struct {
 	//TODO constants
 }
 
-func (t BasicTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
+func (t GuidedBulletTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
+	// TODO guiding
 	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()
 }
 
-func (t BasicTank) StatsValues() StatsValues {
+func (t GuidedBulletTank) StatsValues() StatsValues {
 	return StatsValues{
 		Range:              0,
 		Speed:              0,
@@ -23,22 +24,22 @@ func (t BasicTank) StatsValues() StatsValues {
 	}
 }
 
-func (t BasicTank) Radius() float32 {
+func (t GuidedBulletTank) Radius() float32 {
 	return 5
 }
 
-func (t BasicTank) TankLevel() int {
+func (t GuidedBulletTank) TankLevel() int {
 	return 0
 }
 
-func (t BasicTank) TankId() int {
-	return 0
+func (t GuidedBulletTank) TankId() int {
+	return 7
 }
 
-func (t BasicTank) UpdatableTo() []Tank {
-	return []Tank{TwinTank{}}
+func (t GuidedBulletTank) UpdatableTo() []Tank {
+	return nil
 }
 
-func (t BasicTank) KnockBack() float32 {
+func (t GuidedBulletTank) KnockBack() float32 {
 	return 5
 }

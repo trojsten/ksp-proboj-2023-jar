@@ -13,7 +13,17 @@ func (t DoubleDoubleTank) Fire(player *Player, playerMovement PlayerMovement) (f
 }
 
 func (t DoubleDoubleTank) StatsValues() StatsValues {
-	return StatsValues{}
+	return StatsValues{
+		Range:              0,
+		Speed:              0,
+		BulletSpeed:        0,
+		BulletTTL:          0,
+		BulletDamage:       0,
+		HealthMax:          0,
+		HealthRegeneration: 0,
+		BodyDamage:         0,
+		ReloadSpeed:        0,
+	}
 }
 
 func (t DoubleDoubleTank) Radius() float32 {
@@ -25,7 +35,7 @@ func (t DoubleDoubleTank) TankLevel() int {
 }
 
 func (t DoubleDoubleTank) TankId() int {
-	return 3
+	return 4
 }
 
 func (t DoubleDoubleTank) UpdatableTo() []Tank {

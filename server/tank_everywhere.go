@@ -16,7 +16,17 @@ func (t EverywhereTank) Fire(player *Player, playerMovement PlayerMovement) (flo
 }
 
 func (t EverywhereTank) StatsValues() StatsValues {
-	return StatsValues{}
+	return StatsValues{
+		Range:              0,
+		Speed:              0,
+		BulletSpeed:        0,
+		BulletTTL:          0,
+		BulletDamage:       0,
+		HealthMax:          0,
+		HealthRegeneration: 0,
+		BodyDamage:         0,
+		ReloadSpeed:        0,
+	}
 }
 
 func (t EverywhereTank) Radius() float32 {
