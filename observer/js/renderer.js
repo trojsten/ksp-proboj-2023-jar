@@ -35,7 +35,10 @@
  * @prop {Player[]} players
  * @prop {Bullet[]} bullets
  * @prop {Entity[]} entities
- * @prop {number} size
+ * @prop {number} min_x
+ * @prop {number} min_y
+ * @prop {number} max_x
+ * @prop {number} max_y
  * @prop {number} tick_number
  */
 
@@ -71,7 +74,7 @@ class Renderer {
      * @param {Frame} frame
      */
     render(frame) {
-        this.renderBorder(frame.size)
+        this.renderBorder(frame.min_x, frame.min_y, frame.max_x, frame.max_y)
 
         // Players
         for (const player of frame.players) {
@@ -163,7 +166,7 @@ class Renderer {
             g.closePath()
             g.x = player.x
             g.y = -player.y
-            g.rotation = player.angle
+            g.rotation = -player.angle + Math.PI/2
 
             this.worldPlayers[player.id] = g
             this.world.addChild(g)
@@ -173,7 +176,7 @@ class Renderer {
         this._tween(wp, {
             x: player.x,
             y: -player.y,
-            rotation: player.angle
+            rotation: -player.angle + Math.PI/2
         })
     }
 
@@ -200,9 +203,12 @@ class Renderer {
     }
 
     /**
-     * @param {number} size
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
      */
-    renderBorder(size) {
+    renderBorder(x1, y1, x2, y2) {
         if (this.worldBorder) {
             this.world.removeChild(this.worldBorder)
         }
@@ -210,10 +216,10 @@ class Renderer {
         const g = new PIXI.Graphics()
         g.lineStyle(1, 0xffffff, 0.8)
         g.beginFill(0xffffff, 0.1)
-        g.moveTo(-size, -size)
-        g.lineTo(size, -size)
-        g.lineTo(size, size)
-        g.lineTo(-size, size)
+        g.moveTo(x1, y1)
+        g.lineTo(x1, y2)
+        g.lineTo(x2, y2)
+        g.lineTo(x2, y1)
         g.closePath()
         this.worldBorder = g
         this.world.addChildAt(g, 0)

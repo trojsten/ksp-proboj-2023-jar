@@ -12,10 +12,10 @@ type World struct {
 	Bullets         []Bullet         `json:"bullets"`
 	BulletMovements []BulletMovement `json:"-"`
 	Entities        []Entity         `json:"entities"`
-	MinX            float32          `json:"MinX"`
-	MaxX            float32          `json:"MaxX"`
-	MinY            float32          `json:"MinY"`
-	MaxY            float32          `json:"MaxY"`
+	MinX            float32          `json:"min_x"`
+	MaxX            float32          `json:"max_x"`
+	MinY            float32          `json:"min_y"`
+	MaxY            float32          `json:"max_y"`
 	TickNumber      int              `json:"tick_number"`
 	BulletNumber    int              `json:"-"`
 }
