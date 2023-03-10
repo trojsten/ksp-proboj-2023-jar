@@ -8,6 +8,9 @@
  * @prop {boolean} alive
  * @prop {number} tank_id
  * @prop {number} tank_radius
+ * @prop {number} range
+ * @prop {number} health
+ * @prop {number} max_health
  */
 
 /**
@@ -35,7 +38,10 @@
  * @prop {Player[]} players
  * @prop {Bullet[]} bullets
  * @prop {Entity[]} entities
- * @prop {number} size
+ * @prop {number} min_x
+ * @prop {number} min_y
+ * @prop {number} max_x
+ * @prop {number} max_y
  * @prop {number} tick_number
  */
 
@@ -44,8 +50,10 @@ class Renderer {
         this.app = new PIXI.Application({ background: '#111', resizeTo: document.body, antialias: true })
         document.body.appendChild(this.app.view)
 
-        /** @type {Object.<number, _Graphics>}} */
+        /** @type {Object.<number, _Container>}} */
         this.worldPlayers = {}
+        /** @type {Frame} */
+        this.currentFrame = null
         /** @type {Object.<number, _Graphics>}} */
         this.worldBullets = {}
         /** @type {_Graphics} */
@@ -71,7 +79,8 @@ class Renderer {
      * @param {Frame} frame
      */
     render(frame) {
-        this.renderBorder(frame.size)
+        this.currentFrame = frame
+        this.renderBorder(frame.min_x, frame.min_y, frame.max_x, frame.max_y)
 
         // Players
         for (const player of frame.players) {
@@ -112,20 +121,22 @@ class Renderer {
     }
 
     recenter() {
-        const keys = Object.keys(this.worldPlayers)
-        if (keys.length === 0) {
+        if (this.currentFrame === null) {
             return
         }
-        let minX, minY, maxX, maxY;
-        const key = parseInt(keys[0])
-        minX = maxX = this.worldPlayers[key].x
-        minY = maxY = this.worldPlayers[key].y
 
-        for (const player of Object.values(this.worldPlayers)) {
-            minX = Math.min(minX, player.x)
-            maxX = Math.max(maxX, player.x)
-            minY = Math.min(minY, player.y)
-            maxY = Math.max(maxY, player.y)
+        let minX, minY, maxX, maxY;
+        maxX = maxY = -Infinity
+        minX = minY = Infinity
+
+        for (const player of this.currentFrame.players) {
+            if (!player.alive) {
+                continue
+            }
+            minX = Math.min(minX, player.x - player.range)
+            maxX = Math.max(maxX, player.x + player.range)
+            minY = Math.min(minY, -player.y - player.range)
+            maxY = Math.max(maxY, -player.y + player.range)
         }
 
         const boxWidth = maxX - minX + 100
@@ -147,33 +158,81 @@ class Renderer {
     /**
      * @param {Player} player
      */
+    playerGraphics(player) {
+        const g = new PIXI.Graphics()
+        const color = playerColor(player.id)
+
+        g.beginFill(color, 0.1)
+        g.drawCircle(0, 0, player.range)
+        g.endFill();
+
+        g.lineStyle(2, 0xFFFFFF, 1)
+        g.beginFill(color, 1)
+        g.drawCircle(0, 0, 10)
+        g.endFill();
+
+        g.lineStyle(2, 0xffd900, 1)
+        g.moveTo(0, 0)
+        g.lineTo(0, -20)
+        g.closePath()
+
+        return g
+    }
+
+    /**
+     * @param {Player} player
+     */
+    playerHealthbar(player) {
+        const g = new PIXI.Graphics()
+        g.name = "healthbar"
+
+        const h = (player.health / player.max_health)
+        g.beginFill(h > 0.2 ? 0xffffff : 0xff0000)
+        g.moveTo(-15, - player.tank_radius - 15)
+        g.lineTo(-15+h*30, - player.tank_radius - 15)
+        g.lineTo(-15+h*30, - player.tank_radius - 20)
+        g.lineTo(-15, - player.tank_radius - 20)
+        g.endFill()
+
+        g.lineStyle(2, 0xffffff, 1)
+        g.moveTo(-15, - player.tank_radius - 15)
+        g.lineTo(15, - player.tank_radius - 15)
+        g.lineTo(15, - player.tank_radius - 20)
+        g.lineTo(-15, - player.tank_radius - 20)
+        g.closePath()
+
+        return g
+    }
+
+    /**
+     * @param {Player} player
+     */
     renderPlayer(player) {
         if (!(player.id in this.worldPlayers)) {
-            const g = new PIXI.Graphics()
-            const color = playerColor(player.id)
+            const playerCont = new PIXI.Container()
+            const tankCont = new PIXI.Container()
+            tankCont.name = "tank"
+            tankCont.rotation = -player.angle + Math.PI/2
+            playerCont.addChild(tankCont)
 
-            g.lineStyle(2, 0xFFFFFF, 1)
-            g.beginFill(color, 1)
-            g.drawCircle(0, 0, 10)
-            g.endFill();
-
-            g.lineStyle(2, 0xffd900, 1)
-            g.moveTo(0, 0)
-            g.lineTo(0, -20)
-            g.closePath()
-            g.x = player.x
-            g.y = -player.y
-            g.rotation = player.angle
-
-            this.worldPlayers[player.id] = g
-            this.world.addChild(g)
+            playerCont.x = player.x
+            playerCont.y = -player.y
+            this.worldPlayers[player.id] = playerCont
+            this.world.addChild(playerCont)
         }
 
         const wp = this.worldPlayers[player.id]
+        wp.getChildByName("tank").removeChildren()
+        wp.getChildByName("tank").addChild(this.playerGraphics(player))
+        wp.removeChild(wp.getChildByName("healthbar"))
+        wp.addChild(this.playerHealthbar(player))
+
         this._tween(wp, {
             x: player.x,
             y: -player.y,
-            rotation: player.angle
+        })
+        this._tween(wp.getChildByName("tank"), {
+            rotation: -player.angle + Math.PI/2
         })
     }
 
@@ -200,9 +259,12 @@ class Renderer {
     }
 
     /**
-     * @param {number} size
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
      */
-    renderBorder(size) {
+    renderBorder(x1, y1, x2, y2) {
         if (this.worldBorder) {
             this.world.removeChild(this.worldBorder)
         }
@@ -210,10 +272,10 @@ class Renderer {
         const g = new PIXI.Graphics()
         g.lineStyle(1, 0xffffff, 0.8)
         g.beginFill(0xffffff, 0.1)
-        g.moveTo(-size, -size)
-        g.lineTo(size, -size)
-        g.lineTo(size, size)
-        g.lineTo(-size, size)
+        g.moveTo(x1, y1)
+        g.lineTo(x1, y2)
+        g.lineTo(x2, y2)
+        g.lineTo(x2, y1)
         g.closePath()
         this.worldBorder = g
         this.world.addChildAt(g, 0)
