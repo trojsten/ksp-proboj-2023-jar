@@ -102,7 +102,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	var stat Stat
 	_, err := fmt.Sscanf(response, "%f %f %d ", &vx, &vy, &shoot)
 	if err != nil {
-		return fmt.Errorf("sscanf failed: %w", err)
+		return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
 	}
 	switch shoot {
 	case 0:
@@ -110,13 +110,13 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	case 1:
 		_, err := fmt.Sscanf(response, "%f ", &angle1)
 		if err != nil {
-			return fmt.Errorf("sscanf failed: %w", err)
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
 		}
 		break
 	case 2:
 		_, err := fmt.Sscanf(response, "%f %f ", &angle1, &angle2)
 		if err != nil {
-			return fmt.Errorf("sscanf failed: %w", err)
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
 		}
 		break
 	case 3:
@@ -124,7 +124,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		_, err := fmt.Sscanf(response, "%d ", &playerId)
 		target = PlayerTarget{Player: w.Players[playerId]}
 		if err != nil {
-			return fmt.Errorf("sscanf failed: %w", err)
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
 		}
 		break
 	case 4:
@@ -132,13 +132,13 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		_, err := fmt.Sscanf(response, "%f %f ", &x, &y)
 		target = PositionTarget{TargetPosition: Position{X: x, Y: y}}
 		if err != nil {
-			return fmt.Errorf("sscanf failed: %w", err)
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
 		}
 		break
 	}
 	_, err = fmt.Sscanf(response, "%d %d", &stat, &newTankId)
 	if err != nil {
-		return fmt.Errorf("sscanf failed: %w", err)
+		return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
 	}
 
 	// check if vx/vy is Inf/-Inf/NaN

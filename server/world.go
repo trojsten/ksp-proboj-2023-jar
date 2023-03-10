@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/trojsten/ksp-proboj/libproboj"
 	"math"
 	"math/rand"
@@ -57,7 +58,7 @@ func (w *World) SpawnObject(p *Position) {
 }
 
 func (w *World) NearestPlayerDistance(p Position) float32 {
-	var minDistance float32 = float32(math.Inf(1))
+	var minDistance = float32(math.Inf(1))
 	for _, player := range w.Players {
 		minDistance = Min(minDistance, player.Distance(p))
 	}
@@ -67,6 +68,7 @@ func (w *World) NearestPlayerDistance(p Position) float32 {
 func (w *World) SpawnEntity() {
 	var entity = w.NewEntity()
 	w.SpawnObject(&entity.Position)
+	w.Runner.Log(fmt.Sprintf("spawned entity on (%f, %f)", entity.Position.X, entity.Position.Y))
 	w.Entities = append(w.Entities, entity)
 }
 

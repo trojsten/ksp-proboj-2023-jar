@@ -74,7 +74,7 @@ func observe(w *World) {
 
 // tickBullets moves all bullets in the game by one tick
 func tickBullets(w *World) {
-	bullets := []Bullet{}
+	var bullets []Bullet
 	for i := range w.Bullets {
 		bullet := &w.Bullets[i]
 		if success, bulletMovement := bullet.Tick(); success {
@@ -94,7 +94,7 @@ func tickPlayers(w *World) {
 
 // despawnEntities despawns entities that are too small
 func despawnEntities(w *World) {
-	entities := []Entity{}
+	var entities []Entity
 	for i := range w.Entities {
 		entity := &w.Entities[i]
 		if entity.Health > 0 {

@@ -1,11 +1,17 @@
 package main
 
+import "fmt"
+
 type GuidedBulletTank struct {
 	//TODO constants
 }
 
 func (t GuidedBulletTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32) {
-	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, target.Angle(player.Position), 5, true, target)
+	if target == nil {
+		player.World.Runner.Log(fmt.Sprintf("(%s) guided bullet fire without appropriate target (ignoring)", player.Name))
+		return 0, 0
+	}
+	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, target.Angle(player.Position, player.Angle), 5, true, target)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()
 }
 

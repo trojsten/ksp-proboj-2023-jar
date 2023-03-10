@@ -37,3 +37,15 @@ func segmentPointDistance(segment Segment, point Position) float32 {
 	projectionY := segment.A.Y + t*(segment.B.Y-segment.A.Y)
 	return point.Distance(Position{projectionX, projectionY})
 }
+
+func DotProduct(A Position, B Position, C Position) float32 {
+	var AB = Position{
+		X: A.X - B.X,
+		Y: A.Y - B.Y,
+	}
+	var CB = Position{
+		X: C.X - B.X,
+		Y: C.Y - B.Y,
+	}
+	return AB.X*CB.X + AB.Y*CB.Y
+}
