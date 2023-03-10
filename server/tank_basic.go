@@ -36,7 +36,7 @@ func (t BasicTank) TankId() int {
 }
 
 func (t BasicTank) UpdatableTo() []Tank {
-	return []Tank{TwinTank{}}
+	return []Tank{TwinTank{}, SniperTank{}, AsymetricTank{}}
 }
 
 func (t BasicTank) KnockBack() float32 {
