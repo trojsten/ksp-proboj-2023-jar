@@ -8,6 +8,7 @@
  * @prop {boolean} alive
  * @prop {number} tank_id
  * @prop {number} tank_radius
+ * @prop {number} range
  */
 
 /**
@@ -49,6 +50,8 @@ class Renderer {
 
         /** @type {Object.<number, _Graphics>}} */
         this.worldPlayers = {}
+        /** @type {Frame} */
+        this.currentFrame = null
         /** @type {Object.<number, _Graphics>}} */
         this.worldBullets = {}
         /** @type {_Graphics} */
@@ -74,6 +77,7 @@ class Renderer {
      * @param {Frame} frame
      */
     render(frame) {
+        this.currentFrame = frame
         this.renderBorder(frame.min_x, frame.min_y, frame.max_x, frame.max_y)
 
         // Players
@@ -115,21 +119,25 @@ class Renderer {
     }
 
     recenter() {
-        const keys = Object.keys(this.worldPlayers)
-        if (keys.length === 0) {
+        if (this.currentFrame === null) {
             return
         }
-        let minX, minY, maxX, maxY;
-        const key = parseInt(keys[0])
-        minX = maxX = this.worldPlayers[key].x
-        minY = maxY = this.worldPlayers[key].y
 
-        for (const player of Object.values(this.worldPlayers)) {
-            minX = Math.min(minX, player.x)
-            maxX = Math.max(maxX, player.x)
-            minY = Math.min(minY, player.y)
-            maxY = Math.max(maxY, player.y)
+        let minX, minY, maxX, maxY;
+        maxX = maxY = -Infinity
+        minX = minY = Infinity
+
+        for (const player of this.currentFrame.players) {
+            if (!player.alive) {
+                continue
+            }
+            minX = Math.min(minX, player.x - player.range)
+            maxX = Math.max(maxX, player.x + player.range)
+            minY = Math.min(minY, -player.y - player.range)
+            maxY = Math.max(maxY, -player.y + player.range)
         }
+
+        console.log(minX, maxX, minY, maxY)
 
         const boxWidth = maxX - minX + 100
         const boxHeight = maxY - minY + 100
@@ -154,6 +162,10 @@ class Renderer {
         if (!(player.id in this.worldPlayers)) {
             const g = new PIXI.Graphics()
             const color = playerColor(player.id)
+
+            g.beginFill(color, 0.1)
+            g.drawCircle(0, 0, player.range)
+            g.endFill();
 
             g.lineStyle(2, 0xFFFFFF, 1)
             g.beginFill(color, 1)
