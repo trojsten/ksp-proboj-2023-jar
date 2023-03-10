@@ -186,18 +186,18 @@ class Renderer {
         const g = new PIXI.Graphics()
         g.name = "healthbar"
 
+        const h = (player.health / player.max_health)
+        g.beginFill(h > 0.2 ? 0xffffff : 0xff0000)
+        g.moveTo(-15, - player.tank_radius - 15)
+        g.lineTo(-15+h*30, - player.tank_radius - 15)
+        g.lineTo(-15+h*30, - player.tank_radius - 20)
+        g.lineTo(-15, - player.tank_radius - 20)
+        g.endFill()
+
         g.lineStyle(2, 0xffffff, 1)
         g.moveTo(-15, - player.tank_radius - 15)
         g.lineTo(15, - player.tank_radius - 15)
         g.lineTo(15, - player.tank_radius - 20)
-        g.lineTo(-15, - player.tank_radius - 20)
-        g.closePath()
-
-        const w = 30 * (player.health / player.max_health)
-        g.beginFill(0xffffff)
-        g.moveTo(-15, - player.tank_radius - 15)
-        g.lineTo(-15+w, - player.tank_radius - 15)
-        g.lineTo(-15+w, - player.tank_radius - 20)
         g.lineTo(-15, - player.tank_radius - 20)
         g.closePath()
 
