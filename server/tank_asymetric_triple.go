@@ -6,7 +6,7 @@ type AsymetricTripleTank struct {
 	//TODO constants
 }
 
-func (t AsymetricTripleTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
+func (t AsymetricTripleTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
 	var bullet1 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true)
 	var bullet2 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle-2*math.Pi/3, 5, true)
 	var bullet3 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle-2*math.Pi/3, 5, true)

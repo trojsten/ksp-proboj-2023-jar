@@ -73,14 +73,14 @@ func (p *Player) MoveTo(x, y float32) PlayerMovement {
 	return movement
 }
 
-func (p *Player) Fire(playerMovement PlayerMovement) (float32, float32) {
+func (p *Player) Fire(playerMovement PlayerMovement, angle2 float32) (float32, float32) {
 	if p.ReloadCooldown > 0 {
 		p.World.Runner.Log(fmt.Sprintf("ignoring shoot for %s: reload cooldown", p.Name))
 		return 0, 0
 	}
 
 	p.ReloadCooldown = p.RealStatsValues().ReloadSpeed
-	return p.Tank.Fire(p, playerMovement)
+	return p.Tank.Fire(p, playerMovement, angle2)
 }
 
 func (p *Player) Tick() {

@@ -4,10 +4,9 @@ type VariableDoubleTank struct {
 	//TODO constants
 }
 
-func (t VariableDoubleTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
-	// TODO two angles
+func (t VariableDoubleTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
 	var bullet1 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true)
-	var bullet2 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true)
+	var bullet2 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, angle2, 5, true)
 	return (bullet1.Vx + bullet2.Vx) * t.KnockBack(), (bullet1.Vy + bullet2.Vy) * t.KnockBack()
 }
 

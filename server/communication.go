@@ -96,10 +96,10 @@ func (w *World) DataForPlayer(player Player) string {
 // ParseResponse parses the player's response and updates game state
 // response format is `vx vy angle shoot? statsDiff... newTankId`
 func (w *World) ParseResponse(response string, player *Player) error {
-	var vx, vy, angle float32
+	var vx, vy, angle1, angle2 float32
 	var shoot, newTankId int
 	var stat Stat
-	_, err := fmt.Sscanf(response, "%f %f %f %d %d %d", &vx, &vy, &angle, &shoot, &stat, &newTankId)
+	_, err := fmt.Sscanf(response, "%f %f %f %f %d %d %d", &vx, &vy, &angle1, &angle2, &shoot, &stat, &newTankId)
 	if err != nil {
 		return fmt.Errorf("sscanf failed: %w", err)
 	}
@@ -122,12 +122,12 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	}
 	playerMovement := player.MoveTo(player.X+vx, player.Y+vy)
 	w.PlayerMovements = append(w.PlayerMovements, playerMovement)
-	player.Angle = angle
+	player.Angle = angle1
 
 	// Shoot
 	var knockX, knockY float32 = 0, 0
 	if shoot == 1 {
-		knockX, knockY = player.Fire(playerMovement)
+		knockX, knockY = player.Fire(playerMovement, angle2)
 	}
 
 	playerMovement.apply()

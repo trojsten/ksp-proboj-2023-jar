@@ -6,7 +6,7 @@ type EverywhereTank struct {
 	//TODO constants
 }
 
-func (t EverywhereTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
+func (t EverywhereTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
 	var radius float32 = 5
 	var bullets = 4
 	for i := 0; i < bullets; i++ {

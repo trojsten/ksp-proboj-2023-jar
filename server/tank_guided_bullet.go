@@ -4,7 +4,7 @@ type GuidedBulletTank struct {
 	//TODO constants
 }
 
-func (t GuidedBulletTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
+func (t GuidedBulletTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
 	// TODO guiding
 	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()

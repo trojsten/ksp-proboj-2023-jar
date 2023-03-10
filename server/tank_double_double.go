@@ -6,7 +6,7 @@ type DoubleDoubleTank struct {
 	//TODO constants
 }
 
-func (t DoubleDoubleTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
+func (t DoubleDoubleTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
 	TwinShot(player, playerMovement, t.KnockBack(), player.Angle)
 	TwinShot(player, playerMovement, t.KnockBack(), player.Angle+math.Pi)
 	return 0, 0

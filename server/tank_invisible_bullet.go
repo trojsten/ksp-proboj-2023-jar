@@ -4,7 +4,7 @@ type InvisibleBulletTank struct {
 	//TODO constants
 }
 
-func (t InvisibleBulletTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
+func (t InvisibleBulletTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
 	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 20, false)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()
 }

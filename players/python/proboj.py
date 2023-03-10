@@ -23,16 +23,17 @@ class Turn:
     či chce vystreliť, ktorý Stat chce updatnúť a id tanku, ktorý by chcel mať.
     """
 
-    def __init__(self, velocity, angle: float, shoot: bool, stat: StatsEnum, new_tank_id: int):
+    def __init__(self, velocity, angle1: float, shoot: bool, stat: StatsEnum, new_tank_id: int, angle2: float = 0):
         self.x = float(velocity.x)
         self.y = float(velocity.y)
-        self.angle = float(angle)
+        self.angle1 = float(angle1)
+        self.angle2 = float(angle2)
         self.shoot = int(shoot)
         self.stat = int(stat.value)
         self.new_tank_id = int(new_tank_id)
 
     def print(self):
-        print(f"{self.x} {self.y} {self.angle} {self.shoot} {self.stat} {self.new_tank_id}")
+        print(f"{self.x} {self.y} {self.angle1} {self.angle2} {self.shoot} {self.stat} {self.new_tank_id}")
         print(".")
 
 

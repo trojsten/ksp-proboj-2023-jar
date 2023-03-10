@@ -3,7 +3,7 @@ package main
 import "math"
 
 type Tank interface {
-	Fire(player *Player, playerMovement PlayerMovement) (float32, float32)
+	Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32)
 	StatsValues() StatsValues
 	Radius() float32
 	TankLevel() int // TODO delete?
