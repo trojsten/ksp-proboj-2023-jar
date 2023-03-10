@@ -7,9 +7,9 @@ type AsymetricTripleTank struct {
 }
 
 func (t AsymetricTripleTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
-	var bullet1 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5)
-	var bullet2 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle-2*math.Pi/3, 5)
-	var bullet3 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle-2*math.Pi/3, 5)
+	var bullet1 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true)
+	var bullet2 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle-2*math.Pi/3, 5, true)
+	var bullet3 = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle-2*math.Pi/3, 5, true)
 	return (bullet1.Vx + bullet2.Vx + bullet3.Vx) * t.KnockBack(), (bullet1.Vy + bullet2.Vy + bullet3.Vx) * t.KnockBack()
 }
 

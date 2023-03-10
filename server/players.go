@@ -160,10 +160,10 @@ func (p *Player) ReachableEntities() []Entity {
 	return res
 }
 
-func (p *Player) ReachableBullets() []Bullet {
+func (p *Player) ReachableVisibleBullets() []Bullet {
 	var res []Bullet
 	for _, bullet := range p.World.Bullets {
-		if p.Reachable(bullet.Position, p.RealStatsValues().Range) {
+		if bullet.Visible && p.Reachable(bullet.Position, p.RealStatsValues().Range) {
 			res = append(res, bullet)
 		}
 	}

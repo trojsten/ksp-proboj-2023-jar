@@ -5,7 +5,7 @@ type BasicTank struct {
 }
 
 func (t BasicTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
-	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5)
+	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()
 }
 

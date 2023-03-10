@@ -5,8 +5,7 @@ type InvisibleBulletTank struct {
 }
 
 func (t InvisibleBulletTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
-	// TODO invisibility
-	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 20)
+	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 20, false)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()
 }
 

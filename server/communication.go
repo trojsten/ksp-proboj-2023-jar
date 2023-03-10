@@ -69,7 +69,7 @@ func (w *World) DataForPlayer(player Player) string {
 	}
 
 	// 4 bullets
-	var reachableBullets = player.ReachableBullets()
+	var reachableBullets = player.ReachableVisibleBullets()
 	data.WriteString(fmt.Sprintf("%d\n", len(reachableBullets)))
 	for _, b := range reachableBullets {
 		data.WriteString(fmt.Sprintf(

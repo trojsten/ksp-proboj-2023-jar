@@ -28,12 +28,12 @@ func TwinShot(player *Player, playerMovement PlayerMovement, knockBack float32, 
 		X: player.Position.X + radius*float32(math.Cos(float64(angle+math.Pi/2))),
 		Y: player.Position.Y + radius*float32(math.Sin(float64(angle+math.Pi/2))),
 	}
-	var bullet1 = NewBullet(player.World, player.Id, position1, player.RealStatsValues(), playerMovement, angle, radius)
+	var bullet1 = NewBullet(player.World, player.Id, position1, player.RealStatsValues(), playerMovement, angle, radius, true)
 
 	var position2 = Position{
 		X: player.Position.X + radius*float32(math.Cos(float64(angle-math.Pi/2))),
 		Y: player.Position.Y + radius*float32(math.Sin(float64(angle-math.Pi/2))),
 	}
-	var bullet2 = NewBullet(player.World, player.Id, position2, player.RealStatsValues(), playerMovement, angle, radius)
+	var bullet2 = NewBullet(player.World, player.Id, position2, player.RealStatsValues(), playerMovement, angle, radius, true)
 	return (bullet1.Vx + bullet2.Vx) * knockBack, (bullet1.Vy + bullet2.Vy) * knockBack
 }

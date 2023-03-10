@@ -10,7 +10,7 @@ func (t EverywhereTank) Fire(player *Player, playerMovement PlayerMovement) (flo
 	var radius float32 = 5
 	var bullets = 4
 	for i := 0; i < bullets; i++ {
-		NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle+float32(i)*math.Pi/float32(bullets), radius)
+		NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle+float32(i)*math.Pi/float32(bullets), radius, true)
 	}
 	return 0, 0
 }

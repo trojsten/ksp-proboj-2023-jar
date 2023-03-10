@@ -5,7 +5,7 @@ type WideBulletTank struct {
 }
 
 func (t WideBulletTank) Fire(player *Player, playerMovement PlayerMovement) (float32, float32) {
-	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 15)
+	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 15, true)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()
 }
 

@@ -11,6 +11,7 @@ type Bullet struct {
 	TTL       float32 `json:"-"`
 	Damage    float32 `json:"-"`
 	ShooterId int     `json:"shooter_id"`
+	Visible   bool    `json:"visible"`
 }
 
 // Tick moves the given bullet and returns whether it's entity should be removed
@@ -27,7 +28,7 @@ func (b *Bullet) Tick() (bool, BulletMovement) {
 	return true, bulletMovement
 }
 
-func NewBullet(w *World, playerId int, position Position, statsValues StatsValues, playerMovement PlayerMovement, angle float32, radius float32) *Bullet {
+func NewBullet(w *World, playerId int, position Position, statsValues StatsValues, playerMovement PlayerMovement, angle float32, radius float32, visible bool) *Bullet {
 	var bulletSpeed = statsValues.BulletSpeed
 
 	var Vx = float32(math.Cos(float64(angle))) * bulletSpeed
@@ -44,6 +45,7 @@ func NewBullet(w *World, playerId int, position Position, statsValues StatsValue
 		TTL:       statsValues.BulletTTL,
 		Damage:    statsValues.BulletDamage,
 		ShooterId: playerId,
+		Visible:   visible,
 	}
 	w.BulletNumber++
 	w.Bullets = append(w.Bullets, bullet)
