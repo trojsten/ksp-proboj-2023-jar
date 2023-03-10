@@ -4,8 +4,8 @@ type BasicTank struct {
 	//TODO constants
 }
 
-func (t BasicTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
-	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true)
+func (t BasicTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32) {
+	var bullet = NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle, 5, true, nil)
 	return bullet.Vx * t.KnockBack(), bullet.Vy * t.KnockBack()
 }
 

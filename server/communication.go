@@ -98,8 +98,45 @@ func (w *World) DataForPlayer(player Player) string {
 func (w *World) ParseResponse(response string, player *Player) error {
 	var vx, vy, angle1, angle2 float32
 	var shoot, newTankId int
+	var target Target
 	var stat Stat
-	_, err := fmt.Sscanf(response, "%f %f %f %f %d %d %d", &vx, &vy, &angle1, &angle2, &shoot, &stat, &newTankId)
+	_, err := fmt.Sscanf(response, "%f %f %d ", &vx, &vy, &shoot)
+	if err != nil {
+		return fmt.Errorf("sscanf failed: %w", err)
+	}
+	switch shoot {
+	case 0:
+		break
+	case 1:
+		_, err := fmt.Sscanf(response, "%f ", &angle1)
+		if err != nil {
+			return fmt.Errorf("sscanf failed: %w", err)
+		}
+		break
+	case 2:
+		_, err := fmt.Sscanf(response, "%f %f ", &angle1, &angle2)
+		if err != nil {
+			return fmt.Errorf("sscanf failed: %w", err)
+		}
+		break
+	case 3:
+		var playerId int
+		_, err := fmt.Sscanf(response, "%d ", &playerId)
+		target = PlayerTarget{Player: w.Players[playerId]}
+		if err != nil {
+			return fmt.Errorf("sscanf failed: %w", err)
+		}
+		break
+	case 4:
+		var x, y float32
+		_, err := fmt.Sscanf(response, "%f %f ", &x, &y)
+		target = PositionTarget{TargetPosition: Position{X: x, Y: y}}
+		if err != nil {
+			return fmt.Errorf("sscanf failed: %w", err)
+		}
+		break
+	}
+	_, err = fmt.Sscanf(response, "%d %d", &stat, &newTankId)
 	if err != nil {
 		return fmt.Errorf("sscanf failed: %w", err)
 	}
@@ -127,7 +164,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	// Shoot
 	var knockX, knockY float32 = 0, 0
 	if shoot == 1 {
-		knockX, knockY = player.Fire(playerMovement, angle2)
+		knockX, knockY = player.Fire(playerMovement, angle2, target)
 	}
 
 	playerMovement.apply()

@@ -4,7 +4,7 @@ type PeacefulTank struct {
 	//TODO constants
 }
 
-func (t PeacefulTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
+func (t PeacefulTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32) {
 	return 0, 0
 }
 

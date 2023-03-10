@@ -1,3 +1,4 @@
+from players.python.shoot import OneBulletShoot
 from proboj import *
 import random
 
@@ -8,8 +9,7 @@ from math import atan2
 class MyPlayer(ProbojPlayer):
     def make_turn(self) -> Turn:
         return Turn(velocity=XY(200 * random.random() - 100, 200 * random.random() - 100),
-                    angle1=6.28 * random.random(),
-                    shoot=random.choice([True, True]),
+                    shoot=OneBulletShoot(6.28 * random.random()),
                     stat=StatsEnum.StatNone,
                     new_tank_id=0)
 
@@ -34,8 +34,7 @@ class MiskoPlayer(ProbojPlayer):
             nearest = XY(0, 0)
 
         return Turn(velocity=nearest - self.myself.position,
-                    angle1=atan2((nearest - self.myself.position).y, (nearest - self.myself.position).x),
-                    shoot=True,
+                    shoot=OneBulletShoot(atan2((nearest - self.myself.position).y, (nearest - self.myself.position).x)),
                     stat=StatsEnum.StatNone,
                     new_tank_id=0)
 

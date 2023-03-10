@@ -77,7 +77,7 @@ func collisionsEntityBullet(w *World) {
 			w.Runner.Log(fmt.Sprintf("collision: bullet (%f, %f) - entity (%f, %f)", bulletMovement.Bullet.X, bulletMovement.Bullet.Y, entity.X, entity.Y))
 			w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient)
 			bulletMovement.Bullet.TTL -= BulletCollisionTTL
-			w.Entities[e].SetHealth(bulletMovement.Bullet.Damage)
+			w.Entities[e].SetHealth(w.Entities[e].Health - bulletMovement.Bullet.Damage)
 		}
 	}
 }

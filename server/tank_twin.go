@@ -4,7 +4,7 @@ type TwinTank struct {
 	//TODO constants
 }
 
-func (t TwinTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32) (float32, float32) {
+func (t TwinTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32) {
 	return TwinShot(player, playerMovement, t.KnockBack(), player.Angle)
 }
 

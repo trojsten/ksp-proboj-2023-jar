@@ -46,7 +46,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 }
 
 func (w *World) NewPlayer(name string) Player {
-	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w, LifesLeft: MaxRespawn}
+	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w, LifesLeft: MaxRespawn, Health: HealthMaxValues[0]}
 }
 
 func (p *Player) RealStatsValues() StatsValues {
@@ -73,14 +73,14 @@ func (p *Player) MoveTo(x, y float32) PlayerMovement {
 	return movement
 }
 
-func (p *Player) Fire(playerMovement PlayerMovement, angle2 float32) (float32, float32) {
+func (p *Player) Fire(playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32) {
 	if p.ReloadCooldown > 0 {
 		p.World.Runner.Log(fmt.Sprintf("ignoring shoot for %s: reload cooldown", p.Name))
 		return 0, 0
 	}
 
 	p.ReloadCooldown = p.RealStatsValues().ReloadSpeed
-	return p.Tank.Fire(p, playerMovement, angle2)
+	return p.Tank.Fire(p, playerMovement, angle2, target)
 }
 
 func (p *Player) Tick() {
