@@ -9,6 +9,8 @@
  * @prop {number} tank_id
  * @prop {number} tank_radius
  * @prop {number} range
+ * @prop {number} health
+ * @prop {number} max_health
  */
 
 /**
@@ -48,7 +50,7 @@ class Renderer {
         this.app = new PIXI.Application({ background: '#111', resizeTo: document.body, antialias: true })
         document.body.appendChild(this.app.view)
 
-        /** @type {Object.<number, _Graphics>}} */
+        /** @type {Object.<number, _Container>}} */
         this.worldPlayers = {}
         /** @type {Frame} */
         this.currentFrame = null
@@ -137,8 +139,6 @@ class Renderer {
             maxY = Math.max(maxY, -player.y + player.range)
         }
 
-        console.log(minX, maxX, minY, maxY)
-
         const boxWidth = maxX - minX + 100
         const boxHeight = maxY - minY + 100
 
@@ -158,36 +158,80 @@ class Renderer {
     /**
      * @param {Player} player
      */
+    playerGraphics(player) {
+        const g = new PIXI.Graphics()
+        const color = playerColor(player.id)
+
+        g.beginFill(color, 0.1)
+        g.drawCircle(0, 0, player.range)
+        g.endFill();
+
+        g.lineStyle(2, 0xFFFFFF, 1)
+        g.beginFill(color, 1)
+        g.drawCircle(0, 0, 10)
+        g.endFill();
+
+        g.lineStyle(2, 0xffd900, 1)
+        g.moveTo(0, 0)
+        g.lineTo(0, -20)
+        g.closePath()
+
+        return g
+    }
+
+    /**
+     * @param {Player} player
+     */
+    playerHealthbar(player) {
+        const g = new PIXI.Graphics()
+        g.name = "healthbar"
+
+        g.lineStyle(2, 0xffffff, 1)
+        g.moveTo(-15, - player.tank_radius - 15)
+        g.lineTo(15, - player.tank_radius - 15)
+        g.lineTo(15, - player.tank_radius - 20)
+        g.lineTo(-15, - player.tank_radius - 20)
+        g.closePath()
+
+        const w = 30 * (player.health / player.max_health)
+        g.beginFill(0xffffff)
+        g.moveTo(-15, - player.tank_radius - 15)
+        g.lineTo(-15+w, - player.tank_radius - 15)
+        g.lineTo(-15+w, - player.tank_radius - 20)
+        g.lineTo(-15, - player.tank_radius - 20)
+        g.closePath()
+
+        return g
+    }
+
+    /**
+     * @param {Player} player
+     */
     renderPlayer(player) {
         if (!(player.id in this.worldPlayers)) {
-            const g = new PIXI.Graphics()
-            const color = playerColor(player.id)
+            const playerCont = new PIXI.Container()
+            const tankCont = new PIXI.Container()
+            tankCont.name = "tank"
+            tankCont.rotation = -player.angle + Math.PI/2
+            playerCont.addChild(tankCont)
 
-            g.beginFill(color, 0.1)
-            g.drawCircle(0, 0, player.range)
-            g.endFill();
-
-            g.lineStyle(2, 0xFFFFFF, 1)
-            g.beginFill(color, 1)
-            g.drawCircle(0, 0, 10)
-            g.endFill();
-
-            g.lineStyle(2, 0xffd900, 1)
-            g.moveTo(0, 0)
-            g.lineTo(0, -20)
-            g.closePath()
-            g.x = player.x
-            g.y = -player.y
-            g.rotation = -player.angle + Math.PI/2
-
-            this.worldPlayers[player.id] = g
-            this.world.addChild(g)
+            playerCont.x = player.x
+            playerCont.y = -player.y
+            this.worldPlayers[player.id] = playerCont
+            this.world.addChild(playerCont)
         }
 
         const wp = this.worldPlayers[player.id]
+        wp.getChildByName("tank").removeChildren()
+        wp.getChildByName("tank").addChild(this.playerGraphics(player))
+        wp.removeChild(wp.getChildByName("healthbar"))
+        wp.addChild(this.playerHealthbar(player))
+
         this._tween(wp, {
             x: player.x,
             y: -player.y,
+        })
+        this._tween(wp.getChildByName("tank"), {
             rotation: -player.angle + Math.PI/2
         })
     }

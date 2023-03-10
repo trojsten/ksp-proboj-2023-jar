@@ -34,6 +34,8 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 		TankId     int     `json:"tank_id"`
 		TankRadius float32 `json:"tank_radius"`
 		Range      float32 `json:"range"`
+		Health     float32 `json:"health"`
+		MaxHealth  float32 `json:"max_health"`
 	}{
 		X:          p.X,
 		Y:          p.Y,
@@ -44,6 +46,8 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 		TankId:     p.Tank.TankId(),
 		TankRadius: p.Tank.Radius(),
 		Range:      p.RealStatsValues().Range,
+		Health:     p.Health,
+		MaxHealth:  p.RealStatsValues().HealthMax,
 	})
 }
 
