@@ -2,9 +2,9 @@ import math
 import sys
 from typing import Set
 
-from players.python.shoot import Shoot
-from stats import *
 from tanks import *
+from shoot import Shoot
+from stats import *
 
 _input = input
 
