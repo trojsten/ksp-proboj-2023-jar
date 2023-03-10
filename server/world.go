@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/trojsten/ksp-proboj/libproboj"
+	"math"
 	"math/rand"
 )
 
@@ -39,9 +40,28 @@ func (w *World) Running() bool {
 }
 
 func (w *World) SpawnObject(p *Position) {
-	// TODO check, ci nie som blizko niekoho
-	p.X = rand.Float32()*(w.MaxX-w.MinX) + w.MinX
-	p.Y = rand.Float32()*(w.MaxY-w.MinY) + w.MinY
+	var x = rand.Float32()*(w.MaxX-w.MinX) + w.MinX
+	var y = rand.Float32()*(w.MaxY-w.MinY) + w.MinY
+	var dist = w.NearestPlayerDistance(Position{X: x, Y: y})
+	for i := 0; i < SpawnIterations; i++ {
+		var x2 = rand.Float32()*(w.MaxX-w.MinX) + w.MinX
+		var y2 = rand.Float32()*(w.MaxY-w.MinY) + w.MinY
+		var dist2 = w.NearestPlayerDistance(Position{X: x2, Y: y2})
+		if dist > dist2 {
+			x = x2
+			y = y2
+		}
+	}
+	p.X = x
+	p.Y = y
+}
+
+func (w *World) NearestPlayerDistance(p Position) float32 {
+	var minDistance float32 = float32(math.Inf(1))
+	for _, player := range w.Players {
+		minDistance = Min(minDistance, player.Distance(p))
+	}
+	return minDistance
 }
 
 func (w *World) SpawnEntity() {
@@ -73,7 +93,6 @@ func (w *World) CalculateCG() Position {
 }
 
 func (w *World) Shrink() {
-	// TODO constants
 	if w.TickNumber > ShrinkWorldAfter {
 		if (w.MaxX-w.MinX) > MinWorldSize || (w.MaxY-w.MinY) > MinWorldSize {
 			var CG = w.CalculateCG()

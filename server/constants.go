@@ -6,6 +6,7 @@ const MinY = -1000
 const MaxY = 1000
 const WorldSizeShrink = 0.99
 const MinWorldSize = 100
+const SpawnIterations = 10
 const TankLevelUpdateFreq = 10
 const PlayerEntityCollisionHealth = 10
 const PlayerOutOfWorldHealth = 15
