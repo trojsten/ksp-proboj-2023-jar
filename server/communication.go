@@ -69,7 +69,7 @@ func (w *World) DataForPlayer(player Player) string {
 	}
 
 	// 4 bullets
-	var reachableBullets = player.ReachableBullets()
+	var reachableBullets = player.ReachableVisibleBullets()
 	data.WriteString(fmt.Sprintf("%d\n", len(reachableBullets)))
 	for _, b := range reachableBullets {
 		data.WriteString(fmt.Sprintf(
@@ -96,12 +96,49 @@ func (w *World) DataForPlayer(player Player) string {
 // ParseResponse parses the player's response and updates game state
 // response format is `vx vy angle shoot? statsDiff... newTankId`
 func (w *World) ParseResponse(response string, player *Player) error {
-	var vx, vy, angle float32
+	var vx, vy, angle1, angle2 float32
 	var shoot, newTankId int
+	var target Target
 	var stat Stat
-	_, err := fmt.Sscanf(response, "%f %f %f %d %d %d", &vx, &vy, &angle, &shoot, &stat, &newTankId)
+	_, err := fmt.Sscanf(response, "%f %f %d ", &vx, &vy, &shoot)
 	if err != nil {
-		return fmt.Errorf("sscanf failed: %w", err)
+		return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
+	}
+	switch shoot {
+	case 0:
+		break
+	case 1:
+		_, err := fmt.Sscanf(response, "%f ", &angle1)
+		if err != nil {
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
+		}
+		break
+	case 2:
+		_, err := fmt.Sscanf(response, "%f %f ", &angle1, &angle2)
+		if err != nil {
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
+		}
+		break
+	case 3:
+		var playerId int
+		_, err := fmt.Sscanf(response, "%d ", &playerId)
+		target = PlayerTarget{Player: w.Players[playerId]}
+		if err != nil {
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
+		}
+		break
+	case 4:
+		var x, y float32
+		_, err := fmt.Sscanf(response, "%f %f ", &x, &y)
+		target = PositionTarget{TargetPosition: Position{X: x, Y: y}}
+		if err != nil {
+			return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
+		}
+		break
+	}
+	_, err = fmt.Sscanf(response, "%d %d", &stat, &newTankId)
+	if err != nil {
+		return fmt.Errorf("(%s) sscanf failed: %w", player.Name, err)
 	}
 
 	// check if vx/vy is Inf/-Inf/NaN
@@ -122,12 +159,17 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	}
 	playerMovement := player.MoveTo(player.X+vx, player.Y+vy)
 	w.PlayerMovements = append(w.PlayerMovements, playerMovement)
-	player.Angle = angle
+	player.Angle = angle1
 
 	// Shoot
+	var knockX, knockY float32 = 0, 0
 	if shoot == 1 {
-		player.Fire(playerMovement)
+		knockX, knockY = player.Fire(playerMovement, angle2, target)
 	}
+
+	playerMovement.apply()
+	player.X += knockX
+	player.Y += knockY
 
 	// Upgrade stats
 	if stat.IsValid() {

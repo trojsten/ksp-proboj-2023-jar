@@ -52,7 +52,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 }
 
 func (w *World) NewPlayer(name string) Player {
-	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w, LifesLeft: MaxRespawn}
+	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w, LifesLeft: MaxRespawn, Health: HealthMaxValues[0]}
 }
 
 func (p *Player) RealStatsValues() StatsValues {
@@ -73,22 +73,20 @@ func (p *Player) RealStatsValues() StatsValues {
 }
 
 func (p *Player) MoveTo(x, y float32) PlayerMovement {
-	var movement = PlayerMovement{p.Position, p}
+	var movement = PlayerMovement{Position{X: x, Y: y}, p}
 	// p.X = InRange(x, -p.World.Size, p.World.Size)
 	// p.Y = InRange(y, -p.World.Size, p.World.Size)
-	p.X = x
-	p.Y = y
 	return movement
 }
 
-func (p *Player) Fire(playerMovement PlayerMovement) {
+func (p *Player) Fire(playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32) {
 	if p.ReloadCooldown > 0 {
-		p.World.Runner.Log(fmt.Sprintf("ignoring shoot for %s: reload cooldown", p.Name))
-		return
+		p.World.Runner.Log(fmt.Sprintf("(%s) ignoring shoot: reload cooldown", p.Name))
+		return 0, 0
 	}
 
-	p.Tank.Fire(p, playerMovement)
 	p.ReloadCooldown = p.RealStatsValues().ReloadSpeed
+	return p.Tank.Fire(p, playerMovement, angle2, target)
 }
 
 func (p *Player) Tick() {
@@ -107,8 +105,10 @@ func (p *Player) Tick() {
 
 	if p.Health < 0 {
 		p.Alive = false
+		p.World.Runner.Log(fmt.Sprintf("(%s) player died", p.Name))
 		if p.LifesLeft > 0 {
 			p.RespawnPlayer()
+			p.World.Runner.Log(fmt.Sprintf("(%s) player respawned. Lifes left: %d", p.Name, p.LifesLeft))
 		}
 	}
 
@@ -117,8 +117,10 @@ func (p *Player) Tick() {
 	for p.Level < len(LevelUpdateExp) && p.Exp > LevelUpdateExp[p.Level] {
 		p.Level++
 		p.LevelsLeft++
+		p.World.Runner.Log(fmt.Sprintf("(%s) player level updated. New level: %d", p.Name, p.Level))
 		if p.Level%TankLevelUpdateFreq == 0 {
 			p.TankUpdatesLeft++
+			p.World.Runner.Log(fmt.Sprintf("(%s) player tank level updated. New tank level", p.Name))
 		}
 	}
 }
@@ -143,6 +145,7 @@ func (p *Player) RespawnPlayer() {
 
 func (p *Player) UpdateTank(newTank Tank) {
 	if p.TankUpdatesLeft > 0 {
+		p.World.Runner.Log(fmt.Sprintf("(%s) player tank updated. New tank id: %d", p.Name, newTank.TankId()))
 		p.Tank = newTank
 		p.TankUpdatesLeft--
 	}
@@ -168,10 +171,10 @@ func (p *Player) ReachableEntities() []Entity {
 	return res
 }
 
-func (p *Player) ReachableBullets() []Bullet {
+func (p *Player) ReachableVisibleBullets() []Bullet {
 	var res []Bullet
 	for _, bullet := range p.World.Bullets {
-		if p.Reachable(bullet.Position, p.RealStatsValues().Range) {
+		if bullet.Visible && p.Reachable(bullet.Position, p.RealStatsValues().Range) {
 			res = append(res, bullet)
 		}
 	}
@@ -179,10 +182,14 @@ func (p *Player) ReachableBullets() []Bullet {
 }
 
 type PlayerMovement struct {
-	OldPosition Position
+	NewPosition Position
 	Player      *Player
 }
 
 func (pm PlayerMovement) speed() float32 {
-	return pm.OldPosition.Distance(pm.Player.Position)
+	return pm.NewPosition.Distance(pm.Player.Position)
+}
+
+func (pm PlayerMovement) apply() {
+	pm.Player.Position = pm.NewPosition
 }

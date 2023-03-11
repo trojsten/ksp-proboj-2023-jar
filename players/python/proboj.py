@@ -2,8 +2,9 @@ import math
 import sys
 from typing import Set
 
-from stats import *
 from tanks import *
+from shoot import Shoot
+from stats import *
 
 _input = input
 
@@ -15,25 +16,6 @@ def lepsiInput():
 
 
 input = lepsiInput
-
-
-class Turn:
-    """
-    Reprezentuje ťah v hre. Hráč vracia rýchlosť, smer, ktorým sa chce pohnúť,
-    či chce vystreliť, ktorý Stat chce updatnúť a id tanku, ktorý by chcel mať.
-    """
-
-    def __init__(self, velocity, angle: float, shoot: bool, stat: StatsEnum, new_tank_id: int):
-        self.x = float(velocity.x)
-        self.y = float(velocity.y)
-        self.angle = float(angle)
-        self.shoot = int(shoot)
-        self.stat = int(stat.value)
-        self.new_tank_id = int(new_tank_id)
-
-    def print(self):
-        print(f"{self.x} {self.y} {self.angle} {self.shoot} {self.stat} {self.new_tank_id}")
-        print(".")
 
 
 class XY:
@@ -71,6 +53,24 @@ class XY:
 
     def __hash__(self):
         return hash((self.x, self.y))
+
+
+class Turn:
+    """
+    Reprezentuje ťah v hre. Hráč vracia rýchlosť, smer, ktorým sa chce pohnúť,
+    či chce vystreliť, ktorý Stat chce updatnúť a id tanku, ktorý by chcel mať.
+    """
+
+    def __init__(self, velocity: XY, shoot: Shoot, stat: StatsEnum, new_tank_id: int):
+        self.x = float(velocity.x)
+        self.y = float(velocity.y)
+        self.shoot = shoot
+        self.stat = int(stat.value)
+        self.new_tank_id = int(new_tank_id)
+
+    def print(self):
+        print(f"{self.x} {self.y} {self.shoot} {self.stat} {self.new_tank_id}")
+        print(".")
 
 
 class Player:
