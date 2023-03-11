@@ -46,5 +46,5 @@ func (t GuidedBulletTank) UpdatableTo() []Tank {
 }
 
 func (t GuidedBulletTank) KnockBack() float32 {
-	return 5
+	return -1
 }

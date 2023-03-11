@@ -40,5 +40,5 @@ func (t MachineGunTank) UpdatableTo() []Tank {
 }
 
 func (t MachineGunTank) KnockBack() float32 {
-	return 5
+	return -1
 }

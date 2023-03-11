@@ -46,5 +46,5 @@ func (t EverywhereTank) UpdatableTo() []Tank {
 }
 
 func (t EverywhereTank) KnockBack() float32 {
-	return 5
+	return -1
 }

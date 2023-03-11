@@ -40,5 +40,5 @@ func (t BasicTank) UpdatableTo() []Tank {
 }
 
 func (t BasicTank) KnockBack() float32 {
-	return 5
+	return -1
 }

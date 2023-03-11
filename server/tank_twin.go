@@ -39,5 +39,5 @@ func (t TwinTank) UpdatableTo() []Tank {
 }
 
 func (t TwinTank) KnockBack() float32 {
-	return 5
+	return -1
 }
