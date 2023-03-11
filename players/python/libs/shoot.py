@@ -1,4 +1,4 @@
-from players.python.proboj import XY
+from libs.xy import XY
 
 
 class Shoot:

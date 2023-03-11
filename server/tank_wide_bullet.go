@@ -40,5 +40,5 @@ func (t WideBulletTank) UpdatableTo() []Tank {
 }
 
 func (t WideBulletTank) KnockBack() float32 {
-	return 5
+	return -1
 }

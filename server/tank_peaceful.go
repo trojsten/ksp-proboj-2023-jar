@@ -39,5 +39,5 @@ func (t PeacefulTank) UpdatableTo() []Tank {
 }
 
 func (t PeacefulTank) KnockBack() float32 {
-	return 5
+	return -1
 }
