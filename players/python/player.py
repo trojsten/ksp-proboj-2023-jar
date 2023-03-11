@@ -1,5 +1,6 @@
-from players.python.shoot import OneBulletShoot
+from shoot import OneBulletShoot
 from proboj import *
+from xy import *
 import random
 
 from math import inf
