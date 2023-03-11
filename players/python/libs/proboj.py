@@ -1,10 +1,10 @@
 import sys
 from typing import Set
 
-from xy import XY
-from tanks import *
-from shoot import Shoot
-from stats import *
+from libs.xy import XY
+from libs.tanks import *
+from libs.shoot import Shoot
+from libs.stats import *
 
 _input = input
 

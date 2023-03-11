@@ -1,6 +1,6 @@
-from shoot import OneBulletShoot
-from proboj import *
-from xy import *
+from libs.shoot import OneBulletShoot
+from libs.proboj import *
+from libs.xy import *
 import random
 
 from math import inf
