@@ -73,6 +73,12 @@ class Renderer {
         // this.world.y = this.app.screen.height / 2
         // this.world.scale.x = 0.5
         // this.world.scale.y = 0.5
+
+        const scoreboardContainer = new PIXI.Container()
+        scoreboardContainer.x = this.app.screen.width - 220
+        scoreboardContainer.y = 20
+        this.app.stage.addChild(scoreboardContainer)
+        this.scoreboard = new Scoreboard(scoreboardContainer)
     }
 
     /**
@@ -81,6 +87,7 @@ class Renderer {
     render(frame) {
         this.currentFrame = frame
         this.renderBorder(frame.min_x, frame.min_y, frame.max_x, frame.max_y)
+        this.scoreboard.render(frame.players, this.frameSpeed)
 
         // Players
         for (const player of frame.players) {
