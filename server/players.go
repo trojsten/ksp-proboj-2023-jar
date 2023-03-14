@@ -21,6 +21,7 @@ type Player struct {
 	World           *World
 	ReloadCooldown  int
 	LifesLeft       int
+	Score           int
 }
 
 func (p *Player) MarshalJSON() ([]byte, error) {
@@ -36,6 +37,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 		Range      float32 `json:"range"`
 		Health     float32 `json:"health"`
 		MaxHealth  float32 `json:"max_health"`
+		Score      int     `json:"score"`
 	}{
 		X:          p.X,
 		Y:          p.Y,
@@ -48,6 +50,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 		Range:      p.RealStatsValues().Range,
 		Health:     p.Health,
 		MaxHealth:  p.RealStatsValues().HealthMax,
+		Score:      p.Score,
 	})
 }
 
@@ -109,6 +112,8 @@ func (p *Player) Tick() {
 		if p.LifesLeft > 0 {
 			p.RespawnPlayer()
 			p.World.Runner.Log(fmt.Sprintf("(%s) player respawned. Lifes left: %d", p.Name, p.LifesLeft))
+		} else {
+			p.World.DiedOrder = append(p.World.DiedOrder, *p)
 		}
 	}
 
@@ -169,6 +174,11 @@ func (p *Player) ReachableEntities() []Entity {
 		}
 	}
 	return res
+}
+
+func (p *Player) AddExp(Exp int) {
+	p.Exp += Exp
+	p.Score += Exp
 }
 
 func (p *Player) ReachableVisibleBullets() []Bullet {

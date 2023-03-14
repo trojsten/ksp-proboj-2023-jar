@@ -14,6 +14,7 @@ type World struct {
 	Bullets         []Bullet         `json:"bullets"`
 	BulletMovements []BulletMovement `json:"-"`
 	Entities        []Entity         `json:"entities"`
+	DiedOrder       []Player         `json:"-"`
 	MinX            float32          `json:"min_x"`
 	MaxX            float32          `json:"max_x"`
 	MinY            float32          `json:"min_y"`

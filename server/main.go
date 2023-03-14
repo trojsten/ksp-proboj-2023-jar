@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/trojsten/ksp-proboj/libproboj"
+	"math"
 	"math/rand"
 	"time"
 )
@@ -34,4 +35,20 @@ func main() {
 		}
 		world.TickNumber++
 	}
+
+	// add last alive player to DiedOrder
+	for _, player := range world.Players {
+		if player.Alive {
+			world.DiedOrder = append(world.DiedOrder, player)
+		}
+	}
+
+	// add DiedOrder scores to players and create Scores
+	var scores = map[string]int{}
+	for i, player := range world.DiedOrder {
+		player.Score += int(math.Pow(float64(i*DiedOrderConstant), DiedOrderPower))
+		scores[player.Name] = player.Score
+	}
+
+	world.Runner.Scores(scores)
 }
