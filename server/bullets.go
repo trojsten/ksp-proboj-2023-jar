@@ -25,9 +25,10 @@ func (b *Bullet) Tick() (bool, BulletMovement) {
 
 	if b.Target != nil {
 		var speed = float32(math.Sqrt(float64(b.Vx*b.Vx + b.Vy*b.Vy)))
-		var lastAngle = float32(math.Atan2(float64(b.Vy), float64(b.Vy)))
-		b.Vx = float32(math.Cos(float64(b.Target.Angle(b.Position, lastAngle)))) * speed
-		b.Vy = float32(math.Sin(float64(b.Target.Angle(b.Position, lastAngle)))) * speed
+		var lastAngle = float32(math.Atan2(float64(b.Vy), float64(b.Vx)))
+		var angle = b.Target.Angle(b.Position, lastAngle)
+		b.Vx = float32(math.Cos(float64(angle))) * speed
+		b.Vy = float32(math.Sin(float64(angle))) * speed
 	}
 	b.X += b.Vx
 	b.Y += b.Vy

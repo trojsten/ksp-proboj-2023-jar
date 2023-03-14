@@ -13,7 +13,7 @@ class XyShoot(Shoot):
         self.xy = xy
 
     def __str__(self):
-        return f"4 {self.xy}"
+        return f"4 {self.xy.x} {self.xy.y}"
 
 
 class NoShoot(Shoot):

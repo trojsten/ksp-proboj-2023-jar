@@ -18,7 +18,7 @@ func (p PositionTarget) Angle(position Position, lastAngle float32) float32 {
 }
 
 type PlayerTarget struct {
-	Player Player
+	Player *Player
 }
 
 func (p PlayerTarget) Angle(position Position, lastAngle float32) float32 {
