@@ -21,3 +21,5 @@ const MinEntityRadius = 20
 const MaxEntityHealth = 100
 const FractionOfPlayerSpeedToBullet = 0.95
 const ShrinkWorldAfter = 5000
+const KillPlayerExp = 5000
+const KillEntityExp = 5000

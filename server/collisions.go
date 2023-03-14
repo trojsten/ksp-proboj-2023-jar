@@ -57,9 +57,12 @@ func collisionsPlayerBullet(w *World) {
 			}
 
 			w.Runner.Log(fmt.Sprintf("collision: player (%s) - bullet (%f, %f)", playerMovement.Player.Name, bulletMovement.Bullet.X, bulletMovement.Bullet.Y))
-			w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * PlayerHitExpCoefficient)
+			w.Players[bulletMovement.Bullet.ShooterId].AddExp(int(bulletMovement.Bullet.Damage * PlayerHitExpCoefficient))
 			bulletMovement.Bullet.TTL -= BulletCollisionTTL
 			playerMovement.Player.Health -= bulletMovement.Bullet.Damage
+			if playerMovement.Player.Health < 0 {
+				w.Players[bulletMovement.Bullet.ShooterId].AddExp(KillPlayerExp)
+			}
 		}
 	}
 }
@@ -75,9 +78,12 @@ func collisionsEntityBullet(w *World) {
 			}
 
 			w.Runner.Log(fmt.Sprintf("collision: bullet (%f, %f) - entity (%f, %f)", bulletMovement.Bullet.X, bulletMovement.Bullet.Y, entity.X, entity.Y))
-			w.Players[bulletMovement.Bullet.ShooterId].Exp += int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient)
+			w.Players[bulletMovement.Bullet.ShooterId].AddExp(int(bulletMovement.Bullet.Damage * EntityHitExpCoefficient))
 			bulletMovement.Bullet.TTL -= BulletCollisionTTL
 			w.Entities[e].SetHealth(w.Entities[e].Health - bulletMovement.Bullet.Damage)
+			if w.Entities[e].Health < 0 {
+				w.Players[bulletMovement.Bullet.ShooterId].AddExp(KillEntityExp)
+			}
 		}
 	}
 }
