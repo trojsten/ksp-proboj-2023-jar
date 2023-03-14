@@ -112,6 +112,8 @@ func (p *Player) Tick() {
 		if p.LifesLeft > 0 {
 			p.RespawnPlayer()
 			p.World.Runner.Log(fmt.Sprintf("(%s) player respawned. Lifes left: %d", p.Name, p.LifesLeft))
+		} else {
+			p.World.DiedOrder = append(p.World.DiedOrder, *p)
 		}
 	}
 

@@ -23,3 +23,5 @@ const FractionOfPlayerSpeedToBullet = 0.95
 const ShrinkWorldAfter = 5000
 const KillPlayerExp = 5000
 const KillEntityExp = 5000
+const DiedOrderConstant = 5000
+const DiedOrderPower = 1.5
