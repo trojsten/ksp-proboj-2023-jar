@@ -36,25 +36,25 @@ class Scoreboard {
         c.addChild(g)
 
         const name = new PIXI.Text(player.name, {
-            fontSize: 15,
+            fontSize: 14,
             fontWeight: "bold",
             fill: "#fff",
         })
         name.x = 30
-        name.y = 15
-        name.anchor.set(0, 0.5)
+        name.y = Math.floor(15 - name.height / 2)
+        name.anchor.set(0, 0)
         c.addChild(name)
 
         // todo: show real score
         const score = new PIXI.Text("0", {
-            fontSize: 15,
+            fontSize: 14,
             fontWeight: "bold",
             fill: "#fff",
             align: "right",
         })
         score.x = 195
-        score.y = 15
-        score.anchor.set(1, 0.5)
+        score.y = Math.floor(15 - name.height / 2)
+        score.anchor.set(1, 0)
         score.name = "score"
         c.addChild(score)
 
