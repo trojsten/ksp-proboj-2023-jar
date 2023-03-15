@@ -8,9 +8,9 @@ type EverywhereTank struct {
 
 func (t EverywhereTank) Fire(player *Player, playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32) {
 	var radius float32 = 5
-	var bullets = 4
+	var bullets = 8
 	for i := 0; i < bullets; i++ {
-		NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle+float32(i)*math.Pi/float32(bullets), radius, true, nil)
+		NewBullet(player.World, player.Id, player.Position, player.RealStatsValues(), playerMovement, player.Angle+float32(i)*2*math.Pi/float32(bullets), radius, true, nil)
 	}
 	return 0, 0
 }

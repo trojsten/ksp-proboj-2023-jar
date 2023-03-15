@@ -1,4 +1,4 @@
-from libs.shoot import OneBulletShoot
+from libs.shoot import *
 from libs.proboj import *
 from libs.xy import *
 import random

@@ -114,21 +114,21 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	case 1:
 		_, err := fmt.Sscanf(response, "%f %f %d %f %d %d", &vx, &vy, &shoot, &angle1, &stat, &newTankId)
 		if err != nil {
-			return fmt.Errorf("(%s) sscanf of 1 bullet shoot failed: %w", player.Name, err)
+			return fmt.Errorf("(%s) sscanf of type 1 bullet shoot failed: %w", player.Name, err)
 		}
 		break
 	case 2:
 		_, err := fmt.Sscanf(response, "%f %f %d %f %f %d %d", &vx, &vy, &shoot, &angle1, &angle2, &stat, &newTankId)
 		if err != nil {
-			return fmt.Errorf("(%s) sscanf of 2 bullet shoot failed: %w", player.Name, err)
+			return fmt.Errorf("(%s) sscanf of type 2 bullet shoot failed: %w", player.Name, err)
 		}
 		break
 	case 3:
 		var playerId int
 		_, err := fmt.Sscanf(response, "%f %f %d %d %d %d", &vx, &vy, &shoot, &playerId, &stat, &newTankId)
-		target = PlayerTarget{Player: w.Players[playerId]}
+		target = PlayerTarget{Player: &w.Players[playerId]}
 		if err != nil {
-			return fmt.Errorf("(%s) sscanf of player shoot failed: %w", player.Name, err)
+			return fmt.Errorf("(%s) sscanf of type 3 player shoot failed: %w", player.Name, err)
 		}
 		break
 	case 4:
@@ -136,7 +136,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		_, err := fmt.Sscanf(response, "%f %f %d %f %f %d %d", &vx, &vy, &shoot, &x, &y, &stat, &newTankId)
 		target = PositionTarget{TargetPosition: Position{X: x, Y: y}}
 		if err != nil {
-			return fmt.Errorf("(%s) sscanf of XY shoot failed: %w", player.Name, err)
+			return fmt.Errorf("(%s) sscanf of type 4 XY shoot failed: %w", player.Name, err)
 		}
 		break
 	}
@@ -163,7 +163,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 
 	// Shoot
 	var knockX, knockY float32 = 0, 0
-	if shoot == 1 {
+	if shoot != 0 {
 		knockX, knockY = player.Fire(playerMovement, angle2, target)
 	}
 
