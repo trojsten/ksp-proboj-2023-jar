@@ -17,3 +17,14 @@ document.getElementById("js-play").addEventListener("click", (e) => {
 document.getElementById("js-pause").addEventListener("click", (e) => {
     game.stopPlayback()
 })
+
+document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") {
+        if (game.playing) {
+            game.stopPlayback()
+        } else {
+            game.startPlayback()
+        }
+        e.preventDefault()
+    }
+})
