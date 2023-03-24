@@ -51,4 +51,5 @@ func main() {
 	}
 
 	world.Runner.Scores(scores)
+	world.Runner.End()
 }
