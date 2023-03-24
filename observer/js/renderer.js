@@ -11,6 +11,8 @@
  * @prop {number} range
  * @prop {number} health
  * @prop {number} max_health
+ * @prop {number} score
+ * @prop {Stats} stats
  */
 
 /**
@@ -31,6 +33,19 @@
  * @typedef Entity
  * @prop {number} radius
  * @prop {Position} position
+ */
+
+/**
+ * @typedef Stats
+ * @prop {number} range
+ * @prop {number} speed
+ * @prop {number} bullet_speed
+ * @prop {number} bullet_ttl
+ * @prop {number} bullet_damage
+ * @prop {number} health_max
+ * @prop {number} health_regeneration
+ * @prop {number} body_damage
+ * @prop {number} reload_speed
  */
 
 /**
@@ -75,10 +90,10 @@ class Renderer {
         // this.world.scale.y = 0.5
 
         const scoreboardContainer = new PIXI.Container()
-        scoreboardContainer.x = this.app.screen.width - 220
+        this.scoreboard = new Scoreboard(scoreboardContainer)
+        scoreboardContainer.x = this.app.screen.width - this.scoreboard.width - 20
         scoreboardContainer.y = 20
         this.app.stage.addChild(scoreboardContainer)
-        this.scoreboard = new Scoreboard(scoreboardContainer)
     }
 
     /**

@@ -21,15 +21,15 @@ type StatsValues struct {
 }
 
 type Stats struct {
-	Range              int
-	Speed              int
-	BulletSpeed        int
-	BulletTTL          int
-	BulletDamage       int
-	HealthMax          int
-	HealthRegeneration int
-	BodyDamage         int
-	ReloadSpeed        int
+	Range              int `json:"range"`
+	Speed              int `json:"speed"`
+	BulletSpeed        int `json:"bullet_speed"`
+	BulletTTL          int `json:"bullet_ttl"`
+	BulletDamage       int `json:"bullet_damage"`
+	HealthMax          int `json:"health_max"`
+	HealthRegeneration int `json:"health_regeneration"`
+	BodyDamage         int `json:"body_damage"`
+	ReloadSpeed        int `json:"reload_speed"`
 }
 
 func (p *Player) UpgradeStat(stat Stat) error {
