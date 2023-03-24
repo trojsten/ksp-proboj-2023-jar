@@ -173,15 +173,7 @@ class Renderer {
         g.drawCircle(0, 0, player.range)
         g.endFill();
 
-        g.lineStyle(2, 0xFFFFFF, 1)
-        g.beginFill(color, 1)
-        g.drawCircle(0, 0, 10)
-        g.endFill();
-
-        g.lineStyle(2, 0xffd900, 1)
-        g.moveTo(0, 0)
-        g.lineTo(0, -20)
-        g.closePath()
+        render_tank(g, color, player);
 
         return g
     }
