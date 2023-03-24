@@ -1,5 +1,3 @@
-
-
 class Scoreboard {
     /**
      * @param {_Container} container
@@ -10,6 +8,11 @@ class Scoreboard {
         /** @type Object.<string,_Container> */
         this.players = {}
     }
+
+    width = 300
+    height = 45
+    topHeight = 30
+    gap = 2
 
     /**
      * @param {Player} player
@@ -22,16 +25,16 @@ class Scoreboard {
         const g = new PIXI.Graphics()
         g.beginFill(0x333333)
         g.moveTo(0, 0)
-        g.lineTo(200, 0)
-        g.lineTo(200, 30)
-        g.lineTo(0, 30)
+        g.lineTo(this.width, 0)
+        g.lineTo(this.width, this.height)
+        g.lineTo(0, this.height)
         g.endFill()
 
-        g.beginFill(playerColor(player.id))
+        g.beginFill(player.alive ? playerColor(player.id) : 0xeeeeee)
         g.moveTo(5, 5)
-        g.lineTo(25, 5)
-        g.lineTo(25, 25)
-        g.lineTo(5, 25)
+        g.lineTo(this.topHeight - 5, 5)
+        g.lineTo(this.topHeight - 5, this.topHeight - 5)
+        g.lineTo(5, this.topHeight - 5)
         g.endFill()
         c.addChild(g)
 
@@ -41,22 +44,35 @@ class Scoreboard {
             fill: "#fff",
         })
         name.x = 30
-        name.y = Math.floor(15 - name.height / 2)
+        name.y = Math.floor(this.topHeight / 2 - name.height / 2)
         name.anchor.set(0, 0)
         c.addChild(name)
 
         // todo: show real score
-        const score = new PIXI.Text("0", {
+        const score = new PIXI.Text(`${player.score}`, {
             fontSize: 14,
             fontWeight: "bold",
             fill: "#fff",
             align: "right",
         })
-        score.x = 195
-        score.y = Math.floor(15 - name.height / 2)
+        score.x = this.width - 5
+        score.y = Math.floor(this.topHeight / 2 - name.height / 2)
         score.anchor.set(1, 0)
         score.name = "score"
         c.addChild(score)
+
+        const stats = new PIXI.Text(`R: ${player.stats.range} | S: ${player.stats.speed} `+
+            `| Bs: ${player.stats.bullet_speed} | Bt: ${player.stats.bullet_ttl} `+
+            `| Bd: ${player.stats.bullet_damage} | H: ${player.stats.health_max} | Rg: ${player.stats.health_regeneration} `+
+            `| D: ${player.stats.body_damage} | Rl: ${player.stats.reload_speed}`, {
+            fontSize: 10,
+            fill: "#fff",
+        })
+        stats.x = 5
+        stats.y = this.topHeight - 1
+        // stats.y = Math.floor(this.topHeight / 2 - name.height / 2)
+        stats.anchor.set(0, 0)
+        c.addChild(stats)
 
         return c
     }
@@ -71,10 +87,15 @@ class Scoreboard {
             current.add(player.name)
 
             if (!(player.name in this.players)) {
-                const c = this._createPlayer(player)
-                this.players[player.name] = c
-                this.container.addChild(c)
+                const outer = new PIXI.Container()
+                this.players[player.name] = outer
+                this.container.addChild(outer)
             }
+
+            const p = this.players[player.name]
+            const c = this._createPlayer(player)
+            p.removeChildren()
+            p.addChild(c)
         }
 
         for (const key in this.players) {
@@ -85,11 +106,15 @@ class Scoreboard {
             }
         }
 
-        // todo: sort players by score
-        const sorted = Object.keys(this.players)
+        const scores = {}
+        for (const p of players) {
+            scores[p.name] = p.score
+        }
+        
+        const sorted = Object.keys(this.players).sort((a,b) => scores[b] - scores[a])
         for (let i = 0; i < sorted.length; i++) {
             new TWEEDLE.Tween(this.players[sorted[i]]).to({
-                y: i*32,
+                y: i * (this.height + this.gap),
             }, frameSpeed).start()
         }
     }

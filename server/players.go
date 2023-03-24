@@ -38,6 +38,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 		Health     float32 `json:"health"`
 		MaxHealth  float32 `json:"max_health"`
 		Score      int     `json:"score"`
+		Stats      Stats   `json:"stats"`
 	}{
 		X:          p.X,
 		Y:          p.Y,
@@ -51,6 +52,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 		Health:     p.Health,
 		MaxHealth:  p.RealStatsValues().HealthMax,
 		Score:      p.Score,
+		Stats:      p.Stats,
 	})
 }
 
