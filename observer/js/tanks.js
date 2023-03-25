@@ -1,35 +1,33 @@
 function render_tank(g, color, player) {
-    g.lineStyle(2, 0xFFFFFF, 1)
-    g.beginFill(color, 1)
-    g.drawCircle(0, 0, player.tank_radius)
-    g.endFill();
-    
     switch (player.tank_id){
         
         case 0: { // BasicTank
             render_basic_shaft(g, 2, 20)
             break
         }
-        case 1: {
+        case 1: { // TwinTank
             render_basic_shaft(g, 1, 15, -2)
             render_basic_shaft(g, 1, 15, +2)
             break
         }
         case 2: { // EverywhereTank
+            let bullets = 8
+            let length = -15
             g.lineStyle(2, 0xffd900, 1)
-            for(let i=0; i<8; i++) {
+            for(let i=0; i<bullets; i++) {
                 g.moveTo(0, 0)
-                g.lineTo(-15*Math.sin(2*i*Math.PI), -15*Math.cos(2*i*Math.PI))
+                g.lineTo(length*Math.sin(2*i*Math.PI/bullets), length*Math.cos(2*i*Math.PI/bullets))
                 g.closePath()
             }
             break
         }
-        case 3: {
+        case 3: { // GuidedBullet
             render_basic_shaft(g, 1, +15)
             g.lineStyle(2, 0xffd900, 1)
             g.moveTo(0, 0)
             g.lineTo(-15*Math.sin(Math.PI/2), -15*Math.cos(Math.PI/2))
             g.closePath()
+            // TODO
             break
         }
         case 4: { // DoubleDoubleTank
@@ -53,12 +51,12 @@ function render_tank(g, color, player) {
         }
         case 8: { // MachineGunTank
             for(let i=-3; i<=3; i++)
-                render_basic_shaft(g, 1, 15, i)
+                render_basic_shaft(g, 0.5, 15, 2*i)
             break
         }
         case 9: { // AsymetricTank
             render_basic_shaft(g, 1, 15)
-            render_basic_shaft(g, 1, -5)
+            render_basic_shaft(g, 1, -10)
             break
         }
         case 10: { // PeacefulTank
@@ -83,6 +81,11 @@ function render_tank(g, color, player) {
             break
         }
     }
+
+    g.lineStyle(2, 0xFFFFFF, 1)
+    g.beginFill(color, 1)
+    g.drawCircle(0, 0, player.tank_radius)
+    g.endFill();
 }
 
 function render_basic_shaft(g, width, length, offset=0) {
