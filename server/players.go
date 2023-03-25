@@ -7,6 +7,7 @@ import (
 
 type Player struct {
 	Position
+	Statistics
 	Id              int
 	Name            string
 	Alive           bool
@@ -99,8 +100,17 @@ func (p *Player) Tick() {
 		return
 	}
 
+	if _, exists := p.Statistics.TimeByTank[p.Tank.TankId()]; exists {
+		p.Statistics.TimeByTank[p.Tank.TankId()] += 1
+	} else {
+		p.Statistics.TimeByTank[p.Tank.TankId()] = 1
+	}
+
 	if p.ReloadCooldown > 0 {
 		p.ReloadCooldown--
+		p.Statistics.TimeInCooldown += 1
+	} else {
+		p.Statistics.TimeNotInCooldown += 1
 	}
 
 	if p.X != InRange(p.X, p.World.MinX, p.World.MaxX) ||
@@ -178,9 +188,14 @@ func (p *Player) ReachableEntities() []Entity {
 	return res
 }
 
-func (p *Player) AddExp(Exp int) {
+func (p *Player) AddExp(Exp int, reason Reason) {
 	p.Exp += Exp
 	p.Score += Exp
+	if _, exists := p.Statistics.ScoreByReason[reason]; exists {
+		p.Statistics.ScoreByReason[reason] += Exp
+	} else {
+		p.Statistics.ScoreByReason[reason] = Exp
+	}
 }
 
 func (p *Player) ReachableVisibleBullets() []Bullet {

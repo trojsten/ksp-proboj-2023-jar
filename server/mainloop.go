@@ -49,6 +49,7 @@ func communicate(w *World) {
 			continue
 		}
 		w.Runner.Log(fmt.Sprintf("player %s responded in %d ms", player.Name, end.Sub(start).Milliseconds()))
+		player.Statistics.TimeOfResponses += end.Sub(start).Milliseconds()
 
 		turns = append(turns, playerTurn{player, data})
 	}
