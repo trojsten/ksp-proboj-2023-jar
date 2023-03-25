@@ -48,7 +48,6 @@ class Scoreboard {
         name.anchor.set(0, 0)
         c.addChild(name)
 
-        // todo: show real score
         const score = new PIXI.Text(`${player.score}`, {
             fontSize: 14,
             fontWeight: "bold",
