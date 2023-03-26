@@ -29,7 +29,34 @@ Strely existujú 3 druhov a podľa toho sa aj obsluhujú a správajú:
 3. Strela navádzaná na súradnice. Strela letí na súradnice a keď tam príde,
    tak až kým jej nevyprší TTL, tak tam ostane.
 
-TODO: ozivovanie, kolko zivotov
+## Oživovanie a život
+
+Každý hráč má nejaké množstvo života. Pokiaľ nemá maximálne množstvo života,
+tak sa mu každé kolo pridá trochu života (regeneruje sa).
+Každý hráč má 3 životy. Hráč zomrie, ak má menej ako 0 života.
+Život sa hráčovi uberá:
+
+- ak sa zrazí s guľkou
+- ak sa zrazí s hráčom
+- ak sa zrazí s entitou
+- ak vyjde mimo mapy
+
+Hráč potom, ako zomrie, sa znovu oživi, má maximálny život a má BasicTank.
+Má tiež polovicu levelov a všetky TankUpdaty.
+
+## `Exp` a bodovanie
+
+Počas hry získavaš `Exp`. Získavaš ich ak:
+
+- znížiš život hráča, či už guľkou, alebo tak, že sa s ním zrazíš
+- zabiješ hráča alebo entitu
+
+Potom, čo získaš nejaký počet `Exp`, budeš mať možnosť si zväčšiť nejaký Stat (zväčší sa ti level).
+Každých 10 levelov dostaneš možnosť si vylepšiť tank.
+
+Výsledné skóre je sa sčítava z dvoch vecí:
+- počet `Exp`, ktoré v priebehu hry získate
+- poradia v ktorom ste zomreli (posledný krát). Čím skôr zomriete, tým menej bodov získate.
 
 ## Stats
 
@@ -49,30 +76,22 @@ Stats sú takéto:
 | BodyDamage         | aký damage spôsobíš súperovi, keď sa prekrývate (zrazíte) |
 | ReloadSpeed        | po akom čase môžeš opäť vystreliť                         |
 
-TODO: updating Stats
-
 ## Tanky
 
 Existuje zopár (12) druhov tankov:
 
-| id | názov               | popis                                        | updatable to |
-| -- | ------------------- | -------------------------------------------- | ------------ |
-|  0 | BasicTank           | základný tank                                | 1,5,9        |
-|  1 | TwinTank            | tank s dvomi hlavňami                        | 2,3,4        |
-|  2 | EverywhereTank      | tank s hlavňami do 8 smerov                  | -            |
-|  3 | VariableDoubleTank  | tank s dvomi nezávislými hlavňami            | -            |
-|  4 | DoubleDoubleTank    | tank s dvomi hlavňami dopredu a dvomi dozadu | -            |
-|  5 | SniperTank          | tank s dlhým dostrelom                       | 6,7,8        |
-|  6 | WideBulletTank      | tank so širokými guľkami                     | -            |
-|  7 | GuidedBulletTank    | tank s navádzanými strelami                  | -            |
-|  8 | MachineGunTank      | tank s malým cooldownom                      | -            |
-|  9 | AsymetricTank       | tank s veľkou hlavňou dopredu a malou dozadu | 10,11,12     |
-| 10 | PeacefulTank        | tank, ktorý nevie strieľať                   | -            |
-| 11 | InvisibleBulletTank | tank, ktorý strieľa neviditeľné strely       | -            |
-| 12 | AsymetricTripleTank | tank s dvomi malými hlavňami dozadu          | -            |
-
-TODO: updating tanks
-
-## Bodovanie
-
-TODO: bodovanie
+| id | názov               | popis                                        | môžeš vylepšiť na tank |
+| -- | ------------------- | -------------------------------------------- | ---------------------- |
+|  0 | BasicTank           | základný tank                                | 1,5,9                  |
+|  1 | TwinTank            | tank s dvomi hlavňami                        | 2,3,4                  |
+|  2 | EverywhereTank      | tank s hlavňami do 8 smerov                  | -                      |
+|  3 | VariableDoubleTank  | tank s dvomi nezávislými hlavňami            | -                      |
+|  4 | DoubleDoubleTank    | tank s dvomi hlavňami dopredu a dvomi dozadu | -                      |
+|  5 | SniperTank          | tank s dlhým dostrelom                       | 6,7,8                  |
+|  6 | WideBulletTank      | tank so širokými guľkami                     | -                      |
+|  7 | GuidedBulletTank    | tank s navádzanými strelami                  | -                      |
+|  8 | MachineGunTank      | tank s malým cooldownom                      | -                      |
+|  9 | AsymetricTank       | tank s veľkou hlavňou dopredu a malou dozadu | 10,11,12               |
+| 10 | PeacefulTank        | tank, ktorý nevie strieľať                   | -                      |
+| 11 | InvisibleBulletTank | tank, ktorý strieľa neviditeľné strely       | -                      |
+| 12 | AsymetricTripleTank | tank s dvomi malými hlavňami dozadu          | -                      |
