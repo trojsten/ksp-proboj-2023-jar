@@ -242,16 +242,18 @@ class Bullet:
     shooter_id: int
     ttl: float
     damage: float
+    radius: float
 
     @classmethod
     def read_bullet(cls) -> "Bullet":
-        x, y, vx, vy, shooter_id, ttl, damage = input().split()
+        x, y, vx, vy, shooter_id, ttl, damage, radius = input().split()
         return Bullet(
             XY(float(x), float(y)),
             XY(float(vx), float(vy)),
             int(shooter_id),
             float(ttl),
             float(damage),
+            float(radius),
         )
 
     def __hash__(self):

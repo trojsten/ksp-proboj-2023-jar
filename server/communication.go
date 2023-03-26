@@ -73,7 +73,7 @@ func (w *World) DataForPlayer(player Player) string {
 	data.WriteString(fmt.Sprintf("%d\n", len(reachableBullets)))
 	for _, b := range reachableBullets {
 		data.WriteString(fmt.Sprintf(
-			"%f %f %f %f %d %f %f\n",
+			"%f %f %f %f %d %f %f %f\n",
 			b.X,
 			b.Y,
 			b.Vx,
@@ -81,6 +81,7 @@ func (w *World) DataForPlayer(player Player) string {
 			b.ShooterId,
 			b.TTL,
 			b.Damage,
+			b.Radius,
 		))
 	}
 
