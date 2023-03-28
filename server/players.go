@@ -58,7 +58,18 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 }
 
 func (w *World) NewPlayer(name string) Player {
-	return Player{Name: name, Tank: BasicTank{}, Alive: true, World: w, LifesLeft: MaxRespawn, Health: HealthMaxValues[0]}
+	return Player{
+		Name:      name,
+		Tank:      BasicTank{},
+		Alive:     true,
+		World:     w,
+		LifesLeft: MaxRespawn,
+		Health:    HealthMaxValues[0],
+		Statistics: Statistics{
+			TimeByTank:    map[int]int{},
+			ScoreByReason: map[Reason]int{},
+		},
+	}
 }
 
 func (p *Player) RealStatsValues() StatsValues {
