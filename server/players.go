@@ -7,7 +7,7 @@ import (
 
 type Player struct {
 	Position
-	Statistics
+	Statistics      Statistics
 	Id              int
 	Name            string
 	Alive           bool
