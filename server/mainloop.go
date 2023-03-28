@@ -37,6 +37,9 @@ func communicate(w *World) {
 
 	// Firstly, send data to players and read their turns
 	for _, player := range w.AlivePlayers() {
+		if !player.Running {
+			continue
+		}
 		sendData := w.DataForPlayer(*player)
 		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), sendData)
 
@@ -45,7 +48,7 @@ func communicate(w *World) {
 		end := time.Now()
 		if resp != libproboj.Ok {
 			w.Runner.Log(fmt.Sprintf("proboj error while reading from %s: %d", player.Name, resp))
-			// TODO: kill player?
+			player.Running = false
 			continue
 		}
 		w.Runner.Log(fmt.Sprintf("player %s responded in %d ms", player.Name, end.Sub(start).Milliseconds()))

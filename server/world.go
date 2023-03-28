@@ -34,7 +34,7 @@ func aliveInt(alive bool) int {
 func (w *World) Running() bool {
 	alivePlayers := 0
 	for _, player := range w.Players {
-		if player.Alive {
+		if player.Alive && player.Running {
 			alivePlayers++
 		}
 	}
