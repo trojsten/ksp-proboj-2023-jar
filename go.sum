@@ -12,6 +12,10 @@ github.com/stretchr/testify v1.8.2 h1:+h33VjcLVPDHtOdpUCuF+7gSuG3yGIftsP1YvFihtJ
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/trojsten/ksp-proboj v0.0.0-20230223145316-5a3a24c3966f h1:eeoutVYTaQe7dBOOrshSbGKwcZQEZ6naSD2muicND1g=
 github.com/trojsten/ksp-proboj v0.0.0-20230223145316-5a3a24c3966f/go.mod h1:tALEYYBSVV344ucollAN8ynROo3a6EaGn8uFb0KiPQI=
+github.com/trojsten/ksp-proboj v0.0.0-20230326064840-a5e62acf052f h1:qaKcyqEYROfCBz4edoT5QTplK77482RhoiL4atIhwRk=
+github.com/trojsten/ksp-proboj v0.0.0-20230326064840-a5e62acf052f/go.mod h1:W2qcbpdKiJ82Oo1vytgT7uaICJJMfHrAJRUqldHM2W4=
+github.com/trojsten/ksp-proboj v0.0.0-20230328120622-4eb92c41ef89 h1:mKWg50d6RxtNvpyv7OJ2tt+Yrz6z5Vz36WWsLq0zZFM=
+github.com/trojsten/ksp-proboj v0.0.0-20230328120622-4eb92c41ef89/go.mod h1:W2qcbpdKiJ82Oo1vytgT7uaICJJMfHrAJRUqldHM2W4=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

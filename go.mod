@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/stretchr/testify v1.8.2
-	github.com/trojsten/ksp-proboj v0.0.0-20230223145316-5a3a24c3966f
+	github.com/trojsten/ksp-proboj v0.0.0-20230328120622-4eb92c41ef89
 )
 
 require (
