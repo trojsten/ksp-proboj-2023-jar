@@ -145,8 +145,6 @@ std::ostream &operator<<(std::ostream &out, const Stat &stat);
 
 std::ostream &operator<<(std::ostream &out, const Command &cmd);
 
-void greet_server(const char *name, const char *color);
-
 void send_commands(const Command &cmd);
 
 #endif

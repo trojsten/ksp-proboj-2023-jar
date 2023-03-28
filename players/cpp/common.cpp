@@ -36,13 +36,6 @@ std::ostream &operator<<(std::ostream &out, const Command &cmd) {
     return out;
 }
 
-void greet_server(const char *name, const char *color) {
-    std::string hello;
-    char dot;
-    std::cin >> hello >> dot;
-    std::cout << name << ' ' << color << "\n." << std::endl;
-}
-
 int Player::_id = 0;
 
 std::istream &operator>>(std::istream &in, Player &p) {

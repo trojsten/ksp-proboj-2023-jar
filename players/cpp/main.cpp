@@ -20,8 +20,6 @@ Command do_turn() {
 int main() {
     // aby sme mali nahodu
     srand(time(nullptr));
-    // povieme serveru ako sa chceme volat a farbu
-    greet_server(NAME, COLOR);
     // robime tahy kym sme zivy
     do {
         cin >> world;
