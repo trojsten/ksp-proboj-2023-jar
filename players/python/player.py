@@ -1,3 +1,4 @@
+#!/bin/env python3
 from libs.shoot import *
 from libs.proboj import *
 from libs.xy import *
