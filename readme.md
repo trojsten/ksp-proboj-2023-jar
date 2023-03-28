@@ -17,13 +17,13 @@ Hra sa _nehrá_ na mriežke, ale hrá sa na reálnych súradniciach.
 Pohyb funguje tak, že pošlete súradnice, na ktoré by ste sa chceli pohnúť.
 V prípade, že pošlete súradnice ďalej ako sa môžete hýbať, tak server váš ťah preškáluje.
 (Je to v zásade zámer, takže nemusíte preškálovávať svoj ťah,
-proste len poviete súradnice, kam sa chcete dostať.)
+proste len poviete súradnice, kam sa chcete dostať, a tank sa pohne tým smerom.)
 
 ### Strieľanie
 
 Strely existujú 3 druhov a podľa toho sa aj obsluhujú a správajú:
 
-1. Smerové strely. Proste letia nejakým smerom, až kým im nevyprší TTL.
+1. Smerové strely. Jednoducho letia nejakým smerom, až kým im nevyprší TTL.
 2. Strela navádzaná na hráča. Strela letí za hráčom.
    Ak hráč v ľubovoľnom momente zomrie, tak pokračuje v smere ako letela naposledy.
 3. Strela navádzaná na súradnice. Strela letí na súradnice a keď tam príde,
@@ -33,16 +33,16 @@ Strely existujú 3 druhov a podľa toho sa aj obsluhujú a správajú:
 
 Každý hráč má nejaké množstvo života. Pokiaľ nemá maximálne množstvo života,
 tak sa mu každé kolo pridá trochu života (regeneruje sa).
-Každý hráč má 3 životy. Hráč zomrie, ak má menej ako 0 života.
+Každý hráč má 3 respawny. Hráč zomrie, ak má menej ako 0 ostávajúcich respawnov.
 Život sa hráčovi uberá:
 
 - ak sa zrazí s guľkou
-- ak sa zrazí s hráčom
+- ak sa zrazí s iným hráčom
 - ak sa zrazí s entitou
 - ak vyjde mimo mapy
 
-Hráč potom, ako zomrie, sa znovu oživi, má maximálny život a má BasicTank.
-Má tiež polovicu levelov a všetky TankUpdaty.
+Hráč potom, ako zomrie, sa znovu oživi (ak má ešte nejaký ostávajúci respawn),
+má maximálny život a má BasicTank. Má tiež polovicu levelov a všetky TankUpdaty.
 
 ## `Exp` a bodovanie
 
@@ -54,9 +54,9 @@ Počas hry získavaš `Exp`. Získavaš ich ak:
 Potom, čo získaš nejaký počet `Exp`, budeš mať možnosť si zväčšiť nejaký Stat (zväčší sa ti level).
 Každých 10 levelov dostaneš možnosť si vylepšiť tank.
 
-Výsledné skóre je sa sčítava z dvoch vecí:
+Výsledné skóre sa sčítava z dvoch vecí:
 - počet `Exp`, ktoré v priebehu hry získate
-- poradia v ktorom ste zomreli (posledný krát). Čím skôr zomriete, tým menej bodov získate.
+- poradia v ktorom ste zomreli (posledný krát). Čím neskôr zomriete, tým viac bodov získate.
 
 ## Stats
 
@@ -64,17 +64,17 @@ Každý hráč má svoje `stats`, ktoré sa skladajú zo `stats` samotného hrá
 
 Stats sú takéto:
 
-| názov              | význam                                                    |
-| ------------------ | --------------------------------------------------------- |
-| Range              | ako ďaleko dovidíš (na entity, hráčov alebo guľky)        |
-| Speed              | ako rýchlo sa tvoj tank vie hýbať                         |
-| BulletSpeed        | ako rýchlo letia tvoje guľky                              |
-| BulletTTL          | ako ďaleko tvoja guľka doletí                             |
-| BulletDamage       | aký damage spôsobia tvoje guľky                           |
-| HealthMax          | najviac koľko života môže mať tvoj tank                   |
-| HealthRegeneration | ako tempom sa ti obnovuje život                           |
-| BodyDamage         | aký damage spôsobíš súperovi, keď sa prekrývate (zrazíte) |
-| ReloadSpeed        | po akom čase môžeš opäť vystreliť                         |
+| názov              | význam                                                           |
+| ------------------ | ---------------------------------------------------------------- |
+| Range              | ako ďaleko dovidíš (na entity, hráčov alebo guľky)               |
+| Speed              | ako rýchlo sa tvoj tank vie hýbať                                |
+| BulletSpeed        | ako rýchlo letia tvoje guľky                                     |
+| BulletTTL          | ako ďaleko tvoja guľka doletí                                    |
+| BulletDamage       | aký damage spôsobia tvoje guľky                                  |
+| HealthMax          | najviac koľko života môže mať tvoj tank                          |
+| HealthRegeneration | ako rýchlo sa ti obnovuje život                                  |
+| BodyDamage         | aký damage spôsobíš súperovi/entite, keď sa prekrývate (zrazíte) |
+| ReloadSpeed        | po akom čase môžeš opäť vystreliť                                |
 
 ## Tanky
 
