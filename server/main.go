@@ -49,7 +49,12 @@ func main() {
 		player.Score += int(math.Pow(float64(i*DiedOrderConstant), DiedOrderPower))
 		scores[player.Name] = player.Score
 	}
-
 	world.Runner.Scores(scores)
+
+	err := world.SaveStats()
+	if err != nil {
+		world.Runner.Log(fmt.Sprintf("error while saving score: %s", err.Error()))
+	}
+
 	world.Runner.End()
 }
