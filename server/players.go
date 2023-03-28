@@ -11,6 +11,7 @@ type Player struct {
 	Id              int
 	Name            string
 	Alive           bool
+	Running         bool
 	Health          float32
 	Exp             int
 	Level           int
@@ -62,6 +63,7 @@ func (w *World) NewPlayer(name string) Player {
 		Name:      name,
 		Tank:      BasicTank{},
 		Alive:     true,
+		Running:   true,
 		World:     w,
 		LifesLeft: MaxRespawn,
 		Health:    HealthMaxValues[0],
