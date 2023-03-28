@@ -5,9 +5,6 @@ using namespace std;
 #define NAME "cpp"
 #define COLOR "00ff00"
 
-int DX[] = {0, 1, 0, -1};
-int DY[] = {-1, 0, 1, 0};
-
 World world;
 
 // sem pis svoj kod
@@ -28,7 +25,7 @@ int main() {
     // robime tahy kym sme zivy
     do {
         cin >> world;
-        cout << do_turn() << '.' << std::endl;
+        cout << do_turn();
     } while (world.players[world.my_id].alive);
     cout << "Bye\n";
 }

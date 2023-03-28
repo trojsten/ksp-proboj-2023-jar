@@ -32,7 +32,7 @@ std::ostream &operator<<(std::ostream &out, const Command &cmd) {
             break;
     }
 
-    out << cmd.stat << ' ' << cmd.new_tank_id << "\n.\n";
+    out << cmd.stat << ' ' << cmd.new_tank_id << "\n." << std::endl;
     return out;
 }
 
