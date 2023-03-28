@@ -44,7 +44,10 @@ class Game {
         fetch(url)
             .then(res => res.blob())
             .then(blob => blob.arrayBuffer())
-            .then(data => this.loadGzip(data))
+            .then(data => {
+                this.loadGzip(data)
+                this.startPlayback()
+            })
     }
 
     loadFile(form) {
@@ -76,6 +79,10 @@ class Game {
 
             this.nextFrame()
             setTimeout(() => this.play(), this.renderer.frameSpeed)
+        } else {
+            if (urlParams.get("autoplay") === "1") {
+                setTimeout(() => {window.location = "/autoplay/"}, 2500)
+            }
         }
     }
 

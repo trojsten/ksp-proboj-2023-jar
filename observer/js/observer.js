@@ -1,6 +1,11 @@
+const urlParams = new URLSearchParams(window.location.search)
 const renderer = new Renderer()
-const game = new Game(renderer);
-// game.loadUrl("observer.dat")
+const game = new Game(renderer)
+
+if (urlParams.has("file")) {
+    document.getElementById("js-file").style.display = "none"
+    game.loadUrl(urlParams.get("file"))
+}
 
 document.getElementById("js-speed").addEventListener("change", (e) => {
     game.renderer.frameSpeed = parseInt(e.target.value)
