@@ -113,11 +113,14 @@ func (w *World) CalculateCG() Position {
 
 func (w *World) Shrink() {
 	if w.TickNumber > ShrinkWorldAfter {
-		w.Runner.Log(fmt.Sprintf("Shrinking world"))
-		if (w.MaxX-w.MinX) > MinWorldSize || (w.MaxY-w.MinY) > MinWorldSize {
+		if (w.MaxX-w.MinX) > MinWorldSize && (w.MaxY-w.MinY) > MinWorldSize {
 			var CG = w.CalculateCG()
-			var shrinkX = (w.MaxX - w.MinX) * WorldSizeShrink
-			var shrinkY = (w.MaxY - w.MinY) * WorldSizeShrink
+			var shrinkX = (w.MaxX - w.MinX) - WorldSizeShrink
+			var shrinkY = (w.MaxY - w.MinY) - WorldSizeShrink
+			if shrinkX < 0 || shrinkY < 0 {
+				return
+			}
+			w.Runner.Log(fmt.Sprintf("Shrinking world"))
 			w.MinX = Max(CG.X-shrinkX/2, w.MinX)
 			w.MaxX = Min(CG.X+shrinkX/2, w.MaxX)
 			w.MinY = Max(CG.Y-shrinkY/2, w.MinY)
