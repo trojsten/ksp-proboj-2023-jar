@@ -94,6 +94,14 @@ class Renderer {
         scoreboardContainer.x = this.app.screen.width - this.scoreboard.width - 20
         scoreboardContainer.y = 20
         this.app.stage.addChild(scoreboardContainer)
+        this.toBeDestroyed = []
+    }
+
+    _destroyObjects() {
+        for (const obj of this.toBeDestroyed) {
+            obj.destroy(true)
+        }
+        this.toBeDestroyed = []
     }
 
     /**
@@ -109,7 +117,7 @@ class Renderer {
             if (!player.alive) {
                 if (player.id in this.worldPlayers) {
                     this.world.removeChild(this.worldPlayers[player.id])
-                    this.worldPlayers[player.id].destroy(true)
+                    this.toBeDestroyed.push(this.worldPlayers[player.id])
                     delete this.worldPlayers[player.id]
                 }
                 continue
@@ -128,7 +136,7 @@ class Renderer {
         for (const i of Object.keys(this.worldBullets)) {
             if (!currentBullets.has(parseInt(i))) {
                 this.world.removeChild(this.worldBullets[i])
-                this.worldBullets[i].destroy(true)
+                this.toBeDestroyed.push(this.worldBullets[i])
                 delete this.worldBullets[i]
             }
         }
@@ -136,7 +144,7 @@ class Renderer {
         // Entities
         if (this.entityLayer) {
             this.world.removeChild(this.entityLayer)
-            this.entityLayer.destroy(true)
+            this.toBeDestroyed.push(this.entityLayer)
         }
         this.entityLayer = new PIXI.Container()
         this.world.addChildAt(this.entityLayer, 1)
@@ -240,13 +248,13 @@ class Renderer {
 
         const wp = this.worldPlayers[player.id]
         for (const child of wp.getChildByName("tank").removeChildren()) {
-            child.destroy(true)
+            this.toBeDestroyed.push(child)
         }
         wp.getChildByName("tank").addChild(this.playerGraphics(player))
         const healthbar = wp.getChildByName("healthbar")
         if (healthbar != null) {
             wp.removeChild(healthbar)
-            healthbar.destroy(true)
+            this.toBeDestroyed.push(healthbar)
         }
         wp.addChild(this.playerHealthbar(player))
 
@@ -290,7 +298,7 @@ class Renderer {
     renderBorder(x1, y1, x2, y2) {
         if (this.worldBorder) {
             this.world.removeChild(this.worldBorder)
-            this.worldBorder.destroy(true)
+            this.toBeDestroyed.push(this.worldBorder)
         }
 
         const g = new PIXI.Graphics()
