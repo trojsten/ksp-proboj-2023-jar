@@ -93,13 +93,21 @@ func (w *World) AlivePlayers() (players []*Player) {
 
 func (w *World) CalculateCG() Position {
 	var x, y float32
+	count := 0
 	for _, player := range w.Players {
-		x += player.X
-		y += player.Y
+		if player.Alive && player.Running {
+			x += player.X
+			y += player.Y
+			count += 1
+		}
 	}
+	if count == 0 {
+		return Position{X: 0, Y: 0}
+	}
+
 	return Position{
-		X: x / float32(len(w.Players)),
-		Y: y / float32(len(w.Players)),
+		X: x / float32(count),
+		Y: y / float32(count),
 	}
 }
 
@@ -110,10 +118,10 @@ func (w *World) Shrink() {
 			var CG = w.CalculateCG()
 			var shrinkX = (w.MaxX - w.MinX) * WorldSizeShrink
 			var shrinkY = (w.MaxY - w.MinY) * WorldSizeShrink
-			w.MinX += (CG.X - w.MinX) / shrinkX
-			w.MaxX -= (w.MaxX - CG.X) / shrinkX
-			w.MinY += (CG.Y - w.MinY) / shrinkY
-			w.MaxY -= (w.MaxY - CG.X) / shrinkY
+			w.MinX = Max(CG.X-shrinkX/2, w.MinX)
+			w.MaxX = Min(CG.X+shrinkX/2, w.MaxX)
+			w.MinY = Max(CG.Y-shrinkY/2, w.MinY)
+			w.MaxY = Min(CG.Y+shrinkY/2, w.MaxY)
 		}
 	}
 }
