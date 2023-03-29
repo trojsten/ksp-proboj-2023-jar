@@ -27,3 +27,4 @@ const KillPlayerExp = 5000
 const KillEntityExp = 5000
 const DiedOrderConstant = 5000
 const DiedOrderPower = 1.5
+const MaxEntitiesCount = 20000

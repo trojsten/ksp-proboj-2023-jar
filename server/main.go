@@ -30,7 +30,7 @@ func main() {
 	for world.Running() {
 		world.Tick()
 
-		if rand.Float32() < EntitySpawnProb {
+		if rand.Float32() < EntitySpawnProb && len(world.Entities) < MaxEntitiesCount {
 			world.SpawnEntity()
 		}
 		world.TickNumber++
