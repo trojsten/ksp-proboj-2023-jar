@@ -32,4 +32,23 @@ document.addEventListener("keydown", (e) => {
         }
         e.preventDefault()
     }
+
+    if (e.code === "ArrowLeft") {
+        if (game.playing) {
+            return
+        }
+        game.frame = Math.max(game.frame-1, 0)
+        game.nextFrameId = game.frame
+        game.nextFrame()
+        e.preventDefault()
+    }
+    if (e.code === "ArrowRight") {
+        if (game.playing) {
+            return
+        }
+        game.frame = Math.min(game.frame+1, game.frames.length-1)
+        game.nextFrameId = game.frame
+        game.nextFrame()
+        e.preventDefault()
+    }
 })

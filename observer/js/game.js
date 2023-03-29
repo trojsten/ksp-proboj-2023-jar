@@ -59,6 +59,9 @@ class Game {
 
     nextFrame() {
         this.renderer.render(this.frames[this.frame])
+        document.getElementById("js-slider").max = this.frames.length
+        document.getElementById("js-slider").value = this.frame
+        document.getElementById("js-time").innerText = this.frame+" / "+this.frames.length
 
         if (this.nextFrameId != null) {
             this.frame = this.nextFrameId
@@ -73,10 +76,6 @@ class Game {
             return
         }
         if (this.frame < this.frames.length) {
-            document.getElementById("js-slider").max = this.frames.length
-            document.getElementById("js-slider").value = this.frame
-            document.getElementById("js-time").innerText = this.frame+" / "+this.frames.length
-
             this.nextFrame()
             setTimeout(() => this.play(), this.renderer.frameSpeed)
         } else {
