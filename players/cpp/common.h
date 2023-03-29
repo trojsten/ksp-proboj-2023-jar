@@ -102,6 +102,8 @@ struct World {
     std::vector <int> stat_levels  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     std::vector <long double> stat_values  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     std::vector<Player> players;
+    std::vector<Bullet> bullets;
+    std::vector<Entity> entities;
 
     friend std::istream &operator>>(std::istream &in, World &w);
 
@@ -111,9 +113,9 @@ struct World {
 
 struct Command {
     Coordinates new_position;
-    ShootType shoot;
+    ShootType shoot = ShootType::No;
     Stat stat = Stat::None;
-    int new_tank_id = 0;
+    Tank new_tank_id = Tank::Basic;
 
     //shoot type arguments
     int follow_player_id = 0;
@@ -145,8 +147,5 @@ std::ostream &operator<<(std::ostream &out, const Stat &stat);
 
 std::ostream &operator<<(std::ostream &out, const Command &cmd);
 
-void greet_server(const char *name, const char *color);
-
-void send_commands(const Command &cmd);
 
 #endif

@@ -11,7 +11,11 @@ World world;
 Command do_turn() {
     Player &myself = world.players[world.my_id];
     Command command;
-    //cerr << world.players;
+
+    command.new_position = {20,20};
+    command.shoot = ShootType::OneBullet;
+    command.angle = 0.2;
+    cerr << command << '\n';
     //cerr << myself;
 
     return command;
@@ -20,13 +24,11 @@ Command do_turn() {
 int main() {
     // aby sme mali nahodu
     srand(time(nullptr));
-    // povieme serveru ako sa chceme volat a farbu
-    greet_server(NAME, COLOR);
     // robime tahy kym sme zivy
     do {
         cin >> world;
         cout << do_turn();
-    } while (world.players[world.my_id].alive);
-    cout << "Bye\n";
+    } while (true);
+    //cout << "Bye\n";
 }
 
