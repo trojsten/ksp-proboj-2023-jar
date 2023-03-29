@@ -29,14 +29,14 @@ class Scoreboard {
         g.lineTo(this.width, this.height)
         g.lineTo(0, this.height)
         g.endFill()
-
-        g.beginFill(player.alive ? playerColor(player.id) : 0xeeeeee)
-        g.moveTo(5, 5)
-        g.lineTo(this.topHeight - 5, 5)
-        g.lineTo(this.topHeight - 5, this.topHeight - 5)
-        g.lineTo(5, this.topHeight - 5)
-        g.endFill()
         c.addChild(g)
+
+        const tank = new PIXI.Graphics()
+        render_tank(tank, player.alive ? playerColor(player.id) : 0xeeeeee, player)
+        tank.x = this.topHeight / 2
+        tank.y = this.topHeight / 2
+        tank.rotation = Math.PI / 4
+        c.addChild(tank)
 
         const name = new PIXI.Text(player.name, {
             fontSize: 14,
