@@ -61,8 +61,10 @@ func (w *World) SpawnObject(p *Position) {
 
 func (w *World) NearestPlayerDistance(p Position) float32 {
 	var minDistance = float32(math.Inf(1))
-	for _, player := range w.Players {
-		minDistance = Min(minDistance, player.Distance(p))
+	for _, player := range w.AlivePlayers() {
+		if player.Running {
+			minDistance = Min(minDistance, player.Distance(p))
+		}
 	}
 	return minDistance
 }
