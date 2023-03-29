@@ -11,15 +11,15 @@ func (t SniperTank) Fire(player *Player, playerMovement PlayerMovement, angle2 f
 
 func (t SniperTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
+		Range:              400,
 		Speed:              0,
-		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletSpeed:        10,
+		BulletTTL:          6,
+		BulletDamage:       10,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
-		ReloadSpeed:        0,
+		ReloadSpeed:        6,
 	}
 }
 
@@ -40,5 +40,5 @@ func (t SniperTank) UpdatableTo() []Tank {
 }
 
 func (t SniperTank) KnockBack() float32 {
-	return -1
+	return -0.2
 }

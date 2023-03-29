@@ -17,11 +17,11 @@ func (t EverywhereTank) Fire(player *Player, playerMovement PlayerMovement, angl
 
 func (t EverywhereTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
+		Range:              300,
 		Speed:              0,
 		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletTTL:          -1,
+		BulletDamage:       -4,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
@@ -46,5 +46,5 @@ func (t EverywhereTank) UpdatableTo() []Tank {
 }
 
 func (t EverywhereTank) KnockBack() float32 {
-	return -1
+	return 0
 }

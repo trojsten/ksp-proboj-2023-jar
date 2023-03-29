@@ -13,13 +13,13 @@ const (
 	StatReloadSpeed
 )
 
-var RangeValues = []float32{300, 400, 500, 600, 700, 800, 900, 1000}
-var SpeedValues = []float32{30, 33, 36, 40, 43, 46, 50, 55}
+var RangeValues = []float32{500, 600, 700, 800, 900, 1000, 1100, 1200}
+var SpeedValues = []float32{5, 7, 10, 12, 15, 17, 20, 23}
 var BulletSpeedValues = []float32{70, 75, 80, 85, 90, 95, 100, 105}
-var BulletTTLValues = []float32{10, 10, 10, 10, 10, 10, 10, 10}
-var BulletDamageValues = []float32{30, 40, 50, 60, 70, 80, 90, 100}
-var HealthMaxValues = []float32{500, 550, 600, 650, 700, 750, 800, 850}
-var HealthRegenerationValues = []float32{0, 5, 10, 15, 20, 25, 30, 35}
-var BodyDamageValues = []float32{0, 10, 20, 30, 40, 50, 60, 70}
-var ReloadSpeedValues = []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
-var LevelUpdateExp = []int{1, 2, 3, 4}
+var BulletTTLValues = []float32{2, 4, 6, 8, 10, 12, 14, 16}
+var BulletDamageValues = []float32{10, 15, 20, 25, 30, 35, 40, 45}
+var HealthMaxValues = []float32{100, 110, 120, 130, 140, 150, 160, 170}
+var HealthRegenerationValues = []float32{0, 1, 2, 3, 4, 5, 6, 7}
+var BodyDamageValues = []float32{0, 1, 2, 3, 4, 5, 6, 7}
+var ReloadSpeedValues = []int{14, 13, 12, 11, 10, 9, 8, 7}
+var LevelUpdateExp = []int{10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 133, 166, 200, 233, 266, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000}
