@@ -109,6 +109,7 @@ class Renderer {
             if (!player.alive) {
                 if (player.id in this.worldPlayers) {
                     this.world.removeChild(this.worldPlayers[player.id])
+                    this.worldPlayers[player.id].destroy(true)
                     delete this.worldPlayers[player.id]
                 }
                 continue
@@ -127,6 +128,7 @@ class Renderer {
         for (const i of Object.keys(this.worldBullets)) {
             if (!currentBullets.has(parseInt(i))) {
                 this.world.removeChild(this.worldBullets[i])
+                this.worldBullets[i].destroy(true)
                 delete this.worldBullets[i]
             }
         }
@@ -134,6 +136,7 @@ class Renderer {
         // Entities
         if (this.entityLayer) {
             this.world.removeChild(this.entityLayer)
+            this.entityLayer.destroy(true)
         }
         this.entityLayer = new PIXI.Container()
         this.world.addChildAt(this.entityLayer, 1)
@@ -236,9 +239,13 @@ class Renderer {
         }
 
         const wp = this.worldPlayers[player.id]
-        wp.getChildByName("tank").removeChildren()
+        for (const child of wp.getChildByName("tank").removeChildren()) {
+            child.destroy(true)
+        }
         wp.getChildByName("tank").addChild(this.playerGraphics(player))
-        wp.removeChild(wp.getChildByName("healthbar"))
+        const healthbar = wp.getChildByName("healthbar")
+        wp.removeChild(healthbar)
+        healthbar.destroy(true)
         wp.addChild(this.playerHealthbar(player))
 
         this._tween(wp, {
@@ -281,6 +288,7 @@ class Renderer {
     renderBorder(x1, y1, x2, y2) {
         if (this.worldBorder) {
             this.world.removeChild(this.worldBorder)
+            this.worldBorder.destroy(true)
         }
 
         const g = new PIXI.Graphics()

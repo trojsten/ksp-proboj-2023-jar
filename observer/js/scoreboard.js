@@ -93,14 +93,16 @@ class Scoreboard {
 
             const p = this.players[player.name]
             const c = this._createPlayer(player)
-            p.removeChildren()
+            for (const ch of p.removeChildren()) {
+                ch.destroy(true)
+            }
             p.addChild(c)
         }
 
         for (const key in this.players) {
             if (!current.has(key)) {
                 this.container.removeChild(this.players[key])
-                this.players[key].destroy()
+                this.players[key].destroy(true)
                 delete this.players[key]
             }
         }
