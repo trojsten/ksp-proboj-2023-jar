@@ -15,7 +15,6 @@ func (w *World) Tick() {
 
 	tickBullets(w)
 	tickPlayers(w)
-	addNotRunningPlayers(w)
 
 	// Collisions
 	collisionsPlayerEntity(w)
@@ -32,15 +31,6 @@ type playerTurn struct {
 	data   string
 }
 
-func addNotRunningPlayers(w *World) {
-	for _, player := range w.Players {
-		if player.Alive && !player.Running {
-			playerMovement := player.MoveTo(player.X, player.Y)
-			w.PlayerMovements = append(w.PlayerMovements, playerMovement)
-		}
-	}
-}
-
 // communicate sends data to players and parse their responses
 func communicate(w *World) {
 	w.Runner.Log(fmt.Sprintf("TICK %d", w.TickNumber))
@@ -48,9 +38,6 @@ func communicate(w *World) {
 
 	// Firstly, send data to players and read their turns
 	for _, player := range w.AlivePlayers() {
-		if !player.Running {
-			turns = append(turns, playerTurn{player, ""})
-		}
 		sendData := w.DataForPlayer(*player)
 		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), sendData)
 
@@ -59,7 +46,7 @@ func communicate(w *World) {
 		end := time.Now()
 		if resp != libproboj.Ok {
 			w.Runner.Log(fmt.Sprintf("proboj error while reading from %s: %d", player.Name, resp))
-			player.Running = false
+			player.Health = -10000
 			continue
 		}
 		w.Runner.Log(fmt.Sprintf("player %s responded in %d us", player.Name, end.Sub(start).Microseconds()))

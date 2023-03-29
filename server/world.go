@@ -67,9 +67,7 @@ func (w *World) SpawnPlayerPosition(p *Position) {
 func (w *World) NearestPlayerDistance(p Position) float32 {
 	var minDistance = float32(math.Inf(1))
 	for _, player := range w.AlivePlayers() {
-		if player.Running {
-			minDistance = Min(minDistance, player.Distance(p))
-		}
+		minDistance = Min(minDistance, player.Distance(p))
 	}
 	return minDistance
 }
@@ -95,7 +93,7 @@ func (w *World) CalculateCG() Position {
 	var x, y float32
 	count := 0
 	for _, player := range w.Players {
-		if player.Alive && player.Running {
+		if player.Alive {
 			x += player.X
 			y += player.Y
 			count += 1
@@ -113,18 +111,10 @@ func (w *World) CalculateCG() Position {
 
 func (w *World) Shrink() {
 	if w.TickNumber > ShrinkWorldAfter {
-		if (w.MaxX-w.MinX) > MinWorldSize && (w.MaxY-w.MinY) > MinWorldSize {
-			var CG = w.CalculateCG()
-			var shrinkX = (w.MaxX - w.MinX) - WorldSizeShrink
-			var shrinkY = (w.MaxY - w.MinY) - WorldSizeShrink
-			if shrinkX < 0 || shrinkY < 0 {
-				return
-			}
-			w.Runner.Log(fmt.Sprintf("Shrinking world"))
-			w.MinX = Max(CG.X-shrinkX/2, w.MinX)
-			w.MaxX = Min(CG.X+shrinkX/2, w.MaxX)
-			w.MinY = Max(CG.Y-shrinkY/2, w.MinY)
-			w.MaxY = Min(CG.Y+shrinkY/2, w.MaxY)
-		}
+		w.Runner.Log(fmt.Sprintf("Shrinking world"))
+		w.MinX += WorldSizeShrink
+		w.MaxX -= WorldSizeShrink
+		w.MinY += WorldSizeShrink
+		w.MaxY -= WorldSizeShrink
 	}
 }
