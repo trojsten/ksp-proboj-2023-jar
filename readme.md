@@ -1,4 +1,16 @@
-# Pravidlá
+# Proboj
+
+## Práca s Gitom
+
+Máme vlastný fork / kópiu repa a chceme si updatnúť na najnovšiu verziu.
+
+```sh
+git remote add official http://proboj.ksp.sk:3000/proboj/proboj.git
+git fetch official
+git merge official/master
+```
+
+## Pravidlá
 
 Každý hráč má jeden tank, ktorý ovláda.
 Hrá sa po ťahoch a v každom ťahu sa každý hráč pohne,
