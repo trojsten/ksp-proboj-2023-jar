@@ -29,7 +29,10 @@ class Turn:
         self.y = float(velocity.y)
         self.shoot = shoot
         self.stat = int(stat.value)
-        self.new_tank_id = int(new_tank_id)
+        if new_tank_id is None:
+            self.new_tank_id = 0
+        else:
+            self.new_tank_id = int(new_tank_id)
 
     def print(self):
         print(f"{self.x} {self.y} {self.shoot} {self.stat} {self.new_tank_id}")

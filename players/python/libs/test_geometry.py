@@ -54,4 +54,5 @@ class TestXY(TestCase):
     def test_angle_to(self):
         self.assertEqual(XY(1, 1).angle_to(XY(2, 1)), 0)
         self.assertEqual(XY(1, 1).angle_to(XY(1, 2)), math.pi/2)
-        self.assertEqual(XY(5, 5).angle_to(XY(4, 5)), math.pi)
+        self.assertEqual(XY(5, 5).angle_to(XY(4, 5)),
+                         math.pi)
