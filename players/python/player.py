@@ -34,10 +34,15 @@ class LepsiPlayer(ProbojPlayer):
         if nearest == XY(inf, inf):
             nearest = XY(0, 0)
 
+        if len(self.myself.tank.updatable_to)!=0:
+            update_to = random.choice([tank.tank_id for tank in self.myself.tank.updatable_to])
+        else:
+            update_to = 0
+
         return Turn(velocity=nearest - self.myself.position,
                     shoot=OneBulletShoot(self.myself.position.angle_to(nearest)),
                     stat=StatsEnum.StatNone,
-                    new_tank_id=random.choice([tank.tank_id for tank in self.myself.tank.updatable_to]))
+                    new_tank_id=update_to)
 
 
 if __name__ == "__main__":
