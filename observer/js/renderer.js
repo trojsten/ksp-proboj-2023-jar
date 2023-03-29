@@ -108,6 +108,7 @@ class Renderer {
      * @param {Frame} frame
      */
     render(frame) {
+        this._destroyObjects()
         this.currentFrame = frame
         this.renderBorder(frame.min_x, frame.min_y, frame.max_x, frame.max_y)
         this.scoreboard.render(frame.players, this.frameSpeed)
