@@ -27,12 +27,12 @@ class XY:
         raise ArithmeticError(f"Cannot multiply by {type(other)}")
 
     @staticmethod
-    def squared_distace(A: "XY", B: "XY"):
+    def squared_distance(A: "XY", B: "XY"):
         d = A - B
         return d.x * d.x + d.y * d.y
 
     def distance(self, other: "XY"):
-        return math.sqrt(XY.squared_distace(self, other))
+        return math.sqrt(XY.squared_distance(self, other))
 
     def __hash__(self):
         return hash((self.x, self.y))
@@ -68,7 +68,7 @@ class Segment:
         https://stackoverflow.com/a/1501725
         """
 
-        length = XY.squared_distace(segment.A, segment.B)
+        length = XY.squared_distance(segment.A, segment.B)
 
         # The segment's length is zero.
         if 1e-9 >= length >= -1e-9:
