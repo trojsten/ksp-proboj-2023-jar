@@ -244,8 +244,10 @@ class Renderer {
         }
         wp.getChildByName("tank").addChild(this.playerGraphics(player))
         const healthbar = wp.getChildByName("healthbar")
-        wp.removeChild(healthbar)
-        healthbar.destroy(true)
+        if (healthbar != null) {
+            wp.removeChild(healthbar)
+            healthbar.destroy(true)
+        }
         wp.addChild(this.playerHealthbar(player))
 
         this._tween(wp, {
