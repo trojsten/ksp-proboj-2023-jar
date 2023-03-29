@@ -188,6 +188,8 @@ func (w *World) ParseResponse(response string, player *Player) error {
 		var b, tank = CanUpdateTank(player.Tank, newTankId)
 		if b {
 			player.UpdateTank(tank)
+		} else {
+			player.World.Runner.Log(fmt.Sprintf("(%s) cannot update tank to tank: %d. Current tank: %d", player.Name, newTankId, player.Tank.TankId()))
 		}
 	}
 

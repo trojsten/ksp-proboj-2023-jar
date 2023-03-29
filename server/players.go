@@ -178,6 +178,8 @@ func (p *Player) UpdateTank(newTank Tank) {
 		p.World.Runner.Log(fmt.Sprintf("(%s) player tank updated. New tank id: %d", p.Name, newTank.TankId()))
 		p.Tank = newTank
 		p.TankUpdatesLeft--
+	} else {
+		p.World.Runner.Log(fmt.Sprintf("(%s) not enough tank updates left. Not updating to tank: %d", p.Name, newTank.TankId()))
 	}
 }
 
