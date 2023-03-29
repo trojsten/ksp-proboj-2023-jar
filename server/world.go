@@ -49,9 +49,10 @@ func (w *World) SpawnObject(p *Position) {
 		var x2 = rand.Float32()*(w.MaxX-w.MinX) + w.MinX
 		var y2 = rand.Float32()*(w.MaxY-w.MinY) + w.MinY
 		var dist2 = w.NearestPlayerDistance(Position{X: x2, Y: y2})
-		if dist > dist2 {
+		if dist < dist2 {
 			x = x2
 			y = y2
+			dist = dist2
 		}
 	}
 	p.X = x
