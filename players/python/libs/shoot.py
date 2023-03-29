@@ -1,4 +1,4 @@
-from libs.xy import XY
+from libs.geometry import XY
 
 
 class Shoot:

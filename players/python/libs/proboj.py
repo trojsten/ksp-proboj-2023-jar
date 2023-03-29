@@ -1,7 +1,7 @@
 import sys
 from typing import Set
 
-from libs.xy import XY
+from libs.geometry import XY
 from libs.tanks import *
 from libs.shoot import Shoot
 from libs.stats import *

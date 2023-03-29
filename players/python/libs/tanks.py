@@ -7,11 +7,31 @@ from libs.stats import Stats
 
 @dataclass
 class Tank(ABC):
+
+    @staticmethod
+    def get_all_tanks():
+        return [
+            AsymetricTripleTank(),
+            DoubleDoubleTank(),
+            EverywhereTank(),
+            GuidedBulletTank(),
+            InvisibleBulletTank(),
+            MachineGunTank(),
+            PeacefulTank(),
+            VariableDoubleTank(),
+            WideBulletTank(),
+            TwinTank(),
+            SniperTank(),
+            AsymetricTank(),
+            BasicTank()
+        ]
+
     @staticmethod
     def get_tank(id: int):
-        if id == BasicTank.tank_id:
-            return BasicTank()
-        return None
+        for tank in Tank.get_all_tanks():
+            if tank.tank_id == id:
+                return tank
+        raise RuntimeError(f"Tank w/ {id} not found")
 
     @abstractmethod
     def tank_id(self) -> int:

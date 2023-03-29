@@ -15,6 +15,7 @@ func (w *World) Tick() {
 
 	tickBullets(w)
 	tickPlayers(w)
+	addNotRunningPlayers(w)
 
 	// Collisions
 	collisionsPlayerEntity(w)
@@ -31,8 +32,18 @@ type playerTurn struct {
 	data   string
 }
 
+func addNotRunningPlayers(w *World) {
+	for _, player := range w.Players {
+		if player.Alive && !player.Running {
+			playerMovement := player.MoveTo(player.X, player.Y)
+			w.PlayerMovements = append(w.PlayerMovements, playerMovement)
+		}
+	}
+}
+
 // communicate sends data to players and parse their responses
 func communicate(w *World) {
+	w.Runner.Log(fmt.Sprintf("TICK %d", w.TickNumber))
 	var turns []playerTurn
 
 	// Firstly, send data to players and read their turns

@@ -1,7 +1,7 @@
 #!/bin/env python3
 from libs.shoot import *
 from libs.proboj import *
-from libs.xy import *
+from libs.geometry import *
 import random
 
 from math import inf
@@ -36,9 +36,9 @@ class MiskoPlayer(ProbojPlayer):
             nearest = XY(0, 0)
 
         return Turn(velocity=nearest - self.myself.position,
-                    shoot=OneBulletShoot(atan2((nearest - self.myself.position).y, (nearest - self.myself.position).x)),
+                    shoot=OneBulletShoot(self.myself.position.angle_to(nearest)),
                     stat=StatsEnum.StatNone,
-                    new_tank_id=0)
+                    new_tank_id=random.choice([tank.tank_id for tank in self.myself.tank.updatable_to]))
 
 
 if __name__ == "__main__":
