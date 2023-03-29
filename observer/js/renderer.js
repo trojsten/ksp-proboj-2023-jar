@@ -95,13 +95,19 @@ class Renderer {
         scoreboardContainer.y = 20
         this.app.stage.addChild(scoreboardContainer)
         this.toBeDestroyed = []
+        this.tweens = []
     }
 
     _destroyObjects() {
+        for (const tw of this.tweens) {
+            tw.end()
+        }
+
         for (const obj of this.toBeDestroyed) {
             obj.destroy(true)
         }
         this.toBeDestroyed = []
+        this.tweens = []
     }
 
     /**
@@ -326,6 +332,6 @@ class Renderer {
     }
 
     _tween(obj, to) {
-        new TWEEDLE.Tween(obj).to(to, this.frameSpeed).start()
+        this.tweens.push(new TWEEDLE.Tween(obj).to(to, this.frameSpeed).start())
     }
 }
