@@ -30,7 +30,12 @@ func main() {
 	for world.Running() {
 		world.Tick()
 
-		if rand.Float32() < EntitySpawnProb && len(world.Entities) < MaxEntitiesCount {
+		area := (world.MaxX - world.MinX) * (world.MaxY - world.MinY)
+		maxArea := float32((MaxX - MinX) * (MaxY - MinY))
+
+		world.Runner.Log(fmt.Sprintf("prob: %f", area/maxArea*MaxEntitySpawnProb))
+
+		if rand.Float32() < area/maxArea*MaxEntitySpawnProb && len(world.Entities) < MaxEntitiesCount {
 			world.SpawnEntity()
 		}
 		world.Shrink()
