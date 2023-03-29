@@ -6,17 +6,6 @@ from libs.tanks import *
 from libs.shoot import Shoot
 from libs.stats import *
 
-_input = input
-
-
-def lepsiInput():
-    d = _input()
-    print("citame:", d, file=sys.stderr)
-    return d
-
-
-input = lepsiInput
-
 
 class Turn:
     """
@@ -37,9 +26,6 @@ class Turn:
     def print(self):
         print(f"{self.x} {self.y} {self.shoot} {self.stat} {self.new_tank_id}")
         print(".")
-
-        print(f"piseme: {self.x} {self.y} {self.shoot} {self.stat} {self.new_tank_id}", file=sys.stderr)
-        print("piseme: .", file=sys.stderr)
 
 class Player:
     """

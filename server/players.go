@@ -128,7 +128,7 @@ func (p *Player) Tick() {
 
 	if p.X != InRange(p.X, p.World.MinX, p.World.MaxX) ||
 		p.Y != InRange(p.Y, p.World.MinY, p.World.MaxY) {
-		p.Health -= PlayerOutOfWorldHealth
+		p.Health -= float32(PlayerOutOfWorldHealth)
 	}
 
 	if p.Health < 0 {

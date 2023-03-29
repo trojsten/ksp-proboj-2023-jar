@@ -9,7 +9,11 @@ const MinWorldSize = 2000
 const SpawnIterations = 10
 const TankLevelUpdateFreq = 10
 const PlayerEntityCollisionHealth = 10
-const PlayerOutOfWorldHealth = 15
+
+var PlayerOutOfWorldHealth = 15
+
+const BiggerPlayerOutOfWorldHealth = 30
+const IncreaseOutOfWorldKill = 3000
 const EntityHitExpCoefficient = 0.3
 const EntityCollisionExpCoefficient = 0.3
 const PlayerHitExpCoefficient = 0.5

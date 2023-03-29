@@ -97,6 +97,10 @@ func (w *World) DataForPlayer(player Player) string {
 // ParseResponse parses the player's response and updates game state
 // response format is `vx vy angle shoot? statsDiff... newTankId`
 func (w *World) ParseResponse(response string, player *Player) error {
+	if response == "" {
+		playerMovement := player.MoveTo(player.X, player.Y)
+		w.PlayerMovements = append(w.PlayerMovements, playerMovement)
+	}
 	var vx, vy, angle1, angle2 float32
 	var shoot, newTankId int
 	var target Target

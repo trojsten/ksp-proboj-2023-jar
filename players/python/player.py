@@ -1,11 +1,10 @@
 #!/bin/env python3
-from libs.shoot import *
-from libs.proboj import *
-from libs.geometry import *
 import random
-
 from math import inf
-from math import atan2
+
+from libs.geometry import *
+from libs.proboj import *
+from libs.shoot import *
 
 
 class MyPlayer(ProbojPlayer):
@@ -16,7 +15,7 @@ class MyPlayer(ProbojPlayer):
                     new_tank_id=0)
 
 
-class MiskoPlayer(ProbojPlayer):
+class LepsiPlayer(ProbojPlayer):
     def make_turn(self) -> Turn:
         nearest = XY(inf, inf)
 
@@ -27,7 +26,7 @@ class MiskoPlayer(ProbojPlayer):
         for player in self.players.values():
             if player != self.myself:
                 self.log("vidim hraca", player.id, "na", player.position.x, player.position.y)
-                if self.myself.position.distance(player.position) < self.myself.position.distance(nearest) or True:
+                if self.myself.position.distance(player.position) < self.myself.position.distance(nearest):
                     nearest = player.position
 
         self.log("ideme na", nearest.x, nearest.y)
@@ -42,5 +41,5 @@ class MiskoPlayer(ProbojPlayer):
 
 
 if __name__ == "__main__":
-    p = MiskoPlayer()
+    p = LepsiPlayer()
     p.run()
