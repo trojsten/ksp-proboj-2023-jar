@@ -11,15 +11,15 @@ func (t InvisibleBulletTank) Fire(player *Player, playerMovement PlayerMovement,
 
 func (t InvisibleBulletTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
-		Speed:              0,
+		Range:              300,
+		Speed:              -2,
 		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletTTL:          -3,
+		BulletDamage:       -3,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
-		ReloadSpeed:        0,
+		ReloadSpeed:        2,
 	}
 }
 
@@ -40,5 +40,5 @@ func (t InvisibleBulletTank) UpdatableTo() []Tank {
 }
 
 func (t InvisibleBulletTank) KnockBack() float32 {
-	return -1
+	return -0.1
 }

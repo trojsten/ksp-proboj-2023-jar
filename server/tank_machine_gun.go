@@ -11,15 +11,15 @@ func (t MachineGunTank) Fire(player *Player, playerMovement PlayerMovement, angl
 
 func (t MachineGunTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
+		Range:              300,
 		Speed:              0,
-		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletSpeed:        20,
+		BulletTTL:          -2,
+		BulletDamage:       -5,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
-		ReloadSpeed:        0,
+		ReloadSpeed:        -5,
 	}
 }
 
@@ -40,5 +40,5 @@ func (t MachineGunTank) UpdatableTo() []Tank {
 }
 
 func (t MachineGunTank) KnockBack() float32 {
-	return -1
+	return 0
 }

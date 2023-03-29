@@ -10,11 +10,11 @@ func (t TwinTank) Fire(player *Player, playerMovement PlayerMovement, angle2 flo
 
 func (t TwinTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
+		Range:              100,
 		Speed:              0,
 		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletTTL:          -2,
+		BulletDamage:       -6,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
@@ -39,5 +39,5 @@ func (t TwinTank) UpdatableTo() []Tank {
 }
 
 func (t TwinTank) KnockBack() float32 {
-	return -1
+	return -0.05
 }

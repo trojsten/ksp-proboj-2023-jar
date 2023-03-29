@@ -11,15 +11,15 @@ func (t WideBulletTank) Fire(player *Player, playerMovement PlayerMovement, angl
 
 func (t WideBulletTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
+		Range:              600,
 		Speed:              0,
-		BulletSpeed:        0,
+		BulletSpeed:        10,
 		BulletTTL:          0,
-		BulletDamage:       0,
-		HealthMax:          0,
-		HealthRegeneration: 0,
+		BulletDamage:       20,
+		HealthMax:          50,
+		HealthRegeneration: 2,
 		BodyDamage:         0,
-		ReloadSpeed:        0,
+		ReloadSpeed:        6,
 	}
 }
 
@@ -40,5 +40,5 @@ func (t WideBulletTank) UpdatableTo() []Tank {
 }
 
 func (t WideBulletTank) KnockBack() float32 {
-	return -1
+	return -0.3
 }

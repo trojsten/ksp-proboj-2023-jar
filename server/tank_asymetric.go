@@ -14,8 +14,8 @@ func (t AsymetricTank) Fire(player *Player, playerMovement PlayerMovement, angle
 
 func (t AsymetricTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
-		Speed:              0,
+		Range:              100,
+		Speed:              5,
 		BulletSpeed:        0,
 		BulletTTL:          0,
 		BulletDamage:       0,
@@ -43,5 +43,5 @@ func (t AsymetricTank) UpdatableTo() []Tank {
 }
 
 func (t AsymetricTank) KnockBack() float32 {
-	return -1
+	return 0
 }

@@ -17,15 +17,15 @@ func (t GuidedBulletTank) Fire(player *Player, playerMovement PlayerMovement, an
 
 func (t GuidedBulletTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
+		Range:              800,
 		Speed:              0,
 		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletTTL:          8,
+		BulletDamage:       10,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
-		ReloadSpeed:        0,
+		ReloadSpeed:        10,
 	}
 }
 
@@ -46,5 +46,5 @@ func (t GuidedBulletTank) UpdatableTo() []Tank {
 }
 
 func (t GuidedBulletTank) KnockBack() float32 {
-	return -1
+	return -0.2
 }

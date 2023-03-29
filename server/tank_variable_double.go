@@ -12,11 +12,11 @@ func (t VariableDoubleTank) Fire(player *Player, playerMovement PlayerMovement, 
 
 func (t VariableDoubleTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
+		Range:              300,
 		Speed:              0,
 		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletTTL:          -1,
+		BulletDamage:       -2,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
@@ -41,5 +41,5 @@ func (t VariableDoubleTank) UpdatableTo() []Tank {
 }
 
 func (t VariableDoubleTank) KnockBack() float32 {
-	return -1
+	return -0.1
 }

@@ -14,11 +14,11 @@ func (t DoubleDoubleTank) Fire(player *Player, playerMovement PlayerMovement, an
 
 func (t DoubleDoubleTank) StatsValues() StatsValues {
 	return StatsValues{
-		Range:              0,
-		Speed:              0,
+		Range:              300,
+		Speed:              5,
 		BulletSpeed:        0,
-		BulletTTL:          0,
-		BulletDamage:       0,
+		BulletTTL:          -1,
+		BulletDamage:       -6,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
