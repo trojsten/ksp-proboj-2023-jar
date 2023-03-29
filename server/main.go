@@ -19,7 +19,7 @@ func main() {
 	for i, player := range players {
 		pl := world.NewPlayer(player)
 		pl.Id = i
-		world.SpawnObject(&pl.Position)
+		world.SpawnPlayerPosition(&pl.Position)
 		world.Players = append(world.Players, pl)
 	}
 
@@ -33,6 +33,8 @@ func main() {
 		if rand.Float32() < EntitySpawnProb && len(world.Entities) < MaxEntitiesCount {
 			world.SpawnEntity()
 		}
+		world.Shrink()
+
 		world.TickNumber++
 	}
 

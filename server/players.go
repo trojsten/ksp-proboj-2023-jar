@@ -157,7 +157,7 @@ func (p *Player) Tick() {
 
 func (p *Player) RespawnPlayer() {
 	p.LifesLeft--
-	p.World.SpawnObject(&p.Position)
+	p.World.SpawnPlayerPosition(&p.Position)
 	p.Tank = BasicTank{}
 	p.Alive = true
 	p.Stats = Stats{}

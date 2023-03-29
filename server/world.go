@@ -41,7 +41,12 @@ func (w *World) Running() bool {
 	return alivePlayers >= 2
 }
 
-func (w *World) SpawnObject(p *Position) {
+func (w *World) SpawnEntityPosition(p *Position) {
+	p.X = rand.Float32()*(w.MaxX-w.MinX) + w.MinX
+	p.Y = rand.Float32()*(w.MaxY-w.MinY) + w.MinY
+}
+
+func (w *World) SpawnPlayerPosition(p *Position) {
 	var x = rand.Float32()*(w.MaxX-w.MinX) + w.MinX
 	var y = rand.Float32()*(w.MaxY-w.MinY) + w.MinY
 	var dist = w.NearestPlayerDistance(Position{X: x, Y: y})
@@ -71,7 +76,7 @@ func (w *World) NearestPlayerDistance(p Position) float32 {
 
 func (w *World) SpawnEntity() {
 	var entity = w.NewEntity()
-	w.SpawnObject(&entity.Position)
+	w.SpawnEntityPosition(&entity.Position)
 	w.Runner.Log(fmt.Sprintf("spawned entity on (%f, %f)", entity.Position.X, entity.Position.Y))
 	w.Entities = append(w.Entities, entity)
 }
@@ -100,6 +105,7 @@ func (w *World) CalculateCG() Position {
 
 func (w *World) Shrink() {
 	if w.TickNumber > ShrinkWorldAfter {
+		w.Runner.Log(fmt.Sprintf("Shrinking world"))
 		if (w.MaxX-w.MinX) > MinWorldSize || (w.MaxY-w.MinY) > MinWorldSize {
 			var CG = w.CalculateCG()
 			var shrinkX = (w.MaxX - w.MinX) * WorldSizeShrink
