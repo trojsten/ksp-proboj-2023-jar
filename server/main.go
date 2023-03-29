@@ -40,6 +40,10 @@ func main() {
 		}
 		world.Shrink()
 
+		if world.TickNumber > IncreaseOutOfWorldKill {
+			PlayerOutOfWorldHealth = BiggerPlayerOutOfWorldHealth
+		}
+
 		world.TickNumber++
 	}
 

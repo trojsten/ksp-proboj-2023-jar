@@ -49,7 +49,7 @@ func communicate(w *World) {
 	// Firstly, send data to players and read their turns
 	for _, player := range w.AlivePlayers() {
 		if !player.Running {
-			continue
+			turns = append(turns, playerTurn{player, ""})
 		}
 		sendData := w.DataForPlayer(*player)
 		w.Runner.ToPlayer(player.Name, fmt.Sprintf("TICK %d", w.TickNumber), sendData)
@@ -62,8 +62,8 @@ func communicate(w *World) {
 			player.Running = false
 			continue
 		}
-		w.Runner.Log(fmt.Sprintf("player %s responded in %d ms", player.Name, end.Sub(start).Milliseconds()))
-		player.Statistics.TimeOfResponses += end.Sub(start).Milliseconds()
+		w.Runner.Log(fmt.Sprintf("player %s responded in %d us", player.Name, end.Sub(start).Microseconds()))
+		player.Statistics.TimeOfResponses += end.Sub(start).Microseconds()
 
 		turns = append(turns, playerTurn{player, data})
 	}

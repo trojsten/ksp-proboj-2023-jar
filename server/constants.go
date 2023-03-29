@@ -5,12 +5,16 @@ const MaxX = 1000
 const MinY = -1000
 const MaxY = 1000
 const WorldSizeShrink = 4
-const MinWorldSize = 10
+const MinWorldSize = 100
 const ShrinkWorldAfter = 500
 const SpawnIterations = 10
 const TankLevelUpdateFreq = 10
 const PlayerEntityCollisionHealth = 10
-const PlayerOutOfWorldHealth = 15
+
+var PlayerOutOfWorldHealth = 15
+
+const BiggerPlayerOutOfWorldHealth = 30
+const IncreaseOutOfWorldKill = 3000
 const EntityHitExpCoefficient = 0.3
 const EntityCollisionExpCoefficient = 0.3
 const PlayerHitExpCoefficient = 0.5
