@@ -11,7 +11,7 @@ struct Coordinates {
         y += rhs.y;
         return *this;
     }
-
+//
     friend Coordinates operator+(Coordinates &lhs, const Coordinates &rhs) {
         lhs += rhs;
         return lhs;

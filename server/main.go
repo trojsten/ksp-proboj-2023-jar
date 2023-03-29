@@ -58,7 +58,7 @@ func main() {
 	var scores = map[string]int{}
 	for i, player := range world.DiedOrder {
 		player.Score += int(math.Pow(float64(i*DiedOrderConstant), DiedOrderPower))
-		scores[player.Name] = player.Score
+		scores[player.Name] = player.Score / DivideScoreBy
 	}
 	world.Runner.Scores(scores)
 

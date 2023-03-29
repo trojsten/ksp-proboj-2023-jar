@@ -11,7 +11,11 @@ World world;
 Command do_turn() {
     Player &myself = world.players[world.my_id];
     Command command;
-    //cerr << world.players;
+
+    command.new_position = {20,20};
+    command.shoot = ShootType::OneBullet;
+    command.angle = 0.2;
+    cerr << command << '\n';
     //cerr << myself;
 
     return command;
@@ -24,7 +28,7 @@ int main() {
     do {
         cin >> world;
         cout << do_turn();
-    } while (world.players[world.my_id].alive);
-    cout << "Bye\n";
+    } while (true);
+    //cout << "Bye\n";
 }
 
