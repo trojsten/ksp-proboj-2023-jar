@@ -16,7 +16,7 @@ players = {"Armata", "CierneZeny", "Elerpe", "My", "RuzovyTank", "TankiOffline",
 scores = defaultdict(lambda: 0)
 scores_progress = defaultdict(lambda: [])
 scores_progress_d = defaultdict(lambda: [])
-d = 50
+d = 75
 colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', '#000000', '#f7db8d', '#f78de7', '#4a013f', '#a0ff8f', '#71b9f0',
           '#f07171', '#ff8945', '#bdbdbd', '#ff0000', '#f6ff00', '#2e1100', '#00002e', '#578f77', '#1f4233']
 score_len = 0

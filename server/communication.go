@@ -111,7 +111,7 @@ func (w *World) ParseResponse(response string, player *Player) error {
 	}
 	switch shoot {
 	case 0:
-		_, err := fmt.Sscanf(response, "%f %f %d %d %d", &vx, &vy, &shoot, &stat, &newTankId)
+		_, err := fmt.Sscanf(response, "%d %d", &stat, &newTankId)
 		if err != nil {
 			return fmt.Errorf("(%s) sscanf of don't shoot failed: %w", player.Name, err)
 		}
