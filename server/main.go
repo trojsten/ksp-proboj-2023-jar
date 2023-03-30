@@ -57,7 +57,7 @@ func main() {
 	// add DiedOrder scores to players and create Scores
 	var scores = map[string]int{}
 	for i, player := range world.DiedOrder {
-		player.Score += int(math.Pow(float64(i*DiedOrderConstant), DiedOrderPower))
+		player.Score += int(math.Pow(math.Sqrt(float64(i+1))*DiedOrderConstant, DiedOrderPower))
 		scores[player.Name] = player.Score / DivideScoreBy
 	}
 	world.Runner.Scores(scores)
