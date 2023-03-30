@@ -10,15 +10,15 @@ out = sys.argv[2]
 ignore = 300
 
 players = {"Armata", "CierneZeny", "Elerpe", "My", "RuzovyTank", "TankiOffline", "atsooi", "budapest", "dvaja_strateny",
-           "FeRR1te", "janci", "kockumamdoma", "kocurika", "kokorokjo", "krtko", "misqo", "najlepsi", "okno",
-           "Pečené zemiaky",
-           "poharvdzbane", "roboTRT", "Severná kambodža", "stefan.exe", "tanky.io", "tiger"}
+           "gersiagi", "janci", "kockumamdoma", "kocurika", "kokorokjo", "krtko", "misqo", "najlepsi", "okno",
+           "pecenezemiaky", "poharvdzbane", "robotrt", "severnakambodza", "stefan.exe", "tanky.io", "tiger"}
 
 scores = defaultdict(lambda: 0)
 scores_progress = defaultdict(lambda: [])
 scores_progress_d = defaultdict(lambda: [])
-d = 2
-
+d = 50
+colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', '#000000', '#f7db8d', '#f78de7', '#4a013f', '#a0ff8f', '#71b9f0',
+          '#f07171', '#ff8945', '#bdbdbd', '#ff0000', '#f6ff00', '#2e1100', '#00002e', '#578f77', '#1f4233']
 score_len = 0
 
 for (dirpath, dirnames, filenames) in os.walk(path):
@@ -36,26 +36,29 @@ for (dirpath, dirnames, filenames) in os.walk(path):
                     for player in players:
                         if player not in updated:
                             scores_progress[player].append(scores[player])
+                            scores[player] += 0
                 except:
                     pass
 
-for i in range(score_len - d):
-    for player in players:
-        scores_progress_d[player].append(sum(scores_progress[player][i:i + d]))
+for player in sorted(players):
+    for i in range(len(scores_progress[player]) - d):
+        scores_progress_d[player].append(scores_progress[player][i+d]-scores_progress[player][i])
 
 json.dump(scores, open(out + '-scores.json', 'w'))
 json.dump(scores_progress, open(out + '-scores-progress.json', 'w'), indent=2)
 
-plt.figure(dpi=500, figsize=(15, 10))
-for p in scores_progress:
-    plt.plot(scores_progress[p], label=p)
+plt.figure(dpi=200, figsize=(15, 10))
+for i, p in enumerate(sorted(players)):
+    plt.plot(scores_progress[p], label=p, color=colors[i % len(colors)])
 plt.legend()
 # plt.show()
+plt.title("Body")
 plt.savefig(out + '-scores.png')
 
-plt.figure(dpi=500, figsize=(15, 10))
-for p in scores_progress_d:
-    plt.plot(scores_progress_d[p], label=p)
+plt.figure(dpi=200, figsize=(15, 10))
+for i, p in enumerate(sorted(players)):
+    plt.plot(scores_progress_d[p], label=p, color=colors[i % len(colors)])
 plt.legend()
 # plt.show()
+plt.title("Prvá derivácia počtu bodov")
 plt.savefig(out + '-scores-d.png')
