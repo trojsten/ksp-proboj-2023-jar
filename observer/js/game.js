@@ -11,6 +11,7 @@ class Game {
         this.frames = []
         /** @type {boolean} */
         this.playing = false
+        this.stopPlayback()
         this.nextFrameId = null
     }
 
@@ -82,6 +83,7 @@ class Game {
             if (urlParams.get("autoplay") === "1") {
                 setTimeout(() => {window.location = "/autoplay/"}, 2500)
             }
+            this.stopPlayback()
         }
     }
 
@@ -94,10 +96,14 @@ class Game {
             this.nextFrameId = null
         }
         this.playing = true
+        document.getElementById("js-play").style.display = 'none'
+        document.getElementById("js-pause").style.display = 'inherit'
         this.play()
     }
 
     stopPlayback() {
         this.playing = false
+        document.getElementById("js-pause").style.display = 'none'
+        document.getElementById("js-play").style.display = 'inherit'
     }
 }
