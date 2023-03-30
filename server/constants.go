@@ -32,4 +32,4 @@ const KillEntityExp = 20
 const DiedOrderConstant = 100
 const DiedOrderPower = 1.1
 const MaxEntitiesCount = 40000
-const DivideScoreBy = 1000
+const DivideScoreBy = 10
