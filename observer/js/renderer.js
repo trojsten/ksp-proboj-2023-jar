@@ -247,6 +247,16 @@ class Renderer {
             tankCont.rotation = -player.angle + Math.PI/2
             playerCont.addChild(tankCont)
 
+            const nameText = new PIXI.Text(`${player.name}`, {
+                fontSize: 50,
+                fontWeight: "bold",
+                fill: "#fff",
+            })
+            nameText.anchor.set(0.5, 0)
+            nameText.name = "nameText"
+
+            playerCont.addChild(nameText)
+
             playerCont.x = player.x
             playerCont.y = -player.y
             this.worldPlayers[player.id] = playerCont
