@@ -1,1 +1,1 @@
-tar -czvf player.tar.gz *.py Makefile
+tar -czvf player.tar.gz *.py libs/*.py Makefile
