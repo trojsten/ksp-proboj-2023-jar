@@ -29,7 +29,7 @@ func (t PeacefulTank) CoefStatsValues() StatsValues {
 		BulletSpeed:        1,
 		BulletTTL:          1,
 		BulletDamage:       1,
-		HealthMax:          3,
+		HealthMax:          1.5,
 		HealthRegeneration: 1,
 		BodyDamage:         3,
 		ReloadSpeed:        1,
