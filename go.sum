@@ -18,6 +18,8 @@ github.com/trojsten/ksp-proboj v0.0.0-20230328120622-4eb92c41ef89 h1:mKWg50d6Rxt
 github.com/trojsten/ksp-proboj v0.0.0-20230328120622-4eb92c41ef89/go.mod h1:W2qcbpdKiJ82Oo1vytgT7uaICJJMfHrAJRUqldHM2W4=
 github.com/trojsten/ksp-proboj v0.0.0-20230330150842-bcf78eb172ce h1:Ubr9XI5WOMh9cFIHqvzdt9BVSoQu5xAARMaLpT+ryfY=
 github.com/trojsten/ksp-proboj v0.0.0-20230330150842-bcf78eb172ce/go.mod h1:W2qcbpdKiJ82Oo1vytgT7uaICJJMfHrAJRUqldHM2W4=
+github.com/trojsten/ksp-proboj v0.0.0-20230330174113-6975f1ed0469 h1:py48uGoap/C7hjp4ox39R4aAgWKpVHatfCOFQaQw9Ug=
+github.com/trojsten/ksp-proboj v0.0.0-20230330174113-6975f1ed0469/go.mod h1:W2qcbpdKiJ82Oo1vytgT7uaICJJMfHrAJRUqldHM2W4=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
