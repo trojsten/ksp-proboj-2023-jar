@@ -27,6 +27,20 @@ func (t AsymetricTripleTank) StatsValues() StatsValues {
 	}
 }
 
+func (t AsymetricTripleTank) CoefStatsValues() StatsValues {
+	return StatsValues{
+		Range:              1,
+		Speed:              1,
+		BulletSpeed:        1,
+		BulletTTL:          1,
+		BulletDamage:       1,
+		HealthMax:          1,
+		HealthRegeneration: 1,
+		BodyDamage:         1,
+		ReloadSpeed:        1,
+	}
+}
+
 func (t AsymetricTripleTank) Radius() float32 {
 	return 5
 }

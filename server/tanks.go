@@ -5,6 +5,7 @@ import "math"
 type Tank interface {
 	Fire(player *Player, playerMovement PlayerMovement, angle2 float32, target Target) (float32, float32)
 	StatsValues() StatsValues
+	CoefStatsValues() StatsValues
 	Radius() float32
 	TankLevel() int // TODO delete?
 	TankId() int

@@ -15,11 +15,25 @@ func (t MachineGunTank) StatsValues() StatsValues {
 		Speed:              0,
 		BulletSpeed:        20,
 		BulletTTL:          -2,
-		BulletDamage:       -5,
+		BulletDamage:       -4,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
 		ReloadSpeed:        -5,
+	}
+}
+
+func (t MachineGunTank) CoefStatsValues() StatsValues {
+	return StatsValues{
+		Range:              1,
+		Speed:              1,
+		BulletSpeed:        1,
+		BulletTTL:          0.5,
+		BulletDamage:       0.4,
+		HealthMax:          1,
+		HealthRegeneration: 1,
+		BodyDamage:         1,
+		ReloadSpeed:        1,
 	}
 }
 

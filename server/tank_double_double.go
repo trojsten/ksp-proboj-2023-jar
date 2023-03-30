@@ -26,6 +26,20 @@ func (t DoubleDoubleTank) StatsValues() StatsValues {
 	}
 }
 
+func (t DoubleDoubleTank) CoefStatsValues() StatsValues {
+	return StatsValues{
+		Range:              1,
+		Speed:              1,
+		BulletSpeed:        1,
+		BulletTTL:          1,
+		BulletDamage:       0.7,
+		HealthMax:          1,
+		HealthRegeneration: 1,
+		BodyDamage:         1,
+		ReloadSpeed:        1,
+	}
+}
+
 func (t DoubleDoubleTank) Radius() float32 {
 	return 5
 }

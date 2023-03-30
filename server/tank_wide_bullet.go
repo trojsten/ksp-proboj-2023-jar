@@ -15,11 +15,25 @@ func (t WideBulletTank) StatsValues() StatsValues {
 		Speed:              0,
 		BulletSpeed:        10,
 		BulletTTL:          0,
-		BulletDamage:       20,
-		HealthMax:          50,
-		HealthRegeneration: 2,
+		BulletDamage:       0,
+		HealthMax:          0,
+		HealthRegeneration: 0,
 		BodyDamage:         0,
 		ReloadSpeed:        6,
+	}
+}
+
+func (t WideBulletTank) CoefStatsValues() StatsValues {
+	return StatsValues{
+		Range:              1,
+		Speed:              1,
+		BulletSpeed:        0.5,
+		BulletTTL:          2,
+		BulletDamage:       2,
+		HealthMax:          1,
+		HealthRegeneration: 1,
+		BodyDamage:         1,
+		ReloadSpeed:        1,
 	}
 }
 

@@ -29,6 +29,20 @@ func (t GuidedBulletTank) StatsValues() StatsValues {
 	}
 }
 
+func (t GuidedBulletTank) CoefStatsValues() StatsValues {
+	return StatsValues{
+		Range:              1,
+		Speed:              1,
+		BulletSpeed:        1,
+		BulletTTL:          1,
+		BulletDamage:       1,
+		HealthMax:          1,
+		HealthRegeneration: 1,
+		BodyDamage:         1,
+		ReloadSpeed:        1,
+	}
+}
+
 func (t GuidedBulletTank) Radius() float32 {
 	return 5
 }
