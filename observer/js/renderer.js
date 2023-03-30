@@ -74,7 +74,7 @@ class Renderer {
         /** @type {_Graphics} */
         this.worldBorder = null
         /** @type {number} */
-        this.frameSpeed = 100
+        this.frameSpeed = 10
 
         /** @type {_Container} */
         this.entityLayer = null
