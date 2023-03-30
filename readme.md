@@ -10,6 +10,15 @@ git fetch official
 git merge official/master
 ```
 
+
+## Spúšťanie hry
+
+Hru spustíme takto:
+
+```sh
+./runner config.json games.json
+```
+
 ## Pravidlá
 
 Každý hráč má jeden tank, ktorý ovláda.
