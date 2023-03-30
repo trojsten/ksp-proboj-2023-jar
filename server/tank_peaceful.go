@@ -11,13 +11,13 @@ func (t PeacefulTank) Fire(player *Player, playerMovement PlayerMovement, angle2
 func (t PeacefulTank) StatsValues() StatsValues {
 	return StatsValues{
 		Range:              300,
-		Speed:              10,
+		Speed:              7,
 		BulletSpeed:        0,
 		BulletTTL:          0,
 		BulletDamage:       0,
 		HealthMax:          100,
-		HealthRegeneration: 3,
-		BodyDamage:         0,
+		HealthRegeneration: 2,
+		BodyDamage:         2,
 		ReloadSpeed:        0,
 	}
 }
