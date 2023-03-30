@@ -116,5 +116,11 @@ func (w *World) Shrink() {
 		w.MaxX -= WorldSizeShrink
 		w.MinY += WorldSizeShrink
 		w.MaxY -= WorldSizeShrink
+		if w.MinX > w.MaxX && w.MinY > w.MaxY {
+			w.MaxX = 0
+			w.MinX = 0
+			w.MaxY = 0
+			w.MinY = 0
+		}
 	}
 }

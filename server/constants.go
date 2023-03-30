@@ -12,8 +12,8 @@ const PlayerEntityCollisionHealth = 10
 
 var PlayerOutOfWorldHealth = 15
 
-const BiggerPlayerOutOfWorldHealth = 30
-const IncreaseOutOfWorldKill = 3000
+const BiggerPlayerOutOfWorldHealth = 100
+const IncreaseOutOfWorldKill = 2000
 const EntityHitExpCoefficient = 0.3
 const EntityCollisionExpCoefficient = 0.3
 const PlayerHitExpCoefficient = 0.5
