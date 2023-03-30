@@ -15,6 +15,20 @@ func (t EverywhereTank) Fire(player *Player, playerMovement PlayerMovement, angl
 	return 0, 0
 }
 
+func (t EverywhereTank) CoefStatsValues() StatsValues {
+	return StatsValues{
+		Range:              1,
+		Speed:              1,
+		BulletSpeed:        1,
+		BulletTTL:          1,
+		BulletDamage:       0.3,
+		HealthMax:          1,
+		HealthRegeneration: 1,
+		BodyDamage:         1,
+		ReloadSpeed:        1,
+	}
+}
+
 func (t EverywhereTank) StatsValues() StatsValues {
 	return StatsValues{
 		Range:              300,

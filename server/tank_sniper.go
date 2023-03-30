@@ -14,12 +14,26 @@ func (t SniperTank) StatsValues() StatsValues {
 		Range:              400,
 		Speed:              0,
 		BulletSpeed:        10,
-		BulletTTL:          6,
-		BulletDamage:       10,
+		BulletTTL:          0,
+		BulletDamage:       0,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
 		ReloadSpeed:        6,
+	}
+}
+
+func (t SniperTank) CoefStatsValues() StatsValues {
+	return StatsValues{
+		Range:              1,
+		Speed:              1,
+		BulletSpeed:        1,
+		BulletTTL:          1.5,
+		BulletDamage:       2,
+		HealthMax:          1,
+		HealthRegeneration: 1,
+		BodyDamage:         1,
+		ReloadSpeed:        1,
 	}
 }
 

@@ -74,17 +74,18 @@ func (w *World) NewPlayer(name string) Player {
 
 func (p *Player) RealStatsValues() StatsValues {
 	var tankStats = p.Tank.StatsValues()
+	var tankCoefStats = p.Tank.CoefStatsValues()
 
 	return StatsValues{
-		RangeValues[p.Stats.Range] + tankStats.Range,
-		SpeedValues[p.Stats.Speed] + tankStats.Speed,
-		BulletSpeedValues[p.Stats.BulletSpeed] + tankStats.BulletSpeed,
-		BulletTTLValues[p.Stats.BulletTTL] + tankStats.BulletTTL,
-		BulletDamageValues[p.Stats.BulletDamage] + tankStats.BulletDamage,
-		HealthMaxValues[p.Stats.HealthMax] + tankStats.HealthMax,
-		HealthRegenerationValues[p.Stats.HealthRegeneration] + tankStats.HealthRegeneration,
-		BodyDamageValues[p.Stats.BodyDamage] + tankStats.BodyDamage,
-		ReloadSpeedValues[p.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
+		tankCoefStats.Range * RangeValues[p.Stats.Range] + tankStats.Range,
+		tankCoefStats.Speed * SpeedValues[p.Stats.Speed] + tankStats.Speed,
+		tankCoefStats.BulletSpeed * BulletSpeedValues[p.Stats.BulletSpeed] + tankStats.BulletSpeed,
+		tankCoefStats.BulletTTL * BulletTTLValues[p.Stats.BulletTTL] + tankStats.BulletTTL,
+		tankCoefStats.BulletDamage * BulletDamageValues[p.Stats.BulletDamage] + tankStats.BulletDamage,
+		tankCoefStats.HealthMax * HealthMaxValues[p.Stats.HealthMax] + tankStats.HealthMax,
+		tankCoefStats.HealthRegeneration * HealthRegenerationValues[p.Stats.HealthRegeneration] + tankStats.HealthRegeneration,
+		tankCoefStats.BodyDamage * BodyDamageValues[p.Stats.BodyDamage] + tankStats.BodyDamage,
+		tankCoefStats.ReloadSpeed * ReloadSpeedValues[p.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
 	}
 	// TODO: možno reload speed reprezentovať inak, lebo takto to môže klesnúť pod nulu
 }

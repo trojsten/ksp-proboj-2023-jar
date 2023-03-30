@@ -110,7 +110,7 @@ func (w *World) CalculateCG() Position {
 }
 
 func (w *World) Shrink() {
-	if w.TickNumber > ShrinkWorldAfter {
+	if w.TickNumber > ShrinkWorldAfter && (w.MaxX > MinWorldSize || w.TickNumber > GameEnd){
 		w.Runner.Log(fmt.Sprintf("Shrinking world"))
 		w.MinX += WorldSizeShrink
 		w.MaxX -= WorldSizeShrink
