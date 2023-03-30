@@ -20,12 +20,12 @@ func (t GuidedBulletTank) StatsValues() StatsValues {
 		Range:              800,
 		Speed:              0,
 		BulletSpeed:        0,
-		BulletTTL:          8,
-		BulletDamage:       10,
+		BulletTTL:          0,
+		BulletDamage:       0,
 		HealthMax:          0,
 		HealthRegeneration: 0,
 		BodyDamage:         0,
-		ReloadSpeed:        10,
+		ReloadSpeed:        15,
 	}
 }
 
@@ -34,8 +34,8 @@ func (t GuidedBulletTank) CoefStatsValues() StatsValues {
 		Range:              1,
 		Speed:              1,
 		BulletSpeed:        1,
-		BulletTTL:          1,
-		BulletDamage:       1,
+		BulletTTL:          3,
+		BulletDamage:       0.05,
 		HealthMax:          1,
 		HealthRegeneration: 1,
 		BodyDamage:         1,

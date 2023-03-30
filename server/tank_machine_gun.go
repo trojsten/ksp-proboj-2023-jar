@@ -29,7 +29,7 @@ func (t MachineGunTank) CoefStatsValues() StatsValues {
 		Speed:              1,
 		BulletSpeed:        1,
 		BulletTTL:          0.5,
-		BulletDamage:       0.4,
+		BulletDamage:       0.6,
 		HealthMax:          1,
 		HealthRegeneration: 1,
 		BodyDamage:         1,
