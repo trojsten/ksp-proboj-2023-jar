@@ -47,6 +47,8 @@ func communicate(w *World) {
 		if resp != libproboj.Ok {
 			w.Runner.Log(fmt.Sprintf("proboj error while reading from %s: %d", player.Name, resp))
 			player.Health = -10000
+			player.LifesLeft = -1
+			player.Alive = false
 			continue
 		}
 		w.Runner.Log(fmt.Sprintf("player %s responded in %d us", player.Name, end.Sub(start).Microseconds()))
