@@ -92,7 +92,7 @@ class Renderer {
         const scoreboardContainer = new PIXI.Container()
         this.scoreboard = new Scoreboard(scoreboardContainer)
         scoreboardContainer.x = this.app.screen.width - this.scoreboard.width - 20
-        scoreboardContainer.y = 20
+        scoreboardContainer.y = 10
         this.app.stage.addChild(scoreboardContainer)
         this.toBeDestroyed = []
         this.tweens = []

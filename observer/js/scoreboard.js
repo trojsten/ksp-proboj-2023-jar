@@ -10,8 +10,8 @@ class Scoreboard {
     }
 
     width = 300
-    height = 45
-    topHeight = 30
+    height = 30
+    topHeight = 20
     gap = 2
 
     /**
