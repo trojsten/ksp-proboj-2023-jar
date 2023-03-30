@@ -49,6 +49,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatRange:
 		if len(RangeValues)-1 > p.Stats.Range {
 			p.Stats.Range++
+			p.Statistics.Stats.Range++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'Range' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'Range' is already at the highest level")
@@ -57,6 +58,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatSpeed:
 		if len(SpeedValues)-1 > p.Stats.Speed {
 			p.Stats.Speed++
+			p.Statistics.Stats.Speed++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'Speed' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'Speed' is already at the highest level")
@@ -65,6 +67,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatBulletSpeed:
 		if len(BulletSpeedValues)-1 > p.Stats.BulletSpeed {
 			p.Stats.BulletSpeed++
+			p.Statistics.Stats.BulletSpeed++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'BulletSpeed' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'BulletSpeed' is already at the highest level")
@@ -73,6 +76,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatBulletTTL:
 		if len(BulletTTLValues)-1 > p.Stats.BulletTTL {
 			p.Stats.BulletTTL++
+			p.Statistics.Stats.BulletTTL++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'BulletTTL' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'BulletTTL' is already at the highest level")
@@ -81,6 +85,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatBulletDamage:
 		if len(BulletDamageValues)-1 > p.Stats.BulletDamage {
 			p.Stats.BulletDamage++
+			p.Statistics.Stats.BulletDamage++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'BulletDamage' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'BulletDamage' is already at the highest level")
@@ -89,6 +94,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatHealthMax:
 		if len(HealthMaxValues)-1 > p.Stats.HealthMax {
 			p.Stats.HealthMax++
+			p.Statistics.Stats.HealthMax++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'HealthMax' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'HealthMax' is already at the highest level")
@@ -97,6 +103,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatHealthRegeneration:
 		if len(HealthRegenerationValues)-1 > p.Stats.HealthRegeneration {
 			p.Stats.HealthRegeneration++
+			p.Statistics.Stats.HealthRegeneration++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'HealthRegeneration' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'HealthRegeneration' is already at the highest level")
@@ -105,6 +112,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatBodyDamage:
 		if len(BodyDamageValues)-1 > p.Stats.BodyDamage {
 			p.Stats.BodyDamage++
+			p.Statistics.Stats.BodyDamage++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'BodyDamage' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'BodyDamage' is already at the highest level")
@@ -113,6 +121,7 @@ func (p *Player) UpgradeStat(stat Stat) error {
 	case StatReloadSpeed:
 		if len(ReloadSpeedValues)-1 > p.Stats.ReloadSpeed {
 			p.Stats.ReloadSpeed++
+			p.Statistics.Stats.ReloadSpeed++
 			p.World.Runner.Log(fmt.Sprintf("the stat 'ReloadSpeed' upgraded"))
 		} else {
 			return fmt.Errorf("the stat 'ReloadSpeed' is already at the highest level")

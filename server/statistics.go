@@ -11,6 +11,7 @@ type Statistics struct {
 	TimeInCooldown    int            `json:"time_in_cooldown"`
 	TimeNotInCooldown int            `json:"time_not_in_cooldown"`
 	TimeOfResponses   int64          `json:"time_of_responses"`
+	Stats             `json:"stats"`
 }
 
 type Reason int
