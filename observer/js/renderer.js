@@ -179,6 +179,11 @@ class Renderer {
             maxY = Math.max(maxY, -player.y + player.range)
         }
 
+        minX = Math.max(this.currentFrame.min_x, minX)
+        minY = Math.max(this.currentFrame.min_y, minY)
+        maxX = Math.min(this.currentFrame.max_x, maxX)
+        maxY = Math.min(this.currentFrame.max_y, maxY)
+
         const boxWidth = maxX - minX + 100
         const boxHeight = maxY - minY + 100
 
