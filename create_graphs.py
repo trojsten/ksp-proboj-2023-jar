@@ -9,9 +9,10 @@ out = sys.argv[2]
 
 ignore = 300
 
-players = {"Armata", "CierneZeny", "Elerpe", "My", "RuzovyTank", "TankiOffline", "atsooi", "budapest", "dvaja_strateny",
-           "gersiagi", "janci", "kockumamdoma", "kocurika", "kokorokjo", "krtko", "misqo", "najlepsi", "okno",
-           "pecenezemiaky", "poharvdzbane", "robotrt", "severnakambodza", "stefan.exe", "tanky.io", "tiger"}
+players = ["Armata", "CierneZeny", "Elerpe", "My", "RuzovyTank", "TankiOffline", "atsooi", "budapest", "dvaja_strateny",
+           "gersiagi", "janci", "kockumamdoma", "kocurika", "kokorokjo", "krtko", "misqo", "okno",
+           "pecenezemiaky", "poharvdzbane", "robotrt", "severnakambodza", "zrovnamebudapest", "stefan.exe", "tanky.io",
+           "tiger"]
 
 scores = defaultdict(lambda: 0)
 scores_progress = defaultdict(lambda: [])
