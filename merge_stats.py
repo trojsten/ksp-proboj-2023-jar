@@ -1,10 +1,8 @@
 import json
-import sys
 import os
+import sys
 from collections import defaultdict
 from copy import deepcopy
-
-import matplotlib.pyplot as plt
 
 
 def merge(stats, tmp_stats):

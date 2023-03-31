@@ -1,16 +1,15 @@
 import json
 import sys
-import os
-from collections import defaultdict, Counter
-from copy import deepcopy
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-scores = {"Armata": 0, "CierneZeny": 0, "Elerpe": 0, "My": 0, "RuzovyTank": 0, "TankiOffline": 0, "atsooi": 0,
-          "budapest": 0, "dvaja_strateny": 0, "gersiagi": 0, "janci": 0, "kockumamdoma": 0, "kocurika": 0,
-          "kokorokjo": 0, "krtko": 0, "misqo": 0, "okno": 0, "pecenezemiaky": 0, "poharvdzbane": 0, "robotrt": 0,
-          "severnakambodza": 0, "zrovnamebudapest": 0, "stefan.exe": 0, "tanky.io": 0, "tiger": 0}
+scores = {"Armata": 18272735, "CierneZeny": 14531703, "Elerpe": 49653498, "My": 73409290, "RuzovyTank": 72147765,
+          "TankiOffline": 10413988, "atsooi": 24090822, "budapest": 58303514, "dvaja_strateny": 6228749,
+          "gersiagi": 38600860, "janci": 18638474, "kockumamdoma": 10657633, "kocurika": 39631106,
+          "kokorokjo": 45972195, "krtko": 54489531, "misqo": 6522622, "okno": 26379425, "pecenezemiaky": 7505508,
+          "poharvdzbane": 36697889, "robotrt": 37642763, "severnakambodza": 4241078, "stefan.exe": 49302704,
+          "tanky.io": 32964212, "tiger": 17068077, "zrovnamebudapest": 61788775}
 
 colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', '#000000', '#f7db8d', '#f78de7', '#4a013f', '#a0ff8f', '#71b9f0',
           '#f07171', '#ff8945', '#bdbdbd', '#ff0000', '#f6ff00', '#2e1100', '#00002e', '#578f77', '#1f4233']
@@ -79,25 +78,27 @@ categories = [*categories, categories[0]]
 label_loc = np.linspace(start=0, stop=2 * np.pi, num=len(categories))
 
 plt.figure(figsize=(8, 8))
-plt.subplot(polar=True)
+ax = plt.subplot(polar=True)
 for i, player in enumerate(players):
     vals = list(stats[player]["stats"].values())
     vals = vals + [vals[0]]
     vals = np.sqrt(vals)
     plt.plot(label_loc, vals, label=player)
+ax.set_ylim(0, 1250)
 plt.title('√(stat)', size=20)
 lines, labels = plt.thetagrids(np.degrees(label_loc), labels=categories)
 plt.legend(loc="center left", bbox_to_anchor=(-0.5, 0.5), ncol=1, )
 # plt.show()
 
 plt.figure(figsize=(8, 8))
-plt.subplot(polar=True)
+ax = plt.subplot(polar=True)
 current_players = sorted(players, key=lambda x: scores[x])[:5]
 for i, player in enumerate(current_players):
     vals = list(stats[player]["stats"].values())
     vals = vals + [vals[0]]
     vals = np.sqrt(vals)
     plt.plot(label_loc, vals, label=player)
+ax.set_ylim(0, 1250)
 plt.title('√(stat) posledných 5', size=20)
 lines, labels = plt.thetagrids(np.degrees(label_loc), labels=categories)
 plt.legend(loc="center left", bbox_to_anchor=(-0.5, 0.5), ncol=1, )
@@ -105,13 +106,14 @@ plt.legend(loc="center left", bbox_to_anchor=(-0.5, 0.5), ncol=1, )
 
 
 plt.figure(figsize=(8, 8))
-plt.subplot(polar=True)
+ax = plt.subplot(polar=True)
 current_players = sorted(players, key=lambda x: scores[x])[-5:]
 for i, player in enumerate(current_players):
     vals = list(stats[player]["stats"].values())
     vals = vals + [vals[0]]
     vals = np.sqrt(vals)
     plt.plot(label_loc, vals, label=player)
+ax.set_ylim(0, 1250)
 plt.title('√(stat) prvých 5', size=20)
 lines, labels = plt.thetagrids(np.degrees(label_loc), labels=categories)
 plt.legend(loc="center left", bbox_to_anchor=(-0.5, 0.5), ncol=1, )
@@ -141,9 +143,10 @@ for i, player in enumerate(players):
         continue
     ax[(i - skipped) // cols][(i - skipped) % cols].set_title(player)
     patches, texts, autotexts = ax[(i - skipped) // cols][(i - skipped) % cols].pie(sizes,
-                                                                                    autopct=lambda pct: ('%1.2f%%' % pct) if pct > 0 else '',
+                                                                                    autopct=lambda pct: (
+                                                                                                '%1.2f%%' % pct) if pct > 0 else '',
                                                                                     startangle=45,
-                                                                                    pctdistance=1.25,)
+                                                                                    pctdistance=1.25, )
 fig.legend(patches, labels, ncol=6, loc="lower center")
 fig.suptitle("Score by reason")
 plt.tight_layout(pad=0, w_pad=0, h_pad=0)
@@ -164,5 +167,7 @@ ax.pie(sizes, labels=labels,
        labeldistance=1.27)
 # fig.legend(patches, labels, ncol=6, loc="lower center")
 
-plt.show()
+for player in players:
+    print(10000*scores[player]/stats[player]["time_of_responses"], player, sep='\t', flush=True, end='\n')
 
+plt.show()
