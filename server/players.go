@@ -59,12 +59,13 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 
 func (w *World) NewPlayer(name string) Player {
 	return Player{
-		Name:      name,
-		Tank:      BasicTank{},
-		Alive:     true,
-		World:     w,
-		LifesLeft: MaxRespawn,
-		Health:    HealthMaxValues[0],
+		Name:            name,
+		Tank:            BasicTank{},
+		Alive:           true,
+		World:           w,
+		LifesLeft:       MaxRespawn,
+		TankUpdatesLeft: 10000,
+		Health:          HealthMaxValues[0],
 		Statistics: Statistics{
 			TimeByTank:    map[int]int{},
 			ScoreByReason: map[Reason]int{},
@@ -77,15 +78,15 @@ func (p *Player) RealStatsValues() StatsValues {
 	var tankCoefStats = p.Tank.CoefStatsValues()
 
 	return StatsValues{
-		tankCoefStats.Range * RangeValues[p.Stats.Range] + tankStats.Range,
-		tankCoefStats.Speed * SpeedValues[p.Stats.Speed] + tankStats.Speed,
-		tankCoefStats.BulletSpeed * BulletSpeedValues[p.Stats.BulletSpeed] + tankStats.BulletSpeed,
-		tankCoefStats.BulletTTL * BulletTTLValues[p.Stats.BulletTTL] + tankStats.BulletTTL,
-		tankCoefStats.BulletDamage * BulletDamageValues[p.Stats.BulletDamage] + tankStats.BulletDamage,
-		tankCoefStats.HealthMax * HealthMaxValues[p.Stats.HealthMax] + tankStats.HealthMax,
-		tankCoefStats.HealthRegeneration * HealthRegenerationValues[p.Stats.HealthRegeneration] + tankStats.HealthRegeneration,
-		tankCoefStats.BodyDamage * BodyDamageValues[p.Stats.BodyDamage] + tankStats.BodyDamage,
-		tankCoefStats.ReloadSpeed * ReloadSpeedValues[p.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
+		tankCoefStats.Range*RangeValues[p.Stats.Range] + tankStats.Range,
+		tankCoefStats.Speed*SpeedValues[p.Stats.Speed] + tankStats.Speed,
+		tankCoefStats.BulletSpeed*BulletSpeedValues[p.Stats.BulletSpeed] + tankStats.BulletSpeed,
+		tankCoefStats.BulletTTL*BulletTTLValues[p.Stats.BulletTTL] + tankStats.BulletTTL,
+		tankCoefStats.BulletDamage*BulletDamageValues[p.Stats.BulletDamage] + tankStats.BulletDamage,
+		tankCoefStats.HealthMax*HealthMaxValues[p.Stats.HealthMax] + tankStats.HealthMax,
+		tankCoefStats.HealthRegeneration*HealthRegenerationValues[p.Stats.HealthRegeneration] + tankStats.HealthRegeneration,
+		tankCoefStats.BodyDamage*BodyDamageValues[p.Stats.BodyDamage] + tankStats.BodyDamage,
+		tankCoefStats.ReloadSpeed*ReloadSpeedValues[p.Stats.ReloadSpeed] + tankStats.ReloadSpeed,
 	}
 	// TODO: možno reload speed reprezentovať inak, lebo takto to môže klesnúť pod nulu
 }

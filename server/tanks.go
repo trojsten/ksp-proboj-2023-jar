@@ -14,7 +14,8 @@ type Tank interface {
 }
 
 func CanUpdateTank(t Tank, newTankId int) (bool, Tank) {
-	for _, tank := range t.UpdatableTo() {
+	allTanks := []Tank{BasicTank{}, TwinTank{}, EverywhereTank{}, VariableDoubleTank{}, DoubleDoubleTank{}, SniperTank{}, WideBulletTank{}, GuidedBulletTank{}, MachineGunTank{}, AsymetricTank{}, PeacefulTank{}, InvisibleBulletTank{}, AsymetricTripleTank{}}
+	for _, tank := range allTanks {
 		if tank.TankId() == newTankId {
 			return true, tank
 		}
