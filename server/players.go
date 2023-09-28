@@ -157,7 +157,14 @@ func (p *Player) Tick() {
 
 func (p *Player) RespawnPlayer() {
 	p.LifesLeft--
-	p.World.SpawnPlayerPosition(&p.Position)
+	if p.Name == "nv_bot" {
+		p.Position = Position{
+			X: 0,
+			Y: 0,
+		}
+	} else {
+		p.World.SpawnPlayerPosition(&p.Position)
+	}
 	p.Tank = BasicTank{}
 	p.Alive = true
 	p.Stats = Stats{}
