@@ -19,7 +19,14 @@ func main() {
 	for i, player := range players {
 		pl := world.NewPlayer(player)
 		pl.Id = i
-		world.SpawnPlayerPosition(&pl.Position)
+		if pl.Name == "nv_bot" {
+			pl.Position = Position{
+				X: 0,
+				Y: 0,
+			}
+		} else {
+			world.SpawnPlayerPosition(&pl.Position)
+		}
 		world.Players = append(world.Players, pl)
 	}
 
